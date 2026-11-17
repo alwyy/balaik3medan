@@ -346,6 +346,15 @@ body {
     }
 }
 </style>
+
+    <!-- Motion.dev (MIT) - Animation Library -->
+    <script src="https://cdn.jsdelivr.net/npm/motion@11.11.13/dist/motion.js"></script>
+
+    <!-- Anime.js v4 (MIT) - Animation Library -->
+    <script src="https://cdn.jsdelivr.net/npm/animejs@4.5.0/dist/bundles/anime.umd.min.js"></script>
+
+    <!-- Chart.js (MIT) - Shadcn-style Charts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
 </head>
 
 <body>
