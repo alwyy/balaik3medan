@@ -1,0 +1,584 @@
+<!-- HERO / HOME -->
+<section class="home" id="home">
+    <div class="slider" id="slider">
+        <div class="slide active" style="background-image:url('<?= asset('assets/gambar 4.jpeg') ?>')"></div>
+        <div class="slide" style="background-image:url('<?= asset('assets/bimbingan teknis.jpg') ?>')"></div>
+        <div class="slide" style="background-image:url('<?= asset('assets/overlay.jpg') ?>')"></div>
+    </div>
+
+    <!-- OVERLAY -->
+    <div class="hero-overlay"></div>
+
+    <!-- HERO TEXT (Taste-Skill Rule 5: data-enter & fold-action) -->
+    <div class="home-text" data-enter>
+        <div class="hero-badge hero-enter-1">KEMENTERIAN KETENAGAKERJAAN RI</div>
+        <h1 class="hero-enter-2">Selamat Datang di Situs Resmi</h1>
+        <h2 class="hero-enter-2">Balai Keselamatan dan Kesehatan Kerja Medan</h2>
+        <p class="hero-enter-3">Kecepatan, Akurasi, Ketepatan, dan Akuntabel dalam Pelayanan K3</p>
+        <div class="hero-actions hero-enter-4">
+            <a href="<?= url('layanan') ?>" class="btn btn-primary btn-shimmer">
+                Lihat Layanan K3
+            </a>
+            <a href="<?= url('maklumat') ?>" class="btn btn-secondary">
+                Maklumat Pelayanan
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- CARD LAYANAN (KEGIATAN LAYANAN & CAPAIAN KINERJA) -->
+<section class="services" id="services">
+    <div class="container services-grid">
+
+        <div class="service-card">
+            <div class="icon-circle">
+                <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    <path d="m9 12 2 2 4-4"/>
+                </svg>
+            </div>
+            <h3>Kegiatan Layanan K3</h3>
+            <p>
+                Paket pelatihan K3 bagi tenaga medis, paramedis,
+                dan industri dengan sertifikasi resmi.
+            </p>
+            <a href="<?= url('layanan') ?>" class="service-card-link">
+                Lihat Layanan
+            </a>
+        </div>
+
+        <div class="service-card">
+            <div class="icon-circle">
+                <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="20" x2="18" y2="10"/>
+                    <line x1="12" y1="20" x2="12" y2="4"/>
+                    <line x1="6" y1="20" x2="6" y2="14"/>
+                </svg>
+            </div>
+            <h3>Capaian Kinerja K3</h3>
+            <p>
+                Pengujian lingkungan kerja, udara, faktor fisik,
+                kualitas air, hingga pemeriksaan kesehatan.
+            </p>
+            <a href="<?= url('capaian-kinerja') ?>" class="service-card-link">
+                Lihat Capaian
+            </a>
+        </div>
+
+    </div>
+</section>
+
+<!-- SECTION AKTIVITAS INSTAGRAM CAROUSEL (DI BAWAH MENU LAYANAN) -->
+<section class="activity-section" id="aktivitas">
+    <div class="activity-bg-glow"></div>
+    <div class="container activity-header-wrap">
+        <div class="activity-badge">
+            <svg class="activity-ig-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
+            </svg>
+            <span>Instagram Feed @balaik3medan</span>
+        </div>
+        <h2 class="activity-title">Aktivitas Terkini Balai K3 Medan</h2>
+        <p class="activity-subtitle">
+            Ikuti dokumentasi kegiatan pelayanan, bimbingan teknis, dan pengujian K3 secara langsung dari media sosial resmi kami.
+        </p>
+    </div>
+
+    <div class="activity-carousel-wrapper" id="activityCarouselWrapper" aria-roledescription="carousel" aria-label="Aktivitas Instagram Balai K3 Medan">
+        
+        <!-- BUTTON PREV (KIRI) DENGAN HOVER COLOR EFFECT -->
+        <button type="button" class="activity-carousel-btn btn-prev" id="activityPrevBtn" aria-label="Lihat Aktivitas Sebelumnya" title="Sebelumnya">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+        </button>
+
+        <!-- VIEWPORT & TRACK -->
+        <div class="activity-carousel-viewport" id="activityViewport">
+            <div class="activity-carousel-track" id="activityTrack">
+                <?php 
+                $feedActivities = !empty($activities) ? $activities : [
+                    ['id' => 1, 'image' => 'assets/activities/post_1.jpg', 'tag' => 'Uji Lingkungan', 'title' => 'Pengujian K3 Faktor Fisika & Kimia', 'caption' => 'Pelaksanaan pengujian lingkungan kerja di area industri guna memastikan kepatuhan standar keselamatan kerja.', 'url' => 'https://www.instagram.com/balaik3medan?utm_source=ig_web_button_share_sheet&fqnt=ZDNlZDc0MzIxNw=='],
+                    ['id' => 2, 'image' => 'assets/activities/post_2.jpg', 'tag' => 'Bimbingan Teknis', 'title' => 'Bimtek Penerapan SMK3', 'caption' => 'Peningkatan kompetensi personel K3 perusahaan melalui bimbingan teknis audit internal sistem manajemen K3.', 'url' => 'https://www.instagram.com/balaik3medan?utm_source=ig_web_button_share_sheet&fqnt=ZDNlZDc0MzIxNw=='],
+                    ['id' => 3, 'image' => 'assets/activities/post_3.jpg', 'tag' => 'Edukasi K3', 'title' => 'Sosialisasi Budaya Keselamatan', 'caption' => 'Penyebarluasan budaya K3 ke institusi pendidikan dan pelaku industri di wilayah kerja Balai K3 Medan.', 'url' => 'https://www.instagram.com/balaik3medan?utm_source=ig_web_button_share_sheet&fqnt=ZDNlZDc0MzIxNw=='],
+                    ['id' => 4, 'image' => 'assets/activities/post_4.jpg', 'tag' => 'Pelayanan Teknis', 'title' => 'Pemeriksaan Kesehatan Kerja', 'caption' => 'Pelayanan pemeriksaan kesehatan berkala bagi tenaga kerja untuk deteksi dini pencegahan penyakit akibat kerja.', 'url' => 'https://www.instagram.com/balaik3medan?utm_source=ig_web_button_share_sheet&fqnt=ZDNlZDc0MzIxNw=='],
+                    ['id' => 5, 'image' => 'assets/activities/post_5.jpg', 'tag' => 'Laboratorium', 'title' => 'Analisis Sampel Laboratorium', 'caption' => 'Pengujian presisi sampel debu, gas kimia, dan kebisingan menggunakan peralatan laboratorium terkalibrasi.', 'url' => 'https://www.instagram.com/balaik3medan?utm_source=ig_web_button_share_sheet&fqnt=ZDNlZDc0MzIxNw=='],
+                    ['id' => 6, 'image' => 'assets/activities/post_6.jpg', 'tag' => 'Kunjungan Studi', 'title' => 'Field Trip Edukasi K3', 'caption' => 'Penerimaan kunjungan studi mahasiswa/i teknik dan kesehatan masyarakat mengenal instrumentasi pengujian K3.', 'url' => 'https://www.instagram.com/balaik3medan?utm_source=ig_web_button_share_sheet&fqnt=ZDNlZDc0MzIxNw=='],
+                    ['id' => 7, 'image' => 'assets/activities/post_7.jpg', 'tag' => 'Reels Kegiatan', 'title' => 'Dokumentasi Lapangan Balai K3', 'caption' => 'Sorotan aksi tim penguji K3 Balai K3 Medan saat menjalankan pengukuran parameter K3 di lapangan industri.', 'url' => 'https://www.instagram.com/balaik3medan?utm_source=ig_web_button_share_sheet&fqnt=ZDNlZDc0MzIxNw=='],
+                    ['id' => 8, 'image' => 'assets/activities/post_8.jpg', 'tag' => 'Konsultasi K3', 'title' => 'Layanan Konsultasi Norma K3', 'caption' => 'Pendampingan teknis dan konsultasi pemenuhan syarat K3 bagi perusahaan mitra di wilayah Pulau Sumatera.', 'url' => 'https://www.instagram.com/balaik3medan?utm_source=ig_web_button_share_sheet&fqnt=ZDNlZDc0MzIxNw=='],
+                    ['id' => 9, 'image' => 'assets/activities/post_9.jpg', 'tag' => 'Koordinasi', 'title' => 'Rapat Koordinasi Pengawasan K3', 'caption' => 'Sinergi pembinaan pengawasan ketenagakerjaan dan K3 bersama dinas tenaga kerja provinsi se-Sumatera.', 'url' => 'https://www.instagram.com/balaik3medan?utm_source=ig_web_button_share_sheet&fqnt=ZDNlZDc0MzIxNw=='],
+                    ['id' => 10, 'image' => 'assets/activities/post_10.jpg', 'tag' => 'Bulan K3', 'title' => 'Peringatan Bulan K3 Nasional', 'caption' => 'Rangkaian peringatan Bulan K3 Nasional mengusung budaya keselamatan kerja menuju Indonesia maju dan produktif.', 'url' => 'https://www.instagram.com/balaik3medan?utm_source=ig_web_button_share_sheet&fqnt=ZDNlZDc0MzIxNw=='],
+                    ['id' => 11, 'image' => 'assets/activities/post_11.jpg', 'tag' => 'Pameran K3', 'title' => 'Pameran Alat Uji & Instrumentasi K3', 'caption' => 'Sosialisasi dan pameran teknologi instrumentasi pengujian lingkungan kerja serta pemeriksaan kesehatan tenaga kerja.', 'url' => 'https://www.instagram.com/balaik3medan?utm_source=ig_web_button_share_sheet&fqnt=ZDNlZDc0MzIxNw=='],
+                    ['id' => 12, 'image' => 'assets/activities/post_12.jpg', 'tag' => 'Sertifikasi SMK3', 'title' => 'Sosialisasi Penerapan Sistem Manajemen K3', 'caption' => 'Pembinaan penerapan Sistem Manajemen Keselamatan dan Kesehatan Kerja (SMK3) di lingkungan sektor industri manufaktur.', 'url' => 'https://www.instagram.com/balaik3medan?utm_source=ig_web_button_share_sheet&fqnt=ZDNlZDc0MzIxNw==']
+                ];
+                foreach ($feedActivities as $idx => $act): 
+                ?>
+                <div class="activity-card" data-index="<?= $idx ?>">
+                    <div class="activity-card-media img-skeleton-wrap">
+                        <img src="<?= asset($act['image']) ?>" alt="<?= htmlspecialchars($act['title']) ?>" loading="lazy">
+                        <span class="activity-card-tag"><?= htmlspecialchars($act['tag'] ?? 'Kegiatan K3') ?></span>
+                    </div>
+
+                    <!-- AVATAR LINGKARAN INSTAGRAM DENGAN LOGO KEMNAKER RESMI -->
+                    <div class="activity-avatar" title="@balaik3medan (Akun Resmi Balai K3 Medan)">
+                        <div class="activity-avatar-ring">
+                            <img src="<?= asset('assets/kemnaker.png') ?>?v=<?= filemtime(APP_ROOT . '/assets/kemnaker.png') ?>" alt="Logo Balai K3 Medan">
+                        </div>
+                        <span class="activity-avatar-ig-badge" title="Instagram Resmi">
+                            <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                            </svg>
+                        </span>
+                    </div>
+
+                    <!-- KONTEN KARTU -->
+                    <div class="activity-card-body">
+                        <h3 class="activity-card-title"><?= htmlspecialchars($act['title']) ?></h3>
+                        <div class="activity-card-account">
+                            <span class="account-handle">@balaik3medan</span>
+                            <span class="verified-badge" title="Akun Resmi Terverifikasi">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="#38bdf8">
+                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1.5 14.5-4-4 1.41-1.41L10.5 13.67l6.59-6.59L18.5 8.5l-8 8z"/>
+                                </svg>
+                            </span>
+                        </div>
+                        <p class="activity-card-snippet"><?= htmlspecialchars($act['caption']) ?></p>
+                        
+                        <!-- TOMBOL ACTION (SEPERTI REFERENSI) -->
+                        <a href="<?= htmlspecialchars($act['url']) ?>" target="_blank" rel="noopener noreferrer" class="btn-activity-follow" aria-label="Buka postingan <?= htmlspecialchars($act['title']) ?> di Instagram">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/>
+                                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                                <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
+                            </svg>
+                            <span>Lihat Postingan</span>
+                        </a>
+                    </div>
+                </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+
+        <!-- BUTTON NEXT (KANAN) DENGAN HOVER COLOR EFFECT -->
+        <button type="button" class="activity-carousel-btn btn-next" id="activityNextBtn" aria-label="Lihat Aktivitas Berikutnya" title="Berikutnya">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+        </button>
+
+    </div>
+
+    <!-- CAROUSEL INDICATORS / DOTS & INSTAGRAM PROFILE LINK -->
+    <div class="activity-footer-controls">
+        <div class="activity-dots" id="activityDots"></div>
+        <div class="activity-ig-cta">
+            <a href="https://www.instagram.com/balaik3medan?utm_source=ig_web_button_share_sheet&fqnt=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener noreferrer" class="btn-ig-visit">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/>
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                    <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
+                </svg>
+                <span>Ikuti Kami di Instagram @balaik3medan</span>
+            </a>
+        </div>
+    </div>
+</section>
+
+
+<!-- ABOUT / PROFIL -->
+<section class="about-modern" id="about">
+    <div class="container about-container">
+        <!-- FOTO WITH SKELETON SHIMMER -->
+        <div class="about-image img-skeleton-wrap">
+            <img src="<?= asset('assets/galeri77.png') ?>" alt="Tentang Balai K3 Medan" loading="lazy">
+        </div>
+        <!-- KETERANGAN -->
+        <div class="about-desc">
+            <div class="section-badge">Profil Lembaga</div>
+            <h2>Balai Keselamatan dan Kesehatan Kerja Medan</h2>
+            <p>
+                Balai Keselamatan dan Kesehatan Kerja (K3) Medan merupakan Unit Pelaksana Teknis (UPT) di lingkungan Kementerian Ketenagakerjaan Republik Indonesia yang berada di bawah dan bertanggung jawab kepada Direktorat Jenderal Pembinaan Pengawasan Ketenagakerjaan dan Keselamatan dan Kesehatan Kerja (Ditjen Binwasnaker dan K3).
+            </p>
+
+            <p>
+                Pembentukan, tugas, fungsi, dan susunan organisasi Balai K3 Medan berpedoman pada Peraturan Menteri Ketenagakerjaan Republik Indonesia Nomor 1 Tahun 2022 tentang Organisasi dan Tata Kerja Unit Pelaksana Teknis di Bidang Keselamatan dan Kesehatan Kerja.
+            </p>
+
+            <p>
+                Wilayah kerja Balai K3 Medan meliputi:
+                Provinsi Aceh, Sumatera Utara, Sumatera Barat, Riau, Kepulauan Riau, Jambi, Bangka Belitung, Bengkulu, dan Sumatera Selatan.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- VISI DAN MISI (MODERN BENTO & INTERACTIVE PILAR) -->
+<section class="visi-misi-section" id="visi-misi">
+    <div class="visi-misi-ambient-glow"></div>
+    <div class="container">
+        
+        <!-- SECTION HEADER -->
+        <div class="visi-misi-header" data-enter>
+            <div class="vm-badge">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"/>
+                    <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
+                </svg>
+                <span>Arah Strategis Lembaga</span>
+            </div>
+            <h2 class="section-title vm-title">Visi &amp; Misi</h2>
+            <p class="vm-subtitle">
+                Landasan arah strategis Balai K3 Medan dalam mewujudkan keselamatan, kesehatan, dan produktivitas tenaga kerja di seluruh wilayah Pulau Sumatera.
+            </p>
+
+            <!-- INTERACTIVE FILTER PILLS -->
+            <div class="vm-tabs" role="tablist" aria-label="Kategori Visi Misi">
+                <button type="button" class="vm-tab-btn active" data-filter="visi" role="tab" aria-selected="true">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
+                        <circle cx="12" cy="12" r="3"/>
+                    </svg>
+                    <span>Visi Utama</span>
+                </button>
+                <button type="button" class="vm-tab-btn" data-filter="misi" role="tab" aria-selected="false">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"/>
+                        <circle cx="12" cy="12" r="6"/>
+                        <circle cx="12" cy="12" r="2"/>
+                    </svg>
+                    <span>3 Pilar Misi</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="visi-misi-content-wrap">
+
+            <!-- 1. GRAND VISI BANNER CARD -->
+            <div class="vm-card-visi vm-item" data-category="visi">
+                <div class="vm-visi-overlay-pattern"></div>
+                <div class="vm-visi-inner">
+                    <div class="vm-visi-left">
+                        <div class="vm-visi-tag">
+                            <span class="vm-dot-pulse"></span>
+                            <span>VISI STRATEGIS</span>
+                        </div>
+                        <div class="vm-quote-icon">
+                            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M3 21c3 0 7-1 7-8V5c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2 0 4-1 6-3 8z"/>
+                                <path d="M15 21c3 0 7-1 7-8V5c0-1.1-.9-2-2-2h-4c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2 0 4-1 6-3 8z"/>
+                            </svg>
+                        </div>
+                        <blockquote class="vm-visi-text">
+                            &ldquo;Terpenuhinya syarat Keselamatan dan Kesehatan Kerja (K3) di tempat kerja guna mewujudkan tenaga kerja yang produktif dan sejahtera.&rdquo;
+                        </blockquote>
+                        <div class="vm-visi-source">
+                            <strong>Balai K3 Medan</strong> &mdash; Direktorat Jenderal Binwasnaker dan K3, Kemnaker RI
+                        </div>
+                    </div>
+
+                    <!-- 3 VISI PILLARS / TARGETS -->
+                    <div class="vm-visi-targets">
+                        <div class="vm-target-pill">
+                            <div class="vm-target-icon icon-shield">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                                    <path d="m9 12 2 2 4-4"/>
+                                </svg>
+                            </div>
+                            <div class="vm-target-info">
+                                <strong>Zero Accident Target</strong>
+                                <span>Pencegahan kecelakaan kerja &amp; penyakit akibat kerja</span>
+                            </div>
+                        </div>
+
+                        <div class="vm-target-pill">
+                            <div class="vm-target-icon icon-users">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                                    <circle cx="9" cy="7" r="4"/>
+                                    <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+                                    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                                </svg>
+                            </div>
+                            <div class="vm-target-info">
+                                <strong>SDM Sehat &amp; Produktif</strong>
+                                <span>Perlindungan menyeluruh keselamatan fisik dan psikososial</span>
+                            </div>
+                        </div>
+
+                        <div class="vm-target-pill">
+                            <div class="vm-target-icon icon-award">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="8" r="6"/>
+                                    <path d="m15.48 12.89 1.52 8.53a.5.5 0 0 1-.73.5l-4.27-2.24-4.27 2.25a.5.5 0 0 1-.73-.51l1.52-8.53"/>
+                                </svg>
+                            </div>
+                            <div class="vm-target-info">
+                                <strong>Standar Norma K3</strong>
+                                <span>Kepatuhan regulasi nasional Permenaker No. 1/2022</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. TIGA PILAR MISI (3 INTERACTIVE BENTO CARDS) -->
+            <div class="vm-misi-grid vm-item vm-hidden" data-category="misi">
+                
+                <!-- MISI 1 -->
+                <div class="vm-misi-card card-cyan">
+                    <div class="vm-misi-card-header">
+                        <div class="vm-misi-icon-wrap">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M10 2v7.5a2 2 0 0 1-.2 1L4.7 20.6a1 1 0 0 0 .9 1.4h12.8a1 1 0 0 0 .9-1.4L14.2 10.5a2 2 0 0 1-.2-1V2"/>
+                                <path d="M8.5 2h7"/>
+                                <path d="M7 16h10"/>
+                            </svg>
+                        </div>
+                        <span class="vm-misi-number">01</span>
+                    </div>
+                    <span class="vm-misi-tag">Pengujian &amp; Akreditasi</span>
+                    <h3 class="vm-misi-title">Layanan Uji K3 &amp; Laboratorium</h3>
+                    <p class="vm-misi-desc">
+                        Memberikan layanan pengujian K3 bagi masyarakat industri melalui laboratorium terakreditasi KAN dan SDM kompeten, serta layanan bantuan teknis pemenuhan syarat K3.
+                    </p>
+                    <div class="vm-misi-footer">
+                        <span class="vm-feature-chip">Lab Terakreditasi</span>
+                        <span class="vm-feature-chip">Bantuan Teknis</span>
+                    </div>
+                </div>
+
+                <!-- MISI 2 -->
+                <div class="vm-misi-card card-amber">
+                    <div class="vm-misi-card-header">
+                        <div class="vm-misi-icon-wrap">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+                                <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+                            </svg>
+                        </div>
+                        <span class="vm-misi-number">02</span>
+                    </div>
+                    <span class="vm-misi-tag">Kapasitas &amp; Pelatihan</span>
+                    <h3 class="vm-misi-title">Pelatihan Tenaga Kerja Terampil</h3>
+                    <p class="vm-misi-desc">
+                        Mempersiapkan tenaga kerja yang terampil di bidang K3 melalui pelatihan sesuai kebutuhan perusahaan dan pemetaan potensi bahaya di lingkungan tempat kerja.
+                    </p>
+                    <div class="vm-misi-footer">
+                        <span class="vm-feature-chip">Uji Kompetensi</span>
+                        <span class="vm-feature-chip">Sertifikasi Resmi</span>
+                    </div>
+                </div>
+
+                <!-- MISI 3 -->
+                <div class="vm-misi-card card-emerald">
+                    <div class="vm-misi-card-header">
+                        <div class="vm-misi-icon-wrap">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"/>
+                                <line x1="2" y1="12" x2="22" y2="12"/>
+                                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                            </svg>
+                        </div>
+                        <span class="vm-misi-number">03</span>
+                    </div>
+                    <span class="vm-misi-tag">Edukasi &amp; Kemitraan</span>
+                    <h3 class="vm-misi-title">Penyebaran Budaya &amp; Informasi K3</h3>
+                    <p class="vm-misi-desc">
+                        Memberikan kontribusi aktif dalam penyebaran informasi, literasi, dan edukasi K3 kepada masyarakat luas, perguruan tinggi, serta jejaring pengawas ketenagakerjaan.
+                    </p>
+                    <div class="vm-misi-footer">
+                        <span class="vm-feature-chip">Jejaring 9 Provinsi</span>
+                        <span class="vm-feature-chip">Edukasi Publik</span>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+<!-- WILAYAH KERJA -->
+<section class="wilayah-section" id="wilayah-kerja">
+    <div class="container">
+        <h2 class="section-title">Wilayah Kerja Balai K3 Medan</h2>
+
+        <div class="wilayah-container">
+
+            <!-- PETA INTERAKTIF (LEAFLET.JS) -->
+            <div class="wilayah-map-wrap" id="wilayahMapWrap">
+                <div id="wilayah-map" class="wilayah-map-container" aria-label="Peta Interaktif 9 Provinsi Wilayah Kerja Balai K3 Medan"></div>
+                <div class="map-hint-pill">
+                    <span class="hint-dot"></span>
+                    <span>Klik nama provinsi</span>
+                </div>
+                <button type="button" class="btn-map-reset" id="btnResetMap" title="Kembalikan Tampilan Seluruh Sumatera">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                    Reset
+                </button>
+            </div>
+
+            <!-- DAFTAR 9 PROVINSI INTERAKTIF -->
+            <div class="wilayah-content">
+                <div class="wilayah-content-header">
+                    <h2>Cakupan 9 Provinsi Wilayah Kerja</h2>
+                    <p class="wilayah-lead">Berdasarkan Permenakertrans RI, Balai K3 Medan mengampu pelayanan K3 di 9 provinsi Pulau Sumatera:</p>
+                </div>
+
+                <div class="wilayah-list" id="wilayahList" role="list">
+                    <!-- 1. SUMATERA UTARA (PUSAT BALAI K3) -->
+                    <button type="button" class="wilayah-item is-pusat active" data-province="sumut" role="listitem" title="Lihat lokasi Sumatera Utara">
+                        <span class="wilayah-dot dot-pusat"></span>
+                        <div class="wilayah-item-text">
+                            <strong>Sumatera Utara</strong>
+                        </div>
+                        <span class="wilayah-badge-tag">Kantor Balai</span>
+                    </button>
+
+                    <!-- 2. ACEH -->
+                    <button type="button" class="wilayah-item" data-province="aceh" role="listitem" title="Lihat lokasi Aceh">
+                        <span class="wilayah-dot"></span>
+                        <div class="wilayah-item-text">
+                            <strong>Aceh</strong>
+                        </div>
+                    </button>
+
+                    <!-- 3. RIAU -->
+                    <button type="button" class="wilayah-item" data-province="riau" role="listitem" title="Lihat lokasi Riau">
+                        <span class="wilayah-dot"></span>
+                        <div class="wilayah-item-text">
+                            <strong>Riau</strong>
+                        </div>
+                    </button>
+
+                    <!-- 4. KEPULAUAN RIAU -->
+                    <button type="button" class="wilayah-item" data-province="kepri" role="listitem" title="Lihat lokasi Kepulauan Riau">
+                        <span class="wilayah-dot"></span>
+                        <div class="wilayah-item-text">
+                            <strong>Kepulauan Riau</strong>
+                        </div>
+                    </button>
+
+                    <!-- 5. SUMATERA BARAT -->
+                    <button type="button" class="wilayah-item" data-province="sumbar" role="listitem" title="Lihat lokasi Sumatera Barat">
+                        <span class="wilayah-dot"></span>
+                        <div class="wilayah-item-text">
+                            <strong>Sumatera Barat</strong>
+                        </div>
+                    </button>
+
+                    <!-- 6. JAMBI -->
+                    <button type="button" class="wilayah-item" data-province="jambi" role="listitem" title="Lihat lokasi Jambi">
+                        <span class="wilayah-dot"></span>
+                        <div class="wilayah-item-text">
+                            <strong>Jambi</strong>
+                        </div>
+                    </button>
+
+                    <!-- 7. BENGKULU -->
+                    <button type="button" class="wilayah-item" data-province="bengkulu" role="listitem" title="Lihat lokasi Bengkulu">
+                        <span class="wilayah-dot"></span>
+                        <div class="wilayah-item-text">
+                            <strong>Bengkulu</strong>
+                        </div>
+                    </button>
+
+                    <!-- 8. SUMATERA SELATAN -->
+                    <button type="button" class="wilayah-item" data-province="sumsel" role="listitem" title="Lihat lokasi Sumatera Selatan">
+                        <span class="wilayah-dot"></span>
+                        <div class="wilayah-item-text">
+                            <strong>Sumatera Selatan</strong>
+                        </div>
+                    </button>
+
+                    <!-- 9. KEPULAUAN BANGKA BELITUNG -->
+                    <button type="button" class="wilayah-item" data-province="babel" role="listitem" title="Lihat lokasi Kepulauan Bangka Belitung">
+                        <span class="wilayah-dot"></span>
+                        <div class="wilayah-item-text">
+                            <strong>Kepulauan Bangka Belitung</strong>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- CONTACT -->
+<section class="contact-ref" id="contact">
+
+    <div class="contact-overlay"></div>
+
+    <div class="container contact-content">
+
+        <!-- KIRI -->
+        <div class="contact-left">
+            <img src="<?= asset('assets/logokemnaker.png') ?>" class="contact-logo" alt="Logo Kemnaker">
+
+            <a href="https://bit.ly/Pengaduan_BK3Medan" target="_blank" rel="noopener noreferrer" class="contact-pengaduan-btn">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect width="20" height="16" x="2" y="4" rx="2"/>
+                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+                </svg>
+                <span>Pengaduan Pelayanan Masyarakat</span>
+            </a>
+
+            <div class="contact-logo-title">
+                <span class="contact-line-1">Balai Keselamatan dan</span>
+                <span class="contact-line-2">Kesehatan Kerja Medan</span>
+            </div>
+        </div> 
+
+        <!-- KANAN -->
+        <div class="contact-right">
+
+            <h2>Hubungi Kami</h2>
+
+            <ul class="contact-list">
+                <li>
+                    <span class="contact-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                        </svg>
+                    </span>
+                    <p>(061) 6850613</p>
+                </li>
+                <li>
+                    <span class="contact-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect width="20" height="16" x="2" y="4" rx="2"/>
+                            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+                        </svg>
+                    </span>
+                    <p>balaik3medan@gmail.com</p>
+                </li>
+                <li>
+                    <span class="contact-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
+                            <circle cx="12" cy="10" r="3"/>
+                        </svg>
+                    </span>
+                    <p>Jl. KL. Yos Sudarso No.64, Titi Papan, Kec. Medan Deli, Kota Medan, Sumatera Utara 20242</p>
+                </li>
+            </ul>
+
+            <div class="contact-map img-skeleton-wrap">
+                <iframe
+                    src="https://maps.google.com/maps?q=balai%20k3%20medan&t=&z=15&output=embed"
+                    loading="lazy"
+                    title="Peta Lokasi Balai K3 Medan">
+                </iframe>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
