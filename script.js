@@ -214,93 +214,121 @@ document.addEventListener("DOMContentLoaded", function () {
        ========================================================================== */
     const initWilayahMap = () => {
         const mapContainer = document.getElementById("wilayah-map");
+        const mapWrap = document.getElementById("wilayahMapWrap");
         if (!mapContainer || typeof L === "undefined") return;
 
         // Cegah inisialisasi ganda
         if (mapContainer._leaflet_id) return;
 
-        // Data 9 Provinsi Wilayah Kerja Balai K3 Medan
+        // 1. Data 9 Provinsi Wilayah Kerja Balai K3 Medan
         const provinces = {
             sumut: {
                 name: "Sumatera Utara",
-                city: "Kota Medan",
-                desc: "Kantor Pusat Balai K3 Medan. Pusat pengujian lingkungan kerja dan rujukan K3 wilayah Sumatera.",
+                city: "Kota Medan & 33 Kab/Kota",
+                desc: "Kantor Pusat Balai K3 Medan. Rujukan pengujian lingkungan kerja, laboratorium K3 terakreditasi, dan pembinaan keselamatan kerja se-Pulau Sumatera.",
                 coords: [3.5952, 98.6722],
-                zoom: 9,
+                zoom: 8,
                 isPusat: true,
-                badge: "Kantor Pusat Balai K3"
+                badge: "Kantor Pusat Balai K3",
+                risiko: "Kawasan Industri Medan (KIM), manufaktur, pergudangan, PKS kelapa sawit, perkebunan karet, dan pelabuhan internasional.",
+                layananTags: ["#FaktorFisika", "#HigieneIndustri", "#Ergonomi", "#KesehatanKerja", "#BimtekSMK3"],
+                sop: "3–5 Hari Kerja Sampling &bull; Akreditasi KAN LP-608-IDN"
             },
             aceh: {
                 name: "Aceh",
-                city: "Banda Aceh",
-                desc: "Wilayah pelayanan & pengujian keselamatan dan kesehatan kerja Provinsi Aceh.",
+                city: "Banda Aceh & Kawasan Industri",
+                desc: "Wilayah pelayanan & pengujian keselamatan serta kesehatan kerja Provinsi Aceh sektor migas dan perkebunan.",
                 coords: [5.5483, 95.3238],
-                zoom: 8,
+                zoom: 7,
                 isPusat: false,
-                badge: "Wilayah Pengujian K3"
+                badge: "Wilayah Pengujian K3",
+                risiko: "Industri pengolahan migas, pupuk kimia, kelapa sawit, dan sektor jasa maritim.",
+                layananTags: ["#UjiKimia", "#FaktorFisika", "#BimtekSMK3"],
+                sop: "Jadwal Terjadwal / Permohonan Uji Lapangan"
             },
             riau: {
                 name: "Riau",
-                city: "Pekanbaru",
-                desc: "Wilayah pelayanan K3 sektor industri migas, perkebunan, dan ketenagakerjaan Provinsi Riau.",
+                city: "Pekanbaru & Dumai",
+                desc: "Wilayah pelayanan K3 sektor industri migas darat/lepas pantai, pulp & paper, serta perkebunan kelapa sawit terbesar.",
                 coords: [0.5071, 101.4478],
-                zoom: 8,
+                zoom: 7,
                 isPusat: false,
-                badge: "Wilayah Pengujian K3"
+                badge: "Wilayah Pengujian K3",
+                risiko: "Bahaya uap hidrokarbon, kebisingan turbin kilang, getaran mesin berat, dan debu kimia pulp.",
+                layananTags: ["#UjiKimia", "#FaktorFisika", "#HigieneIndustri"],
+                sop: "Pengujian Lapangan & Uji Emisi Berkala"
             },
             kepri: {
                 name: "Kepulauan Riau",
-                city: "Tanjungpinang & Batam",
-                desc: "Wilayah pelayanan K3 sektor galangan kapal, manufaktur dan industri maritim Kepulauan Riau.",
+                city: "Batam & Tanjungpinang",
+                desc: "Wilayah pelayanan K3 sektor galangan kapal (shipyard), manufaktur presisi, elektronik, dan industri maritim lepas pantai.",
                 coords: [1.0828, 104.0305],
                 zoom: 8,
                 isPusat: false,
-                badge: "Wilayah Pengujian K3"
+                badge: "Wilayah Pengujian K3",
+                risiko: "Uap pengelasan logam berat, radiasi industri NDT, kebisingan blasting & ergonomi mikro-elektronik.",
+                layananTags: ["#HigieneIndustri", "#Ergonomi", "#KesehatanKerja"],
+                sop: "Pengujian Terjadwal Sektor Galangan Kapal"
             },
             sumbar: {
                 name: "Sumatera Barat",
-                city: "Kota Padang",
-                desc: "Wilayah pelayanan pengujian faktor lingkungan kerja dan keselamatan kerja Provinsi Sumatera Barat.",
+                city: "Kota Padang & Bukittinggi",
+                desc: "Wilayah pelayanan pengujian faktor lingkungan kerja sektor semen, manufaktur, pertambangan, dan pariwisata.",
                 coords: [-0.9471, 100.4172],
-                zoom: 8,
+                zoom: 7,
                 isPusat: false,
-                badge: "Wilayah Pengujian K3"
+                badge: "Wilayah Pengujian K3",
+                risiko: "Debu silika respirabel industri semen, kebisingan crusher, dan paparan kimia laboratorium.",
+                layananTags: ["#HigieneIndustri", "#FaktorFisika", "#Audiometri"],
+                sop: "SOP Uji Lingkungan & Evaluasi Berkala"
             },
             jambi: {
                 name: "Jambi",
-                city: "Kota Jambi",
-                desc: "Wilayah pelayanan pengujian K3 sektor perkebunan kelapa sawit, pertambangan dan industri Jambi.",
+                city: "Kota Jambi & Muaro Jambi",
+                desc: "Wilayah pelayanan pengujian K3 sektor perkebunan kelapa sawit, pertambangan batubara, dan industri pengolahan kayu.",
                 coords: [-1.6101, 103.6131],
-                zoom: 8,
+                zoom: 7,
                 isPusat: false,
-                badge: "Wilayah Pengujian K3"
+                badge: "Wilayah Pengujian K3",
+                risiko: "Tekanan panas boiler, getaran alat berat tambang, dan debu organik serbuk kayu.",
+                layananTags: ["#FaktorFisika", "#IklimKerja", "#Ergonomi"],
+                sop: "Pelayanan Pengujian Lapangan Terpadu"
             },
             bengkulu: {
                 name: "Bengkulu",
-                city: "Kota Bengkulu",
-                desc: "Wilayah pelayanan & pembinaan keselamatan serta kesehatan kerja Provinsi Bengkulu.",
+                city: "Kota Bengkulu & Mukomuko",
+                desc: "Wilayah pelayanan & pembinaan keselamatan serta kesehatan kerja sektor agrikultur, pertambangan batubara, dan pelabuhan.",
                 coords: [-3.8004, 102.2655],
-                zoom: 8,
+                zoom: 7,
                 isPusat: false,
-                badge: "Wilayah Pengujian K3"
+                badge: "Wilayah Pengujian K3",
+                risiko: "Pencahayaan dermaga, kebisingan konveyor tambang, dan debu batubara respirabel.",
+                layananTags: ["#FaktorFisika", "#HigieneIndustri", "#Spirometri"],
+                sop: "Koordinasi UPT & Dinas Tenaga Kerja"
             },
             sumsel: {
                 name: "Sumatera Selatan",
-                city: "Kota Palembang",
-                desc: "Wilayah pengujian K3 kawasan industri pertambangan batubara, energi dan petrokimia Sumsel.",
+                city: "Palembang & Muara Enim",
+                desc: "Wilayah pengujian K3 kawasan industri pertambangan energi batubara, petrokimia pupuk, dan kelapa sawit.",
                 coords: [-2.9761, 104.7754],
-                zoom: 8,
+                zoom: 7,
                 isPusat: false,
-                badge: "Wilayah Pengujian K3"
+                badge: "Wilayah Pengujian K3",
+                risiko: "Gas beracun amonia/hidrogen sulfida, iklim kerja ekstrim, dan kebisingan kompresor tinggi.",
+                layananTags: ["#UjiKimia", "#FaktorFisika", "#BimtekSMK3"],
+                sop: "Uji Toksikologi & Kalibrasi Instrumen"
             },
             babel: {
                 name: "Kepulauan Bangka Belitung",
-                city: "Pangkalpinang",
-                desc: "Wilayah pelayanan pengujian K3 sektor pertambangan timah, industri dan pengolahan Kep. Babel.",
+                city: "Pangkalpinang & Belitung",
+                desc: "Wilayah pelayanan pengujian K3 sektor pertambangan dan peleburan timah (smelter), pariwisata, dan perikanan kelautan.",
                 coords: [-2.1328, 106.1139],
-                zoom: 8,
+                zoom: 7,
                 isPusat: false,
-                badge: "Wilayah Pengujian K3"
+                badge: "Wilayah Pengujian K3",
+                risiko: "Paparan panas tanur smelter, radiasi alami mineral ikutan timah, dan debu logam berat.",
+                layananTags: ["#FaktorFisika", "#UjiKimia", "#KesehatanKerja"],
+                sop: "Sampling Berkala Sektor Pertambangan"
             }
         };
 
@@ -309,18 +337,18 @@ document.addEventListener("DOMContentLoaded", function () {
             zoom: window.innerWidth <= 768 ? 5 : 6
         };
 
-        // Inisialisasi Peta Leaflet
+        // 2. Inisialisasi Peta Leaflet Resmi 9 Provinsi Wilayah Kerja
         const map = L.map("wilayah-map", {
             center: defaultView.center,
             zoom: defaultView.zoom,
-            scrollWheelZoom: false,
+            scrollWheelZoom: false, // Aman dari scroll-trap, aktif saat kursor di area peta
             zoomControl: true,
             attributionControl: false
         });
 
-        // Tile layer OpenStreetMap Resmi (100% Gratis, Tanpa Watermark & Tanpa API Key)
+        // Tile layer OpenStreetMap Resmi
         L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors',
+            attribution: '&copy; OpenStreetMap contributors',
             maxZoom: 19
         }).addTo(map);
 
@@ -345,40 +373,55 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         };
 
-        // Markers dictionary
+        // Markers Dictionary untuk 9 Provinsi
         const markers = {};
-        const provinceButtons = document.querySelectorAll(".wilayah-item");
+        const provinceButtons = document.querySelectorAll(".wilayah-item[data-province]");
 
-        Object.keys(provinces).forEach(key => {
-            const data = provinces[key];
-            const icon = createMarkerIcon(data.isPusat, key === "sumut");
+        // Di desktop: aktifkan scrollWheelZoom saat mouse di dalam peta, matikan saat keluar
+        if (mapWrap) {
+            mapWrap.addEventListener("mouseenter", () => {
+                map.scrollWheelZoom.enable();
+            });
+            mapWrap.addEventListener("mouseleave", () => {
+                map.scrollWheelZoom.disable();
+            });
+        }
 
-            const popupContent = `
+        // Helper Pembuat Popup Card Bersih & Informatif
+        const createPopupContent = (data) => {
+            const tagsHtml = (data.layananTags || []).slice(0, 3).map(tag => `<span class="popup-tag">${tag}</span>`).join('');
+            return `
                 <div class="wilayah-popup-card ${data.isPusat ? 'is-pusat' : ''}">
                     <span class="popup-badge">${data.badge}</span>
                     <h4>${data.name}</h4>
+                    <div class="popup-city">${data.city}</div>
                     <p>${data.desc}</p>
+                    ${tagsHtml ? `<div class="popup-tags">${tagsHtml}</div>` : ''}
                 </div>
             `;
+        };
 
+        // 3. Buat Markers untuk 9 Provinsi Resmi
+        Object.keys(provinces).forEach(key => {
+            const data = provinces[key];
+            const icon = createMarkerIcon(data.isPusat, key === "sumut");
             const marker = L.marker(data.coords, { icon: icon })
-                .addTo(map)
-                .bindPopup(popupContent, { offset: [0, -10] });
+                .bindPopup(createPopupContent(data), { offset: [0, -10], closeButton: true });
 
-            markers[key] = marker;
-
-            // Klik marker langsung di peta -> sinkronkan tombol list aktif
             marker.on("click", function () {
                 setActiveProvince(key, false);
             });
+
+            markers[key] = marker;
+            marker.addTo(map);
         });
 
-        // Fungsi Aktivasi Provinsi
+        // 4. Fungsi Aktivasi Provinsi
         function setActiveProvince(key, fly = true) {
             const data = provinces[key];
             if (!data) return;
 
-            // Update status tombol list
+            // Update status visual tombol list
             provinceButtons.forEach(btn => {
                 const isMatch = btn.getAttribute("data-province") === key;
                 btn.classList.toggle("active", isMatch);
@@ -402,13 +445,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 });
             }
 
-            // Buka popup info
+            // Buka popup info bersih
             if (markers[key]) {
                 markers[key].openPopup();
             }
         }
 
-        // Event listener klik tombol di list provinsi
+        // Event listener klik tombol list Provinsi
         provinceButtons.forEach(btn => {
             btn.addEventListener("click", function () {
                 const key = this.getAttribute("data-province");
@@ -416,12 +459,12 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         });
 
-        // Tombol Reset Tampilan
+        // Tombol Reset Tampilan Peta
         const btnReset = document.getElementById("btnResetMap");
         if (btnReset) {
             btnReset.addEventListener("click", function () {
                 map.closePopup();
-                provinceButtons.forEach(btn => btn.classList.remove("active"));
+                provinceButtons.forEach(b => b.classList.remove("active"));
                 const sumutBtn = document.querySelector('.wilayah-item[data-province="sumut"]');
                 if (sumutBtn) sumutBtn.classList.add("active");
 
@@ -430,13 +473,11 @@ document.addEventListener("DOMContentLoaded", function () {
                     markers[k].setIcon(createMarkerIcon(p.isPusat, k === "sumut"));
                 });
 
-                map.flyTo(defaultView.center, defaultView.zoom, {
-                    duration: 1.2
-                });
+                map.flyTo(defaultView.center, defaultView.zoom, { duration: 1.2 });
             });
         }
 
-        // Memastikan ukuran render peta pas & buka popup awal
+        // Ukuran render peta & setup awal
         setTimeout(() => {
             map.invalidateSize();
             if (markers["sumut"]) {
@@ -444,13 +485,8 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }, 400);
 
-        setTimeout(() => {
-            map.invalidateSize();
-        }, 1000);
-
-        window.addEventListener("resize", () => {
-            map.invalidateSize();
-        });
+        setTimeout(() => map.invalidateSize(), 1000);
+        window.addEventListener("resize", () => map.invalidateSize());
     };
 
     // Jalankan inisialisasi peta secara reliabel

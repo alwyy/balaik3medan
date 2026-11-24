@@ -22,10 +22,13 @@
     <!-- CSS Utama -->
     <link rel="stylesheet" href="<?= asset('style.css') ?>?v=<?= filemtime(APP_ROOT . '/style.css') ?>">
 
-    <!-- Google Fonts Inter -->
+    <!-- Font Awesome Icons 6.5.1 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Google Fonts: Montserrat (Title/Heading) & Plus Jakarta Sans / Inter (Body) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;1,700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Motion.dev (MIT) - Animation Library -->
     <script src="https://cdn.jsdelivr.net/npm/motion@11.11.13/dist/motion.js"></script>
@@ -76,9 +79,9 @@
             <!-- BERANDA -->
             <a href="<?= url('/') ?>" class="nav-link <?= ($activePage ?? '') === 'home' ? 'active' : '' ?>">Beranda</a>
 
-            <!-- PROFIL -->
+            <!-- TENTANG KAMI -->
             <div class="dropdown">
-                <a href="#" class="nav-link drop-btn <?= in_array($activePage ?? '', ['about', 'tugas-fungsi', 'struktur']) ? 'active' : '' ?>">Profil ▾</a>
+                <a href="#" class="nav-link drop-btn <?= in_array($activePage ?? '', ['about', 'tugas-fungsi', 'struktur']) ? 'active' : '' ?>">Tentang Kami ▾</a>
                 <div class="dropdown-menu">
                     <a href="<?= url('/#about') ?>">Profil Balai K3</a>
                     <a href="<?= url('tugas-fungsi') ?>">Tugas &amp; Fungsi</a>

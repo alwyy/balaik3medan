@@ -1,0 +1,169 @@
+{
+    "meta": {
+        "title": "Sasaran Strategis dan Indikator Kinerja Balai K3 Medan",
+        "tahun": 2026,
+        "periode_laporan": "Januari 2026"
+    },
+    "ringkasan_eksekutif": {
+        "judul": "Capaian Kinerja Periode Januari 2026",
+        "deskripsi": "Pelaksanaan program keselamatan dan kesehatan kerja, realisasi pelayanan pengujian teknis lingkungan kerja, pembinaan ketenagakerjaan, serta capaian PNBP Balai K3 Medan."
+    },
+    "kpi_utama": [
+        {
+            "id": "pnbp",
+            "label": "Realisasi PNBP",
+            "nilai": 35870000,
+            "format": "Rp 35.870.000",
+            "keterangan": "Penerimaan jasa pengujian teknis K3"
+        },
+        {
+            "id": "perusahaan",
+            "label": "Perusahaan Terlayani",
+            "nilai": 4,
+            "format": "4 Perusahaan",
+            "keterangan": "Badan usaha terlayani uji lingkungan kerja"
+        },
+        {
+            "id": "peserta",
+            "label": "Peserta Edukasi K3",
+            "nilai": 590,
+            "format": "590 Orang",
+            "keterangan": "Peserta sosialisasi & webinar K3"
+        },
+        {
+            "id": "sosialisasi",
+            "label": "Kegiatan Sosialisasi",
+            "nilai": 16,
+            "format": "16 Sesi",
+            "keterangan": "Sesi pembinaan tatap muka offline"
+        }
+    ],
+    "sasaran_strategis": [
+        {
+            "no": 1,
+            "sasaran": "Terlaksananya Pelayanan Pengujian K3",
+            "indikator": "Jumlah obyek K3 yang mendapatkan layanan pengujian K3",
+            "target": 350,
+            "satuan": "Badan Usaha",
+            "realisasi": 4,
+            "persen": 1.14,
+            "keterangan": "Realisasi bulan Januari mencapai 4 badan usaha dari target 350 badan usaha."
+        },
+        {
+            "no": 2,
+            "sasaran": "Terlaksananya Pelayanan Pengujian K3",
+            "indikator": "Jumlah tenaga kerja yang ditingkatkan kapasitasnya atau memperoleh pembinaan K3",
+            "target": 300,
+            "satuan": "Orang",
+            "realisasi": 590,
+            "persen": 196.67,
+            "keterangan": "Realisasi mencapai 590 orang melalui penyelenggaraan Webinar Nasional Toolbox Meeting K3."
+        },
+        {
+            "no": 3,
+            "sasaran": "Terlaksananya Pelayanan Pengujian K3",
+            "indikator": "Jumlah obyek K3 yang mendapatkan pendampingan SMK3",
+            "target": 20,
+            "satuan": "Obyek",
+            "realisasi": 0,
+            "persen": 0.0,
+            "keterangan": "Tahapan pendampingan SMK3 dijadwalkan mulai Triwulan II 2026."
+        },
+        {
+            "no": 4,
+            "sasaran": "Terlaksananya Dukungan Manajemen Ditjen Binwasnaker dan K3",
+            "indikator": "Layanan Dukungan Manajemen Internal",
+            "target": 1,
+            "satuan": "Layanan",
+            "realisasi": 1,
+            "persen": 100.0,
+            "keterangan": "Dukungan operasional dan tata kelola internal terlaksana 100% optimal."
+        }
+    ],
+    "sebaran_peserta_webinar": {
+        "judul": "Rincian Peserta Webinar Nasional (Toolbox Meeting)",
+        "total": 590,
+        "kategori": [
+            {
+                "label": "Instansi Pemerintah",
+                "jumlah": 361,
+                "persen": 61.2,
+                "warna": "#09377D"
+            },
+            {
+                "label": "Masyarakat Umum",
+                "jumlah": 117,
+                "persen": 19.8,
+                "warna": "#1E40AF"
+            },
+            {
+                "label": "Perusahaan",
+                "jumlah": 81,
+                "persen": 13.7,
+                "warna": "#2563EB"
+            },
+            {
+                "label": "Akademisi",
+                "jumlah": 20,
+                "persen": 3.4,
+                "warna": "#4F46E5"
+            },
+            {
+                "label": "Mahasiswa",
+                "jumlah": 11,
+                "persen": 1.9,
+                "warna": "#93C5FD"
+            }
+        ]
+    },
+    "perusahaan_mitra": [
+        {
+            "id": "pacmedan",
+            "nama": "PT Pacific Medan Industri",
+            "singkatan": "Pacific Medan Industri",
+            "domain": "pacmedan.com",
+            "logo_custom": "assets/logo_pamin.png",
+            "bidang": "Pengolahan Minyak Nabati & Kelapa Sawit",
+            "layanan": "Pengujian Lingkungan Kerja",
+            "lokasi": "KIM II Mabar, Deli Serdang",
+            "periode": "Januari 2026",
+            "status": "Selesai Terverifikasi"
+        },
+        {
+            "id": "prodia",
+            "nama": "PT Prodia Widyahusada Tbk",
+            "singkatan": "Prodia",
+            "domain": "prodia.co.id",
+            "logo_custom": "",
+            "bidang": "Layanan Laboratorium Kesehatan",
+            "layanan": "Pemeriksaan Ergonomi & Faktor Kimia",
+            "lokasi": "Medan, Sumatera Utara",
+            "periode": "Januari 2026",
+            "status": "Selesai Terverifikasi"
+        },
+        {
+            "id": "soeloenglaoet",
+            "nama": "PT Soeloeng Laoet",
+            "singkatan": "Soeloeng Laoet",
+            "domain": "soeloenglaoet.com",
+            "logo_custom": "",
+            "bidang": "Perkebunan & Pengolahan Kelapa Sawit",
+            "layanan": "Pengujian Faktor Fisika Lingkungan",
+            "lokasi": "Serdang Bedagai, Sumatera Utara",
+            "periode": "Januari 2026",
+            "status": "Selesai Terverifikasi"
+        },
+        {
+            "id": "hakaaston",
+            "nama": "PT Hakaaston",
+            "singkatan": "Hakaaston",
+            "domain": "hakaaston.co.id",
+            "logo_custom": "",
+            "bidang": "Manufaktur Aspal Beton & Konstruksi Tol",
+            "layanan": "Pengujian Lingkungan Kerja Lapangan",
+            "lokasi": "Deli Serdang, Sumatera Utara",
+            "periode": "Januari 2026",
+            "status": "Selesai Terverifikasi"
+        }
+    ]
+}

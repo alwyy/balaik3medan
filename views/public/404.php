@@ -9,10 +9,11 @@
 .not-found-code {
     font-size: 110px;
     font-weight: 800;
-    color: var(--color-primary, #003366);
+    color: var(--color-primary, #09377D);
     line-height: 1;
     margin-bottom: 15px;
     letter-spacing: -0.04em;
+    font-family: var(--font-title, 'Montserrat', sans-serif);
 }
 
 .not-found-title {
@@ -21,6 +22,7 @@
     color: var(--color-text-main, #0f172a);
     margin-bottom: 15px;
     letter-spacing: -0.01em;
+    font-family: var(--font-title, 'Montserrat', sans-serif);
 }
 
 .not-found-desc {
@@ -35,14 +37,14 @@
     align-items: center;
     justify-content: center;
     gap: 8px;
-    background: var(--color-primary, #003366);
+    background: var(--color-primary, #09377D);
     color: #ffffff;
     padding: 12px 28px;
     border-radius: var(--radius-md, 10px);
     text-decoration: none;
     font-weight: 600;
     font-size: 15px;
-    box-shadow: 0 4px 14px rgba(0, 51, 102, 0.2);
+    box-shadow: 0 4px 14px rgba(9, 55, 125, 0.2);
     position: relative;
     overflow: hidden;
     transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),

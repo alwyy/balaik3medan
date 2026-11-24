@@ -1,4 +1,4 @@
-<style>
+﻿<style>
 .services-detail-section {
     max-width: 1200px;
     margin: 40px auto 80px;
@@ -12,7 +12,7 @@
 
 .services-header h1 {
     font-size: 34px;
-    color: var(--color-primary, #003366);
+    color: var(--color-primary, #09377D);
     font-weight: 700;
     margin-bottom: 12px;
     letter-spacing: -0.01em;
@@ -38,7 +38,7 @@
     padding: 34px 28px;
     border: 1px solid var(--color-border, #e2e8f0);
     box-shadow: var(--shadow-md, 0 4px 14px rgba(15, 23, 42, 0.06));
-    border-top: 4px solid var(--color-primary, #003366);
+    border-top: 4px solid var(--color-primary, #09377D);
     transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
                 box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1),
                 border-color 0.25s ease;
@@ -55,7 +55,7 @@
     height: 58px;
     border-radius: var(--radius-lg, 14px);
     background: var(--color-surface-hover, #eef5fc);
-    color: var(--color-primary, #003366);
+    color: var(--color-primary, #09377D);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -67,13 +67,13 @@
 
 .service-item-card:hover .service-icon-box {
     transform: scale(1.06);
-    background: var(--color-primary, #003366);
+    background: var(--color-primary, #09377D);
     color: #ffffff;
 }
 
 .service-item-card h3 {
     font-size: 20px;
-    color: var(--color-primary, #003366);
+    color: var(--color-primary, #09377D);
     margin-bottom: 14px;
     font-weight: 700;
 }
@@ -98,7 +98,7 @@
 
 .cta-box {
     margin-top: 60px;
-    background: var(--color-primary, #003366);
+    background: var(--color-primary, #09377D);
     border-radius: var(--radius-xl, 18px);
     padding: 44px 36px;
     text-align: center;
@@ -128,7 +128,7 @@
     justify-content: center;
     gap: 8px;
     background: #ffffff;
-    color: var(--color-primary, #003366);
+    color: var(--color-primary, #09377D);
     padding: 12px 28px;
     border-radius: var(--radius-md, 10px);
     font-weight: 700;
@@ -292,3 +292,4 @@
     </div>
 
 </div>
+
