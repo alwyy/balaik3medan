@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-﻿<style>
+<style>
 /* ==========================================================================
    STANDAR PELAYANAN & REGULASI ORGANISASI (PERMENAKER NO. 1 TAHUN 2022)
    ========================================================================== */

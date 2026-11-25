@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-﻿<!-- HERO / HOME -->
 <section class="home" id="home">
     <div class="slider" id="slider">
         <div class="slide active" style="background-image:url('<?= asset('assets/gambar 4.jpeg') ?>')"></div>

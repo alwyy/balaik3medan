@@ -163,9 +163,9 @@ document.addEventListener("DOMContentLoaded", function () {
        4. NAVBAR SCROLL GLASSMORPHISM
        ========================================================================== */
     const navbar = document.getElementById("navbar");
-    if (navbar && !navbar.classList.contains("subpage-nav")) {
+    if (navbar) {
         const handleScroll = () => {
-            navbar.classList.toggle("scrolled", window.scrollY > 40);
+            navbar.classList.toggle("scrolled", window.scrollY > 20);
         };
         window.addEventListener("scroll", handleScroll, { passive: true });
         handleScroll();

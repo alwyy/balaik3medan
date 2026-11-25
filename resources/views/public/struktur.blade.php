@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-﻿<style>
+<style>
 /* ==========================================================================
    STRUKTUR ORGANISASI BALAI K3 MEDAN (COMPACT HIERARCHICAL CHART)
    ========================================================================== */

@@ -72,7 +72,7 @@
 <a href="#main-content" class="skip-link">Loncat ke konten utama</a>
 
 <!-- NAVBAR -->
-<header class="navbar {{ empty($isHome) ? 'scrolled subpage-nav' : '' }}" id="navbar" role="banner">
+<header class="navbar {{ empty($isHome) ? 'subpage-nav' : '' }}" id="navbar" role="banner">
     <div class="container">
 
         <!-- LOGO -->
@@ -136,9 +136,7 @@
 </header>
 
 <!-- MAIN CONTENT WRAPPER -->
-<main id="main-content" role="main">
-    @yield('content')
-</main>
+<main id="main-content" role="main">@yield('content')</main>
 
 <!-- FOOTER RESMI BALAI K3 MEDAN -->
 <footer class="site-footer {{ empty($isHome) ? 'subpage-footer' : 'home-footer' }}" role="contentinfo">

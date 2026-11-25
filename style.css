@@ -116,10 +116,22 @@ body {
     color-scheme: light;
 }
 
+body.home-body {
+    padding-top: 0 !important;
+    margin: 0 !important;
+}
+
 body.subpage-body {
-    padding-top: 80px;
+    padding-top: 88px;
     background: var(--color-bg);
     color: var(--color-text-body);
+}
+
+main, #main-content {
+    display: block;
+    width: 100%;
+    margin: 0;
+    padding: 0;
 }
 
 img, picture, video, iframe {
@@ -373,43 +385,69 @@ a {
 }
 
 /* ==========================================================================
-   6. NAVBAR & NAVIGATION
+   6. NAVBAR & NAVIGATION (Floating Pill Capsule & Liquid Glassmorphism)
    ========================================================================== */
 .navbar {
     position: fixed;
     top: 0;
+    left: 0;
     width: 100%;
     z-index: 1000;
-    background: rgba(9, 55, 125, 0.88);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-    transition: background 0.3s ease, box-shadow 0.3s ease, padding 0.3s ease;
+    padding: 16px 24px 0;
+    pointer-events: none;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    transition: padding 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .navbar .container {
+    pointer-events: auto;
+    max-width: 1220px;
+    width: 100%;
+    margin: 0 auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-top: 12px;
-    padding-bottom: 12px;
+    padding: 10px 28px;
+    border-radius: 9999px;
+    background: rgba(220, 228, 238, 0.90);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border: 1px solid rgba(255, 255, 255, 0.65);
+    box-shadow: 0 4px 22px rgba(9, 55, 125, 0.08), 0 1px 3px rgba(15, 23, 42, 0.03), inset 0 1px 1.5px rgba(255, 255, 255, 0.85);
+    transition: background 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                backdrop-filter 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                -webkit-backdrop-filter 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                padding 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.navbar.scrolled,
-.navbar.subpage-nav {
-    background: rgba(9, 55, 125, 0.98) !important;
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    box-shadow: 0 4px 20px rgba(9, 55, 125, 0.2);
-    border-bottom-color: rgba(255, 255, 255, 0.1);
+/* SCROLLED STATE (Liquid White Glassmorphism) */
+.navbar.scrolled {
+    padding-top: 10px;
+}
+
+.navbar.scrolled .container {
+    background: rgba(255, 255, 255, 0.72) !important;
+    backdrop-filter: blur(24px) saturate(190%) !important;
+    -webkit-backdrop-filter: blur(24px) saturate(190%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.88) !important;
+    box-shadow: 0 12px 36px rgba(9, 55, 125, 0.12),
+                0 2px 8px rgba(15, 23, 42, 0.04),
+                inset 0 1px 2px rgba(255, 255, 255, 0.95) !important;
+    padding-top: 8px;
+    padding-bottom: 8px;
 }
 
 /* LOGO */
 .logo-area {
     display: flex;
     align-items: center;
-    gap: 13px;
-    color: white;
+    gap: 12px;
+    color: #09377D;
     text-decoration: none;
     transition: transform 0.2s var(--ease-out);
     flex-shrink: 0;
@@ -420,22 +458,27 @@ a {
 }
 
 .logo-area img {
-    width: 42px;
-    height: 42px;
+    width: 38px;
+    height: 38px;
     object-fit: contain;
     flex-shrink: 0;
+    filter: brightness(0) saturate(100%) invert(16%) sepia(74%) saturate(2644%) hue-rotate(206deg) brightness(90%) contrast(101%);
+    transition: filter 0.3s ease, transform 0.2s ease;
 }
 
 .logo-text {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding-left: 13px;
-    border-left: 1px solid rgba(255, 255, 255, 0.35);
+    padding-left: 12px;
+    border-left: 1.5px solid rgba(9, 55, 125, 0.22);
 }
 
-.logo-text span {
+.logo-text span,
+.logo-text .logo-line-1,
+.logo-text .logo-line-2 {
     display: block;
+    color: #09377D;
     font-size: 13.5px;
     font-weight: 700;
     line-height: 1.25;
@@ -444,56 +487,40 @@ a {
     opacity: 1;
 }
 
-.logo-text .logo-line-1,
-.logo-text .logo-line-2,
-.logo-text span:first-child,
-.logo-text span:last-child {
-    font-size: 13.5px;
-    font-weight: 700;
-    opacity: 1;
-}
-
-/* Invert logo putih ke hitam saat di background terang */
-.logo-invert-dark,
-.logo-kemnaker-dark,
-.light-bg-invert {
-    filter: brightness(0);
-}
-
 /* MENU NAV */
 .nav-menu {
     display: flex;
     align-items: center;
-    gap: 24px;
+    gap: 22px;
 }
 
 .nav-link {
     text-decoration: none;
-    color: rgba(255, 255, 255, 0.9);
-    font-weight: 500;
+    color: #09377D;
+    font-weight: 600;
     font-size: 14.5px;
-    padding: 6px 0;
+    padding: 6px 4px;
     position: relative;
     transition: color 0.2s ease;
 }
 
-/* Underline Draw Micro-interaction (Taste-Skill Rule 5) */
+/* Underline Draw Micro-interaction */
 .nav-link::after {
     content: '';
     position: absolute;
     bottom: 0;
-    left: 0;
-    width: 100%;
+    left: 4px;
+    right: 4px;
     height: 2px;
-    background: #ffffff;
+    background: #09377D;
     border-radius: 2px;
     transform: scaleX(0);
     transform-origin: right;
-    transition: transform 0.25s var(--ease-out);
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .nav-link:hover {
-    color: #ffffff;
+    color: #052453;
 }
 
 .nav-link:hover::after,
@@ -503,8 +530,8 @@ a {
 }
 
 .nav-link.active {
-    color: #ffffff;
-    font-weight: 600;
+    color: #09377D;
+    font-weight: 700;
 }
 
 /* DROPDOWN */
@@ -517,50 +544,51 @@ a {
     opacity: 0;
     visibility: hidden;
     position: absolute;
-    top: calc(100% + 10px);
-    left: 0;
-    min-width: 230px;
-    background: #ffffff;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-lg);
+    top: calc(100% + 14px);
+    left: 50%;
+    transform: translateX(-50%) translateY(8px);
+    min-width: 220px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(226, 232, 240, 0.9);
+    border-radius: 16px;
+    box-shadow: 0 14px 36px rgba(9, 55, 125, 0.14), 0 2px 6px rgba(15, 23, 42, 0.04);
     padding: 8px;
-    z-index: 999;
-    transform: translateY(6px);
-    /* Saat kursor keluar dari navbar ke halaman konten, menu bertahan sejenak (delay 0.25s) sebelum menutup halus */
-    transition: opacity 0.3s var(--ease-out), transform 0.3s var(--ease-out), visibility 0.3s;
-    transition-delay: 0.25s;
+    z-index: 1001;
+    transform-origin: top center;
+    transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                visibility 0.25s;
+    transition-delay: 0.15s;
     pointer-events: none;
 }
 
-/* Jembatan tak terlihat di celah 10px antara tombol navigasi dan menu agar hover tidak terputus */
+/* Invisible bridge so hover is seamless */
 .dropdown-menu::before {
     content: '';
     position: absolute;
-    top: -14px;
-    left: -10px;
-    width: calc(100% + 20px);
-    height: 14px;
+    top: -16px;
+    left: 0;
+    width: 100%;
+    height: 16px;
 }
 
 .dropdown:hover .dropdown-menu,
 .dropdown.active .dropdown-menu {
     opacity: 1;
     visibility: visible;
-    transform: translateY(0);
+    transform: translateX(-50%) translateY(0);
     pointer-events: auto;
-    /* Transisi masuk responsif tanpa jeda delay */
-    transition-duration: 0.25s;
+    transition-duration: 0.22s;
     transition-delay: 0s;
 }
 
-/* KETIKA MOUSE DIARAHKAN KE TITLE NAVBAR LAIN:
-   Dropdown sebelumnya langsung dibuat hilang seketika (tanpa delay) */
 .navbar:hover .dropdown:not(:hover) .dropdown-menu,
 .nav-menu:hover .dropdown:not(:hover) .dropdown-menu {
     opacity: 0 !important;
     visibility: hidden !important;
-    transform: translateY(6px) !important;
+    transform: translateX(-50%) translateY(8px) !important;
     transition-duration: 0s !important;
     transition-delay: 0s !important;
     pointer-events: none !important;
@@ -569,17 +597,17 @@ a {
 .dropdown-menu a {
     display: block;
     padding: 10px 14px;
-    color: var(--color-primary);
+    color: #09377D;
     font-size: 14px;
     font-weight: 500;
-    border-radius: var(--radius-md);
+    border-radius: 10px;
     text-decoration: none;
     transition: background-color 0.15s ease, transform 0.15s ease, color 0.15s ease;
 }
 
 .dropdown-menu a:hover {
-    background: var(--color-surface-hover);
-    color: var(--color-primary-dark);
+    background: rgba(9, 55, 125, 0.07);
+    color: #052453;
     transform: translateX(3px);
 }
 
@@ -589,31 +617,31 @@ a {
     flex-direction: column;
     justify-content: center;
     gap: 5px;
-    width: 44px;
-    height: 44px;
+    width: 40px;
+    height: 40px;
     cursor: pointer;
     background: none;
     border: none;
     padding: 8px;
-    border-radius: var(--radius-sm);
+    border-radius: 50%;
 }
 
 .hamburger span {
-    width: 24px;
-    height: 2px;
-    background: #ffffff;
+    width: 22px;
+    height: 2.2px;
+    background: #09377D;
     border-radius: 2px;
     transition: transform 0.25s var(--ease-out), opacity 0.2s ease;
 }
 
 .hamburger.active span:nth-child(1) {
-    transform: translateY(7px) rotate(45deg);
+    transform: translateY(7.2px) rotate(45deg);
 }
 .hamburger.active span:nth-child(2) {
     opacity: 0;
 }
 .hamburger.active span:nth-child(3) {
-    transform: translateY(-7px) rotate(-45deg);
+    transform: translateY(-7.2px) rotate(-45deg);
 }
 
 /* ==========================================================================
@@ -627,9 +655,20 @@ a {
     display: flex;
     align-items: center;
     justify-content: center;
+    margin: 0 !important;
+    padding: 0 !important;
 }
 
 /* SLIDER */
+.slider {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 0;
+}
+
 .slide {
     position: absolute;
     inset: 0;
@@ -2334,30 +2373,70 @@ a {
 }
 
 @media (max-width: 768px) {
+    .navbar {
+        padding: 10px 12px 0 !important;
+    }
+
+    .navbar .container {
+        padding: 8px 16px;
+        border-radius: 9999px;
+    }
+
+    .navbar.scrolled {
+        padding-top: 6px !important;
+    }
+
+    .navbar.scrolled .container {
+        padding: 6px 14px;
+    }
+
+    .logo-area {
+        gap: 8px;
+    }
+
+    .logo-area img {
+        width: 32px;
+        height: 32px;
+    }
+
+    .logo-text {
+        padding-left: 9px;
+    }
+
+    .logo-text span,
+    .logo-text .logo-line-1,
+    .logo-text .logo-line-2 {
+        font-size: 11px;
+    }
+
     .hamburger {
         display: flex;
     }
 
     .nav-menu {
         position: fixed;
-        top: 70px;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        width: 100%;
-        height: calc(100vh - 70px);
-        background: rgba(9, 55, 125, 0.98);
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
+        top: 66px;
+        left: 12px;
+        right: 12px;
+        bottom: auto;
+        width: calc(100% - 24px);
+        max-height: calc(100vh - 82px);
+        background: rgba(255, 255, 255, 0.96);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        border: 1px solid rgba(226, 232, 240, 0.9);
+        border-radius: 20px;
+        box-shadow: 0 16px 42px rgba(9, 55, 125, 0.16);
         flex-direction: column;
         align-items: flex-start;
-        padding: 30px 24px;
-        gap: 16px;
-        transform: translateY(-100%);
+        padding: 20px 18px;
+        gap: 8px;
+        transform: translateY(-12px);
         opacity: 0;
         visibility: hidden;
-        transition: transform 0.3s var(--ease-out), opacity 0.3s ease, visibility 0.3s;
+        transition: transform 0.25s var(--ease-out), opacity 0.25s ease, visibility 0.25s;
         overflow-y: auto;
+        pointer-events: auto;
     }
 
     .nav-menu.show {
@@ -2367,9 +2446,16 @@ a {
     }
 
     .nav-link {
-        font-size: 16px;
+        font-size: 14.5px;
         width: 100%;
-        padding: 10px 0;
+        padding: 8px 12px;
+        color: #09377D;
+        border-radius: 8px;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+        background: rgba(9, 55, 125, 0.06);
     }
 
     .dropdown {
@@ -2379,15 +2465,19 @@ a {
     .dropdown-menu {
         position: static;
         width: 100%;
-        background: rgba(255, 255, 255, 0.08);
-        border: 1px solid rgba(255, 255, 255, 0.12);
+        min-width: 100%;
+        background: rgba(9, 55, 125, 0.04);
+        border: 1px solid rgba(9, 55, 125, 0.08);
+        border-radius: 12px;
         box-shadow: none;
-        margin-top: 6px;
-        transform: none;
+        margin-top: 4px;
+        transform: none !important;
+        left: auto;
         opacity: 1;
         visibility: visible;
         display: none;
         transition: none;
+        padding: 4px;
     }
 
     .dropdown-menu::before {
@@ -2402,13 +2492,18 @@ a {
     }
 
     .dropdown-menu a {
-        color: #ffffff;
-        padding: 10px 14px;
+        color: #09377D;
+        padding: 8px 12px;
+        font-size: 13.5px;
     }
 
     .dropdown-menu a:hover {
-        background: rgba(255, 255, 255, 0.15);
-        color: #ffffff;
+        background: rgba(9, 55, 125, 0.08);
+        color: #052453;
+    }
+
+    body.subpage-body {
+        padding-top: 76px;
     }
 
     .home-text h2 {

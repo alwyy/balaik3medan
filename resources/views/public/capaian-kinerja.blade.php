@@ -913,7 +913,7 @@ $companies = $activeReport['perusahaan_mitra'] ?? [];
 
                 <div class="report-cms-status">
                     <span class="status-dot-pulse"></span>
-                    <span>Format Laporan Terintegrasi CMS</span>
+                    <span>Format Laporan Terintegrasi</span>
                 </div>
             </div>
 

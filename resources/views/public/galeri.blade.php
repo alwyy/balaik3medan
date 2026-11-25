@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-﻿<?php
+<?php
 /**
  * Galeri Kegiatan - Feed Instagram Resmi Balai K3 Medan (@balaik3medan)
  * Menampilkan 10-12 postingan terbaru kegiatan Balai K3 Medan secara dinamis.
