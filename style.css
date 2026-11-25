@@ -446,7 +446,7 @@ a {
 .logo-area {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
     color: #09377D;
     text-decoration: none;
     transition: transform 0.2s var(--ease-out);
@@ -458,8 +458,8 @@ a {
 }
 
 .logo-area img {
-    width: 38px;
-    height: 38px;
+    width: 31px;
+    height: 31px;
     object-fit: contain;
     flex-shrink: 0;
     filter: brightness(0) saturate(100%) invert(16%) sepia(74%) saturate(2644%) hue-rotate(206deg) brightness(90%) contrast(101%);
@@ -470,7 +470,7 @@ a {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding-left: 12px;
+    padding-left: 10px;
     border-left: 1.5px solid rgba(9, 55, 125, 0.22);
 }
 
@@ -479,7 +479,7 @@ a {
 .logo-text .logo-line-2 {
     display: block;
     color: #09377D;
-    font-size: 13.5px;
+    font-size: 12.2px;
     font-weight: 700;
     line-height: 1.25;
     letter-spacing: -0.01em;
@@ -2391,22 +2391,22 @@ a {
     }
 
     .logo-area {
-        gap: 8px;
+        gap: 7px;
     }
 
     .logo-area img {
-        width: 32px;
-        height: 32px;
+        width: 27px;
+        height: 27px;
     }
 
     .logo-text {
-        padding-left: 9px;
+        padding-left: 8px;
     }
 
     .logo-text span,
     .logo-text .logo-line-1,
     .logo-text .logo-line-2 {
-        font-size: 11px;
+        font-size: 10.5px;
     }
 
     .hamburger {
