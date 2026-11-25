@@ -835,4 +835,119 @@ document.addEventListener("DOMContentLoaded", function () {
 
     initGsapWordReveal();
 
+    /* ==========================================================================
+       11. GSAP + SCROLLTRIGGER: OUTLINED BOXES, CARDS & FRAMED IMAGES REVEAL
+       ========================================================================== */
+    const initGsapBoxReveal = () => {
+        if (typeof gsap === "undefined" || typeof ScrollTrigger === "undefined") {
+            return;
+        }
+
+        const prefersReducedMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        if (prefersReducedMotion) return;
+
+        const processedElements = new Set();
+
+        // 1. Staggered Grid Containers (Cards appear sequentially with elegant cascade)
+        const gridSelectors = [
+            ".services-grid",
+            ".activity-grid",
+            ".gallery-posts-grid",
+            ".vm-grid",
+            ".vm-items-grid",
+            ".kpi-grid",
+            ".sasaran-grid",
+            ".mitra-grid",
+            ".standar-grid",
+            ".jadwal-grid",
+            ".jenis-grid",
+            ".contact-grid"
+        ];
+
+        gridSelectors.forEach(gridSel => {
+            document.querySelectorAll(gridSel).forEach(grid => {
+                if (processedElements.has(grid)) return;
+                processedElements.add(grid);
+
+                const cards = grid.querySelectorAll(".service-card, .activity-card, .gallery-ig-card, .vm-item, .vm-card, .kpi-card, .sasaran-box, .mitra-card, .contact-card, .jadwal-card, .jenis-card, .standar-card, .tugas-card");
+                if (cards.length === 0) return;
+
+                cards.forEach(card => processedElements.add(card));
+
+                gsap.fromTo(cards,
+                    {
+                        opacity: 0,
+                        y: 32,
+                        scale: 0.97
+                    },
+                    {
+                        opacity: 1,
+                        y: 0,
+                        scale: 1,
+                        duration: 0.7,
+                        stagger: 0.1,
+                        ease: "power2.out",
+                        clearProps: "transform",
+                        scrollTrigger: {
+                            trigger: grid,
+                            start: "top 88%",
+                            toggleActions: "play none none none",
+                            once: true
+                        }
+                    }
+                );
+            });
+        });
+
+        // 2. Standalone Outlined Boxes, Panels, and Framed Images
+        const standaloneSelectors = [
+            ".service-card",
+            ".activity-card",
+            ".gallery-ig-card",
+            ".vm-card-visi",
+            ".about-image-wrap",
+            ".about-image-card",
+            ".wilayah-panel",
+            ".wilayah-info-card",
+            ".wilayah-map-wrap",
+            ".ig-profile-banner",
+            ".gallery-footer-cta",
+            ".maklumat-frame",
+            ".maklumat-card",
+            ".gold-frame-wrap",
+            ".chart-card",
+            ".summary-box",
+            ".table-box"
+        ];
+
+        document.querySelectorAll(standaloneSelectors.join(", ")).forEach(box => {
+            if (processedElements.has(box)) return;
+            processedElements.add(box);
+
+            gsap.fromTo(box,
+                {
+                    opacity: 0,
+                    y: 28,
+                    scale: 0.98
+                },
+                {
+                    opacity: 1,
+                    y: 0,
+                    scale: 1,
+                    duration: 0.75,
+                    ease: "power2.out",
+                    clearProps: "transform",
+                    scrollTrigger: {
+                        trigger: box,
+                        start: "top 88%",
+                        toggleActions: "play none none none",
+                        once: true
+                    }
+                }
+            );
+        });
+    };
+
+    initGsapBoxReveal();
+
 });
