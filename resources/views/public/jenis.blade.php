@@ -220,6 +220,7 @@ $tglFormal = date('j') . ' ' . ($bulanIndo[(int)date('n')] ?? date('F')) . ' ' .
     grid-template-columns: repeat(2, 1fr);
     gap: 22px;
     margin-bottom: 35px;
+    align-items: start;
 }
 
 .service-card-item {
@@ -232,6 +233,7 @@ $tglFormal = date('j') . ' ' . ($bulanIndo[(int)date('n')] ?? date('F')) . ' ' .
     display: flex;
     flex-direction: column;
     position: relative;
+    height: fit-content;
     transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 }
 
@@ -374,7 +376,7 @@ $tglFormal = date('j') . ' ' . ($bulanIndo[(int)date('n')] ?? date('F')) . ' ' .
 
 /* Metadata Footer Card */
 .service-card-meta {
-    margin-top: auto;
+    margin-top: 14px;
     display: flex;
     flex-direction: column;
     gap: 8px;
