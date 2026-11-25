@@ -285,21 +285,74 @@ $tglFormal = date('j') . ' ' . ($bulanIndo[(int)date('n')] ?? date('F')) . ' ' .
     margin-bottom: 16px;
 }
 
-/* Lingkup Parameter Uji */
+/* Lingkup Parameter Uji Collapsible (Show More / Show Less) */
 .service-scope-wrap {
+    margin-bottom: 14px;
+}
+
+.btn-toggle-scope {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     background: #f8fafc;
-    border: 1px solid #edf2f7;
+    border: 1.5px solid var(--color-border, #e2e8f0);
     border-radius: 8px;
+    padding: 8px 14px;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--color-primary, #09377D);
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.2s ease;
+    user-select: none;
+}
+
+.btn-toggle-scope:hover {
+    background: #f1f5f9;
+    border-color: #cbd5e1;
+}
+
+.scope-btn-icon {
+    font-size: 13px;
+    transition: transform 0.25s ease;
+    display: inline-block;
+}
+
+.service-scope-content {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease, padding 0.25s ease, margin 0.25s ease;
+    background: #f8fafc;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    padding: 0 16px;
+}
+
+.service-scope-wrap.is-open .service-scope-content {
+    max-height: 500px;
+    opacity: 1;
+    border-color: #edf2f7;
     padding: 14px 16px;
-    margin-bottom: 16px;
+    margin-top: 8px;
+}
+
+.service-scope-wrap.is-open .btn-toggle-scope {
+    background: #f1f5f9;
+    border-color: #cbd5e1;
+}
+
+.service-scope-wrap.is-open .scope-btn-icon {
+    transform: rotate(180deg);
 }
 
 .service-scope-title {
-    font-size: 12px;
+    font-size: 11.5px;
     font-weight: 700;
     color: var(--color-primary, #09377D);
     text-transform: uppercase;
-    letter-spacing: 0.03em;
+    letter-spacing: 0.04em;
     margin-bottom: 8px;
 }
 
@@ -606,12 +659,21 @@ $tglFormal = date('j') . ' ' . ($bulanIndo[(int)date('n')] ?? date('F')) . ' ' .
 
                     @if (!empty($sParams))
                         <div class="service-scope-wrap">
-                            <div class="service-scope-title">Lingkup Pengujian &amp; Parameter:</div>
-                            <ul class="service-scope-list">
-                                @foreach ($sParams as $param)
-                                    <li>{{ $param }}</li>
-                                @endforeach
-                            </ul>
+                            <button type="button" 
+                                    class="btn-toggle-scope" 
+                                    data-total="{{ count($sParams) }}"
+                                    aria-expanded="false">
+                                <span class="scope-btn-text">Lihat Lingkup Pengujian ({{ count($sParams) }} Parameter)</span>
+                                <span class="scope-btn-icon" aria-hidden="true">▾</span>
+                            </button>
+                            <div class="service-scope-content">
+                                <div class="service-scope-title">Lingkup Pengujian &amp; Parameter:</div>
+                                <ul class="service-scope-list">
+                                    @foreach ($sParams as $param)
+                                        <li>{{ $param }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
                         </div>
                     @endif
 
@@ -798,6 +860,31 @@ document.addEventListener('DOMContentLoaded', function() {
             applyFilterAndSearch();
         });
     }
+
+    // Event Handler Button Show More / Show Less Lingkup Pengujian
+    document.querySelectorAll('.btn-toggle-scope').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const wrap = this.closest('.service-scope-wrap');
+            if (!wrap) return;
+
+            const isOpen = wrap.classList.toggle('is-open');
+            this.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+
+            const textEl = this.querySelector('.scope-btn-text');
+            const total = this.getAttribute('data-total') || '';
+
+            if (textEl) {
+                if (isOpen) {
+                    textEl.textContent = 'Sembunyikan Lingkup Pengujian';
+                } else {
+                    textEl.textContent = total 
+                        ? 'Lihat Lingkup Pengujian (' + total + ' Parameter)' 
+                        : 'Lihat Lingkup Pengujian';
+                }
+            }
+        });
+    });
 
     // Initial filter jika query parameter terisi
     if (currentCategory !== 'all' || (searchInput && searchInput.value.trim() !== '')) {
