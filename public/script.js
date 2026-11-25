@@ -6,6 +6,63 @@
 document.addEventListener("DOMContentLoaded", function () {
 
     /* ==========================================================================
+       0. LENIS SMOOTH SCROLL (DARKROOM ENGINEERING / STUDIO FREIGHT)
+       ========================================================================== */
+    const initLenisSmoothScroll = () => {
+        if (typeof Lenis === "undefined") return;
+
+        const prefersReducedMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        if (prefersReducedMotion) return;
+
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            orientation: "vertical",
+            gestureOrientation: "vertical",
+            smoothWheel: true,
+            wheelMultiplier: 1.0,
+            touchMultiplier: 1.5,
+            infinite: false
+        });
+
+        window.lenis = lenis;
+
+        // Synchronize with GSAP ScrollTrigger if available
+        if (typeof ScrollTrigger !== "undefined") {
+            lenis.on("scroll", ScrollTrigger.update);
+        }
+
+        if (typeof gsap !== "undefined") {
+            gsap.ticker.add((time) => {
+                lenis.raf(time * 1000);
+            });
+            gsap.ticker.lagSmoothing(0);
+        } else {
+            function raf(time) {
+                lenis.raf(time);
+                requestAnimationFrame(raf);
+            }
+            requestAnimationFrame(raf);
+        }
+
+        // Smooth scroll for internal anchor links (e.g. href="#layanan")
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener("click", function (e) {
+                const targetId = this.getAttribute("href");
+                if (targetId && targetId.length > 1 && targetId.startsWith("#")) {
+                    const targetEl = document.querySelector(targetId);
+                    if (targetEl) {
+                        e.preventDefault();
+                        lenis.scrollTo(targetEl, { offset: -70, duration: 1.2 });
+                    }
+                }
+            });
+        });
+    };
+
+    initLenisSmoothScroll();
+
+    /* ==========================================================================
        1. TOP SHIMMER PROGRESS BAR
        ========================================================================== */
     const topBar = document.getElementById("top-shimmer-bar");
@@ -205,7 +262,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (scrollTopBtn) {
         scrollTopBtn.addEventListener("click", () => {
-            window.scrollTo({ top: 0, behavior: "smooth" });
+            if (window.lenis) {
+                window.lenis.scrollTo(0, { duration: 1.2 });
+            } else {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+            }
         });
     }
 

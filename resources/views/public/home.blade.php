@@ -321,8 +321,8 @@
         <div class="wilayah-container">
 
             <!-- PETA INTERAKTIF (LEAFLET.JS) -->
-            <div class="wilayah-map-wrap" id="wilayahMapWrap">
-                <div id="wilayah-map" class="wilayah-map-container" aria-label="Peta Interaktif Wilayah Kerja Balai K3 Medan"></div>
+            <div class="wilayah-map-wrap" id="wilayahMapWrap" data-lenis-prevent>
+                <div id="wilayah-map" class="wilayah-map-container" data-lenis-prevent aria-label="Peta Interaktif Wilayah Kerja Balai K3 Medan"></div>
                 
                 <div class="map-hint-pill">
                     <span class="hint-dot"></span>

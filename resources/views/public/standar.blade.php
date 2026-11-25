@@ -331,15 +331,15 @@
     border-radius: var(--radius-lg, 12px);
     padding: 20px 22px;
     box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
-    transition: box-shadow 0.25s ease, border-color 0.25s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
     display: flex;
     flex-direction: column;
     gap: 10px;
     position: relative;
-    will-change: transform, opacity;
 }
 
 .pasal-card:hover {
+    transform: translateY(-2px);
     border-color: rgba(9, 55, 125, 0.3);
     box-shadow: 0 8px 24px rgba(9, 55, 125, 0.08);
 }
@@ -1018,57 +1018,12 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Registrasi plugin GSAP Flip jika tersedia
-    if (typeof gsap !== 'undefined' && typeof Flip !== 'undefined') {
-        gsap.registerPlugin(Flip);
-    }
-
-    // 2. Fungsi Filter & Live Search dengan Animasi Sorter FLIP (Smooth Glide & Rise Up)
+    // 2. Fungsi Filter & Live Search dengan Animasi Masuk Motion
     function applyFilterAndSearch() {
         const query = searchInput ? searchInput.value.toLowerCase().trim() : '';
         let visibleCount = 0;
-
-        // ANIMASI SORTER GSAP FLIP:
-        // Kartu yang tidak sesuai akan fade/shrink out (hilang),
-        // Kartu yang sesuai filter akan stay dan meluncur naik ke posisi baru secara mulus
-        if (typeof gsap !== 'undefined' && typeof Flip !== 'undefined') {
-            const state = Flip.getState(cards, { props: 'opacity' });
-
-            cards.forEach(card => {
-                const category = card.getAttribute('data-category') || '';
-                const keywords = (card.getAttribute('data-keywords') || '').toLowerCase();
-                const textContent = card.innerText.toLowerCase();
-
-                const matchesCategory = (currentFilter === 'all') || (category === currentFilter);
-                const matchesSearch = !query || textContent.includes(query) || keywords.includes(query);
-
-                if (matchesCategory && matchesSearch) {
-                    card.style.display = 'flex';
-                    visibleCount++;
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-
-            if (emptyState) {
-                emptyState.style.display = (visibleCount === 0) ? 'block' : 'none';
-            }
-
-            Flip.from(state, {
-                duration: 0.55,
-                ease: 'power2.inOut',
-                absolute: true, // Kartu yang keluar dibuat absolute sehingga kartu yang difilter langsung meluncur naik (stay and glide up)
-                stagger: 0.02,
-                fade: true,
-                onEnter: elements => gsap.fromTo(elements, { opacity: 0, scale: 0.92, y: 20 }, { opacity: 1, scale: 1, y: 0, duration: 0.4, ease: 'power2.out' }),
-                onLeave: elements => gsap.to(elements, { opacity: 0, scale: 0.85, duration: 0.28, ease: 'power2.in' })
-            });
-
-            return;
-        }
-
-        // Fallback jika Flip belum tersedia
         const visibleCards = [];
+
         cards.forEach(card => {
             const category = card.getAttribute('data-category') || '';
             const keywords = (card.getAttribute('data-keywords') || '').toLowerCase();
@@ -1092,6 +1047,7 @@ document.addEventListener('DOMContentLoaded', function() {
             emptyState.style.display = (visibleCount === 0) ? 'block' : 'none';
         }
 
+        // Animasi Masuk Card via Motion (Staggered Spring)
         if (visibleCards.length > 0 && typeof Motion !== 'undefined') {
             try {
                 Motion.animate(
@@ -1133,22 +1089,13 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        // Click event: Update active class & Filter cards TERLEBIH DAHULU dengan Sorter Animasi
+        // Click event: Update active class & Filter cards TERLEBIH DAHULU
         tab.addEventListener('click', function() {
             tabs.forEach(t => t.classList.remove('active'));
             this.classList.add('active');
 
             currentFilter = this.getAttribute('data-filter') || 'all';
             applyFilterAndSearch();
-
-            // Smooth scroll ke atas daftar pasal jika pengguna sudah scroll ke bawah
-            const controlsEl = document.querySelector('.standar-controls');
-            if (controlsEl) {
-                const rect = controlsEl.getBoundingClientRect();
-                if (rect.top < 60) {
-                    controlsEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-            }
 
             if (typeof Motion !== 'undefined') {
                 try {
