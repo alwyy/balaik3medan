@@ -4,23 +4,30 @@
 <?php
 /**
  * Capaian Kinerja & Sasaran Strategis - Balai K3 Medan
- * Desain Resmi Pemerintahan (Clean, Authoritative, Minimalist Monochromatic Navy)
- * Dilengkapi Menu Filter Laporan Bulanan (Monthly Report) & Laporan Tahunan (Yearly Report) Siap CMS.
- * Pengurangan penggunaan icon berlebih agar tampilan fokus pada data, angka, dan tipografi resmi.
+ * Desain Resmi Pemerintahan (Clean, Authoritative, Minimalist Navy)
+ * Bebas Data Dummy - Seluruh opsi dan konten dinamis 100% terhubung ke data riil yang dipush dari CMS.
+ * Pengurangan icon berlebih: Tipografi resmi, data-first, dan responsif di semua perangkat.
  */
 
 $meta = $bundle['meta'] ?? [];
-$activeReport = $report ?? [];
-$periodeMenu = $periodeMenu ?? [];
-$daftarTahun = $periodeMenu['daftar_tahun'] ?? [2026, 2025];
-$daftarBulan = $periodeMenu['daftar_bulan'] ?? [];
+$activeReport = $report ?? null;
+$options = $options ?? [];
 
-$currentTipe = $activeTipe ?? 'bulanan';
-$currentTahun = (int)($activeTahun ?? 2026);
-$currentBulan = (string)($activeBulan ?? '01');
+$hasMonthly = !empty($options['has_monthly']);
+$hasYearly = !empty($options['has_yearly']);
+$monthlyYears = $options['monthly_years'] ?? [];
+$monthlyMap = $options['monthly_map'] ?? [];
+$yearlyYears = $options['yearly_years'] ?? [];
+$yearlyMap = $options['yearly_map'] ?? [];
 
-$periodeLabel = $activeReport['periode_label'] ?? 'Januari 2026';
-$badgePeriode = $activeReport['badge_periode'] ?? 'Laporan Bulanan';
+$currentTipe = $activeTipe ?? ($options['default_tipe'] ?? 'bulanan');
+$currentTahun = (int)($activeTahun ?? ($options['default_tahun'] ?? 2026));
+$currentBulan = (string)($activeBulan ?? ($options['default_bulan'] ?? '01'));
+
+$availableMonthsForCurrentYear = $monthlyMap[$currentTahun] ?? [];
+
+$periodeLabel = $activeReport['periode_label'] ?? ($currentTipe === 'tahunan' ? 'Tahun ' . $currentTahun : 'Periode Laporan');
+$badgePeriode = $activeReport['badge_periode'] ?? ($currentTipe === 'tahunan' ? 'Laporan Tahunan' : 'Laporan Bulanan');
 $summary = $activeReport['ringkasan_eksekutif'] ?? [];
 $kpiList = $activeReport['kpi_utama'] ?? [];
 $sasaranList = $activeReport['sasaran_strategis'] ?? [];
@@ -30,7 +37,7 @@ $companies = $activeReport['perusahaan_mitra'] ?? [];
 
 <style>
 /* ==========================================================================
-   HALAMAN CAPAIAN KINERJA - MINIMALIS RESMI (TYPOGRAPHY-FIRST)
+   HALAMAN CAPAIAN KINERJA - DATA-FIRST RESMI (MINIMALIS & RESPONTIF)
    ========================================================================== */
 .capaian-page-wrap {
     background: var(--color-bg, #f8fafc);
@@ -47,7 +54,7 @@ $companies = $activeReport['perusahaan_mitra'] ?? [];
     pointer-events: none;
     z-index: 1;
     user-select: none;
-    opacity: 0.09;
+    opacity: 0.08;
 }
 
 .capaian-decor.decor-top-left {
@@ -83,7 +90,7 @@ $companies = $activeReport['perusahaan_mitra'] ?? [];
 }
 
 /* ==========================================================================
-   HEADER SECTION
+   HEADER SECTION (MINIMALIST)
    ========================================================================== */
 .capaian-header {
     text-align: center;
@@ -125,18 +132,18 @@ $companies = $activeReport['perusahaan_mitra'] ?? [];
 }
 
 /* ==========================================================================
-   MENU FILTER PERIODE CMS: MONTHLY REPORT & YEARLY REPORT
+   MENU FILTER PERIODE CMS: BULANAN & TAHUNAN (DINAMIS 100% SESUAI DATA)
    ========================================================================== */
 .report-period-panel {
     background: #ffffff;
     border: 1px solid var(--color-border, #e2e8f0);
-    border-radius: var(--radius-xl, 16px);
-    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.03);
+    border-radius: var(--radius-xl, 14px);
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
     padding: 18px 22px;
-    margin-bottom: 30px;
+    margin-bottom: 28px;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 14px;
 }
 
 .report-period-top {
@@ -144,9 +151,9 @@ $companies = $activeReport['perusahaan_mitra'] ?? [];
     align-items: center;
     justify-content: space-between;
     flex-wrap: wrap;
-    gap: 14px;
+    gap: 12px;
     border-bottom: 1px solid #f1f5f9;
-    padding-bottom: 14px;
+    padding-bottom: 12px;
 }
 
 /* Segmented Control untuk Tipe Laporan */
@@ -162,14 +169,17 @@ $companies = $activeReport['perusahaan_mitra'] ?? [];
     border: none;
     background: transparent;
     color: #475569;
-    padding: 8px 18px;
-    border-radius: 8px;
+    padding: 7px 18px;
+    border-radius: 7px;
     font-size: 13.5px;
     font-weight: 700;
     cursor: pointer;
     font-family: var(--font-title, 'Montserrat', sans-serif);
     transition: all 0.2s ease;
     user-select: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
 }
 
 .report-type-btn.active {
@@ -181,6 +191,19 @@ $companies = $activeReport['perusahaan_mitra'] ?? [];
 .report-type-btn:hover:not(.active) {
     color: var(--color-primary, #09377D);
     background: rgba(9, 55, 125, 0.05);
+}
+
+.report-type-btn .count-tag {
+    font-size: 11px;
+    padding: 1px 6px;
+    border-radius: 9999px;
+    font-weight: 700;
+    background: rgba(0, 0, 0, 0.08);
+}
+
+.report-type-btn.active .count-tag {
+    background: rgba(255, 255, 255, 0.25);
+    color: #ffffff;
 }
 
 .report-cms-status {
@@ -201,7 +224,7 @@ $companies = $activeReport['perusahaan_mitra'] ?? [];
     box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
 }
 
-/* Sub-Row: Selector Periode (Bulan & Tahun) */
+/* Baris Selector Periode */
 .report-selectors-row {
     display: flex;
     align-items: center;
@@ -217,14 +240,14 @@ $companies = $activeReport['perusahaan_mitra'] ?? [];
 }
 
 .selector-label {
-    font-size: 12.5px;
+    font-size: 12px;
     font-weight: 700;
     color: var(--color-text-muted, #64748b);
     text-transform: uppercase;
-    letter-spacing: 0.03em;
+    letter-spacing: 0.04em;
 }
 
-.year-pills, .month-pills {
+.pills-container {
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
@@ -235,7 +258,7 @@ $companies = $activeReport['perusahaan_mitra'] ?? [];
     background: #f8fafc;
     border: 1px solid #e2e8f0;
     color: #334155;
-    padding: 6px 13px;
+    padding: 6px 14px;
     border-radius: 7px;
     font-size: 12.5px;
     font-weight: 600;
@@ -246,7 +269,7 @@ $companies = $activeReport['perusahaan_mitra'] ?? [];
     text-decoration: none;
     display: inline-flex;
     align-items: center;
-    gap: 5px;
+    gap: 6px;
 }
 
 .period-pill:hover {
@@ -260,35 +283,6 @@ $companies = $activeReport['perusahaan_mitra'] ?? [];
     color: #ffffff;
     border-color: var(--color-primary, #09377D);
     box-shadow: 0 2px 6px rgba(9, 55, 125, 0.2);
-}
-
-.period-pill.disabled {
-    opacity: 0.45;
-    cursor: not-allowed;
-    background: #f1f5f9;
-}
-
-.period-pill .pill-tag {
-    font-size: 10px;
-    padding: 1px 5px;
-    border-radius: 4px;
-    font-weight: 700;
-    text-transform: uppercase;
-}
-
-.period-pill.active .pill-tag {
-    background: rgba(255, 255, 255, 0.25);
-    color: #ffffff;
-}
-
-.period-pill:not(.active) .pill-tag.tag-avail {
-    background: rgba(9, 55, 125, 0.08);
-    color: var(--color-primary, #09377D);
-}
-
-.period-pill:not(.active) .pill-tag.tag-process {
-    background: rgba(234, 179, 8, 0.15);
-    color: #854d0e;
 }
 
 /* Active Context Banner Bar */
@@ -316,25 +310,25 @@ $companies = $activeReport['perusahaan_mitra'] ?? [];
 .active-bar-meta {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
     color: #64748b;
     font-size: 12px;
 }
 
 /* ==========================================================================
-   KPI CARDS (CLEAN & MINIMALIST - NO ICON CLUTTER)
+   KPI HIGHLIGHT CARDS (MURNI TIPOGRAFI, BEBAS ICON)
    ========================================================================== */
 .kpi-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 16px;
-    margin-bottom: 28px;
+    margin-bottom: 26px;
 }
 
 .kpi-card {
     background: #ffffff;
     border: 1px solid var(--color-border, #e2e8f0);
-    border-radius: var(--radius-lg, 12px);
+    border-radius: 12px;
     padding: 22px 20px;
     box-shadow: 0 1px 3px rgba(15, 23, 42, 0.03);
     transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
@@ -377,11 +371,11 @@ $companies = $activeReport['perusahaan_mitra'] ?? [];
 }
 
 /* ==========================================================================
-   CONTENT BOX WRAPPER (TYPOGRAPHY-FIRST HEADERS)
+   CONTENT BOX (BOX TITLES BEBAS DARI ICON)
    ========================================================================== */
 .content-box {
     background: #ffffff;
-    border-radius: var(--radius-xl, 14px);
+    border-radius: 14px;
     border: 1px solid var(--color-border, #e2e8f0);
     box-shadow: 0 1px 3px rgba(15, 23, 42, 0.03);
     padding: 26px 28px;
@@ -419,7 +413,7 @@ $companies = $activeReport['perusahaan_mitra'] ?? [];
 }
 
 /* ==========================================================================
-   TARGET VS REALISASI (CLEAN LIST & PROGRESS)
+   TARGET VS REALISASI SASARAN STRATEGIS
    ========================================================================== */
 .targets-list {
     display: flex;
@@ -538,7 +532,7 @@ $companies = $activeReport['perusahaan_mitra'] ?? [];
 }
 
 /* ==========================================================================
-   VISUALISASI PESERTA WEBINAR
+   SEBARAN PESERTA WEBINAR
    ========================================================================== */
 .analytics-panel {
     display: grid;
@@ -641,7 +635,7 @@ $companies = $activeReport['perusahaan_mitra'] ?? [];
 }
 
 /* ==========================================================================
-   PERUSAHAAN TERLAYANI (RINGKAS & BERSIH)
+   PERUSAHAAN TERLAYANI
    ========================================================================== */
 .companies-grid {
     display: grid;
@@ -674,8 +668,8 @@ $companies = $activeReport['perusahaan_mitra'] ?? [];
 }
 
 .company-logo-frame {
-    width: 50px;
-    height: 50px;
+    width: 48px;
+    height: 48px;
     background: #f8fafc;
     border: 1px solid var(--color-border, #e2e8f0);
     border-radius: 8px;
@@ -794,6 +788,34 @@ $companies = $activeReport['perusahaan_mitra'] ?? [];
 }
 
 /* ==========================================================================
+   EMPTY STATE (KETIKA PERIODE BELUM ADA DATA DARI CMS)
+   ========================================================================== */
+.empty-report-card {
+    background: #ffffff;
+    border: 1px dashed var(--color-border, #cbd5e1);
+    border-radius: 14px;
+    padding: 48px 24px;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.empty-report-card h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--color-primary, #09377D);
+    margin: 0 0 8px;
+    font-family: var(--font-title, 'Montserrat', sans-serif);
+}
+
+.empty-report-card p {
+    font-size: 14px;
+    color: #64748b;
+    max-width: 540px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+/* ==========================================================================
    RESPONSIVE
    ========================================================================== */
 @media (max-width: 992px) {
@@ -859,10 +881,11 @@ $companies = $activeReport['perusahaan_mitra'] ?? [];
 
         <!-- ==================================================================
              MENU FILTER PERIODE CMS: MONTHLY REPORT & YEARLY REPORT
+             (OTOMATIS BERIKUT DATA YANG ADA / DIPUSH DARI CMS)
              ================================================================== -->
         <section class="report-period-panel" aria-label="Menu Periode Laporan Kinerja">
             
-            <!-- Baris Atas: Toggle Tipe Laporan & Indikator Status CMS -->
+            <!-- Baris Atas: Toggle Tipe Laporan (Bulanan vs Tahunan) -->
             <div class="report-period-top">
                 <div class="report-type-toggle" role="tablist">
                     <button type="button" 
@@ -871,7 +894,10 @@ $companies = $activeReport['perusahaan_mitra'] ?? [];
                             id="btnTypeBulanan"
                             role="tab"
                             aria-selected="{{ $currentTipe === 'bulanan' ? 'true' : 'false' }}">
-                        Laporan Bulanan
+                        <span>Laporan Bulanan</span>
+                        @if ($options['monthly_count'] ?? 0)
+                            <span class="count-tag">{{ $options['monthly_count'] }}</span>
+                        @endif
                     </button>
                     <button type="button" 
                             class="report-type-btn {{ $currentTipe === 'tahunan' ? 'active' : '' }}" 
@@ -879,7 +905,10 @@ $companies = $activeReport['perusahaan_mitra'] ?? [];
                             id="btnTypeTahunan"
                             role="tab"
                             aria-selected="{{ $currentTipe === 'tahunan' ? 'true' : 'false' }}">
-                        Laporan Tahunan
+                        <span>Laporan Tahunan</span>
+                        @if ($options['yearly_count'] ?? 0)
+                            <span class="count-tag">{{ $options['yearly_count'] }}</span>
+                        @endif
                     </button>
                 </div>
 
@@ -889,47 +918,45 @@ $companies = $activeReport['perusahaan_mitra'] ?? [];
                 </div>
             </div>
 
-            <!-- Baris Selector: Pemilihan Tahun & Bulan -->
-            <div class="report-selectors-row">
+            <!-- Baris Selector: Tahun & Bulan (Opsi Dinamis Berdasarkan Data Riil) -->
+            <div class="report-selectors-row" id="reportSelectorsRow">
                 
-                <!-- Selector Tahun -->
-                <div class="selector-group">
+                <!-- Selector Tahun (Muncul jika ada tahun yang tersedia) -->
+                <div class="selector-group" id="yearSelectorGroup">
                     <span class="selector-label">Tahun:</span>
-                    <div class="year-pills" id="yearPillsWrap">
-                        @foreach ($daftarTahun as $thn)
-                            <button type="button" 
-                                    class="period-pill {{ $currentTahun === (int)$thn ? 'active' : '' }}" 
-                                    data-year="{{ $thn }}">
-                                {{ $thn }}
-                            </button>
-                        @endforeach
+                    <div class="pills-container" id="yearPillsWrap">
+                        @php
+                            $activeYearsList = ($currentTipe === 'tahunan') ? $yearlyYears : $monthlyYears;
+                        @endphp
+                        @if (!empty($activeYearsList))
+                            @foreach ($activeYearsList as $thn)
+                                <button type="button" 
+                                        class="period-pill {{ $currentTahun === (int)$thn ? 'active' : '' }}" 
+                                        data-year="{{ $thn }}">
+                                    {{ $thn }}
+                                </button>
+                            @endforeach
+                        @else
+                            <span style="font-size: 12.5px; color: #94a3b8; font-style: italic;">Belum ada data tahun</span>
+                        @endif
                     </div>
                 </div>
 
-                <!-- Selector Bulan (Tampil saat mode Laporan Bulanan) -->
+                <!-- Selector Bulan (Hanya muncul pada mode Laporan Bulanan dan hanya untuk bulan yang ada datanya) -->
                 <div class="selector-group" id="monthSelectorGroup" style="{{ $currentTipe === 'tahunan' ? 'display: none;' : '' }}">
                     <span class="selector-label">Bulan:</span>
-                    <div class="month-pills" id="monthPillsWrap">
-                        @foreach ($daftarBulan as $bln)
-                            @php
-                                $bId = $bln['id'];
-                                $isCurrent = ($currentBulan === $bId);
-                                $isAvailable = ($bln['status'] === 'tersedia');
-                                $isProcess = ($bln['status'] === 'berjalan');
-                            @endphp
-                            <button type="button" 
-                                    class="period-pill {{ $isCurrent ? 'active' : '' }} {{ (!$isAvailable && !$isProcess) ? 'disabled' : '' }}" 
-                                    data-month="{{ $bId }}"
-                                    {{ (!$isAvailable && !$isProcess) ? 'disabled' : '' }}
-                                    title="{{ $bln['nama'] }} {{ $currentTahun }}">
-                                <span>{{ $bln['singkat'] }}</span>
-                                @if ($isAvailable)
-                                    <span class="pill-tag tag-avail">Tersedia</span>
-                                @elseif ($isProcess)
-                                    <span class="pill-tag tag-process">Proses</span>
-                                @endif
-                            </button>
-                        @endforeach
+                    <div class="pills-container" id="monthPillsWrap">
+                        @if (!empty($availableMonthsForCurrentYear))
+                            @foreach ($availableMonthsForCurrentYear as $bId => $bData)
+                                <button type="button" 
+                                        class="period-pill {{ $currentBulan === (string)$bId ? 'active' : '' }}" 
+                                        data-month="{{ $bId }}">
+                                    {{ $bData['nama'] }}
+                                </button>
+                            @endforeach
+                        @else
+                            <span style="font-size: 12.5px; color: #94a3b8; font-style: italic;">Belum ada data bulan</span>
+                        @endif
                     </div>
                 </div>
 
@@ -950,187 +977,201 @@ $companies = $activeReport['perusahaan_mitra'] ?? [];
 
         </section>
 
-        <!-- ==================================================================
-             KPI HIGHLIGHT CARDS (CLEAN & MINIMALIST - PURE TYPOGRAPHY)
-             ================================================================== -->
-        <section class="kpi-grid" id="kpiGridContainer" aria-label="Ringkasan Indikator Kinerja Utama">
-            @foreach ($kpiList as $item)
-                <div class="kpi-card" data-kpi-id="{{ $item['id'] ?? '' }}">
-                    <div class="kpi-label">{{ $item['label'] ?? '' }}</div>
-                    <div class="kpi-value">{{ $item['format'] ?? number_format($item['nilai'] ?? 0) }}</div>
-                    <div class="kpi-desc">{{ $item['keterangan'] ?? '' }}</div>
-                </div>
-            @endforeach
-        </section>
-
-        <!-- ==================================================================
-             SECTION 1: SASARAN STRATEGIS & TARGET VS REALISASI
-             ================================================================== -->
-        <section class="content-box">
-            <div class="box-title-wrap">
-                <h2 class="box-title">
-                    Sasaran Strategis &amp; Target vs Realisasi
-                </h2>
-                <span class="box-tag" id="sasaranBoxTag">Perjanjian Kinerja Resmi {{ $currentTahun }}</span>
-            </div>
-
-            <div class="targets-list" id="targetsListContainer">
-                @foreach ($sasaranList as $sas)
-                    @php
-                        $targetVal = $sas['target'] ?? 0;
-                        $realVal = $sas['realisasi'] ?? 0;
-                        $persen = $sas['persen'] ?? 0;
-                        $barWidth = min(100, max(0, $persen));
-                        $badgeClass = ($persen >= 100) ? 'badge-success' : (($persen > 0) ? 'badge-running' : 'badge-scheduled');
-                        $badgeText = ($persen >= 100) ? number_format($persen, 1) . '% (Tercapai)' : (($persen > 0) ? number_format($persen, 2) . '% (Berjalan)' : 'Terjadwal TW-II');
-                    @endphp
-                    <article class="target-item">
-                        <div class="target-header">
-                            <div>
-                                <div class="target-title">{{ $sas['sasaran'] ?? '' }}</div>
-                                <div class="target-indicator">
-                                    <strong>Indikator:</strong> {{ $sas['indikator'] ?? '' }}
-                                </div>
-                            </div>
-                            <span class="target-badge {{ $badgeClass }}">{{ $badgeText }}</span>
+        <!-- KONTENER KONTEN LAPORAN (ATAU EMPTY STATE JIKA BELUM ADA DATA) -->
+        <div id="reportContentWrap">
+            @if ($activeReport)
+                <!-- ==================================================================
+                     KPI HIGHLIGHT CARDS (MURNI TIPOGRAFI, BEBAS ICON)
+                     ================================================================== -->
+                <section class="kpi-grid" id="kpiGridContainer" aria-label="Ringkasan Indikator Kinerja Utama">
+                    @foreach ($kpiList as $item)
+                        <div class="kpi-card" data-kpi-id="{{ $item['id'] ?? '' }}">
+                            <div class="kpi-label">{{ $item['label'] ?? '' }}</div>
+                            <div class="kpi-value">{{ $item['format'] ?? number_format($item['nilai'] ?? 0) }}</div>
+                            <div class="kpi-desc">{{ $item['keterangan'] ?? '' }}</div>
                         </div>
+                    @endforeach
+                </section>
 
-                        <div class="progress-wrap">
-                            <div class="progress-meta">
-                                <span class="progress-target-text">
-                                    Target: <strong>{{ number_format($targetVal) }} {{ $sas['satuan'] ?? '' }}</strong>
-                                </span>
-                                <span class="progress-realisasi-text">
-                                    Realisasi: <strong>{{ number_format($realVal) }} {{ $sas['satuan'] ?? '' }}</strong>
-                                </span>
-                            </div>
-                            <div class="progress-bar-bg">
-                                <div class="progress-bar-fill" style="width: {{ $barWidth }}%;"></div>
-                            </div>
-                        </div>
-
-                        <div class="target-keterangan">
-                            {{ $sas['keterangan'] ?? '' }}
-                        </div>
-                    </article>
-                @endforeach
-            </div>
-        </section>
-
-        <!-- ==================================================================
-             SECTION 2: SEBARAN PESERTA EDUKASI & WEBINAR
-             ================================================================== -->
-        <section class="content-box">
-            <div class="box-title-wrap">
-                <h2 class="box-title" id="sebaranTitle">
-                    {{ $sebaran['judul'] ?? 'Rincian Peserta Webinar Nasional (Toolbox Meeting)' }}
-                </h2>
-                <span class="box-tag" id="sebaranTotalTag">Total: {{ number_format($sebaran['total'] ?? 0) }} Peserta</span>
-            </div>
-
-            <div class="analytics-panel">
-                <!-- Kolom Kiri: Doughnut Chart dengan Metric Angka di Tengah -->
-                <div class="chart-doughnut-wrap">
-                    <canvas id="chartSebaranPeserta"></canvas>
-                    <div class="chart-center-metric">
-                        <div class="center-num" id="chartCenterNum">{{ number_format($sebaran['total'] ?? 0) }}</div>
-                        <div class="center-lbl">Peserta</div>
+                <!-- ==================================================================
+                     SECTION 1: SASARAN STRATEGIS & TARGET VS REALISASI
+                     ================================================================== -->
+                <section class="content-box">
+                    <div class="box-title-wrap">
+                        <h2 class="box-title">
+                            Sasaran Strategis &amp; Target vs Realisasi
+                        </h2>
+                        <span class="box-tag" id="sasaranBoxTag">Perjanjian Kinerja Resmi {{ $currentTahun }}</span>
                     </div>
-                </div>
 
-                <!-- Kolom Kanan: Rincian Lengkap Kategori dengan Bar Proporsional -->
-                <div class="category-breakdown-list" id="categoryBreakdownContainer">
-                    @if (!empty($sebaran['kategori']))
-                        @foreach ($sebaran['kategori'] as $kat)
+                    <div class="targets-list" id="targetsListContainer">
+                        @foreach ($sasaranList as $sas)
                             @php
-                                $barW = min(100, max(0, $kat['persen'] ?? 0));
-                                $color = $kat['warna'] ?? '#09377D';
+                                $targetVal = $sas['target'] ?? 0;
+                                $realVal = $sas['realisasi'] ?? 0;
+                                $persen = $sas['persen'] ?? 0;
+                                $barWidth = min(100, max(0, $persen));
+                                $badgeClass = ($persen >= 100) ? 'badge-success' : (($persen > 0) ? 'badge-running' : 'badge-scheduled');
+                                $badgeText = ($persen >= 100) ? number_format($persen, 1) . '% (Tercapai)' : (($persen > 0) ? number_format($persen, 2) . '% (Berjalan)' : 'Terjadwal TW-II');
                             @endphp
-                            <div class="category-row">
-                                <div class="cat-row-top">
-                                    <div class="cat-label-wrap">
-                                        <span class="cat-dot" style="background: {{ $color }};"></span>
-                                        <span>{{ $kat['label'] ?? '' }}</span>
+                            <article class="target-item">
+                                <div class="target-header">
+                                    <div>
+                                        <div class="target-title">{{ $sas['sasaran'] ?? '' }}</div>
+                                        <div class="target-indicator">
+                                            <strong>Indikator:</strong> {{ $sas['indikator'] ?? '' }}
+                                        </div>
                                     </div>
-                                    <div class="cat-stat-nums">
-                                        <strong>{{ number_format($kat['jumlah'] ?? 0) }}</strong> Orang 
-                                        ({{ number_format($kat['persen'] ?? 0, 1) }}%)
+                                    <span class="target-badge {{ $badgeClass }}">{{ $badgeText }}</span>
+                                </div>
+
+                                <div class="progress-wrap">
+                                    <div class="progress-meta">
+                                        <span class="progress-target-text">
+                                            Target: <strong>{{ number_format($targetVal) }} {{ $sas['satuan'] ?? '' }}</strong>
+                                        </span>
+                                        <span class="progress-realisasi-text">
+                                            Realisasi: <strong>{{ number_format($realVal) }} {{ $sas['satuan'] ?? '' }}</strong>
+                                        </span>
+                                    </div>
+                                    <div class="progress-bar-bg">
+                                        <div class="progress-bar-fill" style="width: {{ $barWidth }}%;"></div>
                                     </div>
                                 </div>
-                                <div class="cat-progress-bg">
-                                    <div class="cat-progress-bar" style="width: {{ $barW }}%; background: {{ $color }};"></div>
+
+                                <div class="target-keterangan">
+                                    {{ $sas['keterangan'] ?? '' }}
                                 </div>
-                            </div>
+                            </article>
                         @endforeach
-                    @endif
+                    </div>
+                </section>
+
+                <!-- ==================================================================
+                     SECTION 2: SEBARAN PESERTA EDUKASI & WEBINAR
+                     ================================================================== -->
+                <section class="content-box">
+                    <div class="box-title-wrap">
+                        <h2 class="box-title" id="sebaranTitle">
+                            {{ $sebaran['judul'] ?? 'Rincian Peserta Webinar Nasional (Toolbox Meeting)' }}
+                        </h2>
+                        <span class="box-tag" id="sebaranTotalTag">Total: {{ number_format($sebaran['total'] ?? 0) }} Peserta</span>
+                    </div>
+
+                    <div class="analytics-panel">
+                        <!-- Kolom Kiri: Doughnut Chart dengan Metric Angka di Tengah -->
+                        <div class="chart-doughnut-wrap">
+                            <canvas id="chartSebaranPeserta"></canvas>
+                            <div class="chart-center-metric">
+                                <div class="center-num" id="chartCenterNum">{{ number_format($sebaran['total'] ?? 0) }}</div>
+                                <div class="center-lbl">Peserta</div>
+                            </div>
+                        </div>
+
+                        <!-- Kolom Kanan: Rincian Lengkap Kategori dengan Bar Proporsional -->
+                        <div class="category-breakdown-list" id="categoryBreakdownContainer">
+                            @if (!empty($sebaran['kategori']))
+                                @foreach ($sebaran['kategori'] as $kat)
+                                    @php
+                                        $barW = min(100, max(0, $kat['persen'] ?? 0));
+                                        $color = $kat['warna'] ?? '#09377D';
+                                    @endphp
+                                    <div class="category-row">
+                                        <div class="cat-row-top">
+                                            <div class="cat-label-wrap">
+                                                <span class="cat-dot" style="background: {{ $color }};"></span>
+                                                <span>{{ $kat['label'] ?? '' }}</span>
+                                            </div>
+                                            <div class="cat-stat-nums">
+                                                <strong>{{ number_format($kat['jumlah'] ?? 0) }}</strong> Orang 
+                                                ({{ number_format($kat['persen'] ?? 0, 1) }}%)
+                                            </div>
+                                        </div>
+                                        <div class="cat-progress-bg">
+                                            <div class="cat-progress-bar" style="width: {{ $barW }}%; background: {{ $color }};"></div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            @endif
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ==================================================================
+                     SECTION 3: PERUSAHAAN MITRA TERLAYANI
+                     ================================================================== -->
+                <section class="content-box">
+                    <div class="box-title-wrap">
+                        <h2 class="box-title">
+                            Perusahaan yang Telah Memperoleh Layanan Pengujian K3
+                        </h2>
+                        <span class="box-tag" id="companiesTotalTag">Total: {{ count($companies) }} Perusahaan</span>
+                    </div>
+
+                    <div class="companies-grid" id="companiesGridContainer">
+                        @foreach ($companies as $comp)
+                            @php
+                                $logoUrl = $comp['resolved_logo'] ?? '';
+                                $domain = $comp['domain'] ?? '';
+                                $initials = $comp['initials'] ?? 'K3';
+                            @endphp
+                            <article class="company-card">
+                                <div class="company-header">
+                                    <div class="company-logo-frame" title="{{ $comp['nama'] ?? '' }}">
+                                        @if (!empty($logoUrl))
+                                            <img src="{{ $logoUrl }}" 
+                                                 alt="Logo {{ $comp['singkatan'] ?? $comp['nama'] }}" 
+                                                 class="company-logo-img"
+                                                 data-domain="{{ $domain }}"
+                                                 data-initials="{{ $initials }}"
+                                                 onerror="handleCompanyLogoError(this)">
+                                        @else
+                                            <div class="company-avatar-fallback">{{ $initials }}</div>
+                                        @endif
+                                    </div>
+
+                                    <div class="company-title-info">
+                                        <h3 class="company-name">{{ $comp['nama'] ?? '' }}</h3>
+                                        <div class="company-bidang">{{ $comp['bidang'] ?? '' }}</div>
+                                    </div>
+                                </div>
+
+                                <div class="company-badges">
+                                    <span class="comp-badge-service">{{ $comp['layanan'] ?? 'Pengujian K3' }}</span>
+                                    <span class="comp-badge-status">{{ $comp['status'] ?? 'Selesai Terverifikasi' }}</span>
+                                </div>
+
+                                <div class="company-details-table">
+                                    <div class="comp-detail-row">
+                                        <span class="label">Lokasi:</span>
+                                        <span class="val">{{ $comp['lokasi'] ?? 'Sumatera Utara' }}</span>
+                                    </div>
+                                    <div class="comp-detail-row">
+                                        <span class="label">Periode:</span>
+                                        <span class="val">{{ $comp['periode'] ?? $periodeLabel }}</span>
+                                    </div>
+                                </div>
+                            </article>
+                        @endforeach
+                    </div>
+                </section>
+            @else
+                <!-- EMPTY STATE: JIKA BELUM ADA DATA YANG DIPUSH DARI CMS -->
+                <div class="empty-report-card" id="emptyReportState">
+                    <h3>Data Laporan Belum Dipublikasikan</h3>
+                    <p>
+                        Belum ada data capaian kinerja yang diunggah dari CMS untuk periode yang dipilih.
+                        Data akan otomatis tampil di halaman ini begitu admin mempublikasikan laporan melalui CMS.
+                    </p>
                 </div>
-            </div>
-        </section>
-
-        <!-- ==================================================================
-             SECTION 3: PERUSAHAAN MITRA TERLAYANI
-             ================================================================== -->
-        <section class="content-box">
-            <div class="box-title-wrap">
-                <h2 class="box-title">
-                    Perusahaan yang Telah Memperoleh Layanan Pengujian K3
-                </h2>
-                <span class="box-tag" id="companiesTotalTag">Total: {{ count($companies) }} Perusahaan</span>
-            </div>
-
-            <div class="companies-grid" id="companiesGridContainer">
-                @foreach ($companies as $comp)
-                    @php
-                        $logoUrl = $comp['resolved_logo'] ?? '';
-                        $domain = $comp['domain'] ?? '';
-                        $initials = $comp['initials'] ?? 'K3';
-                    @endphp
-                    <article class="company-card">
-                        <div class="company-header">
-                            <div class="company-logo-frame" title="{{ $comp['nama'] ?? '' }}">
-                                @if (!empty($logoUrl))
-                                    <img src="{{ $logoUrl }}" 
-                                         alt="Logo {{ $comp['singkatan'] ?? $comp['nama'] }}" 
-                                         class="company-logo-img"
-                                         data-domain="{{ $domain }}"
-                                         data-initials="{{ $initials }}"
-                                         onerror="handleCompanyLogoError(this)">
-                                @else
-                                    <div class="company-avatar-fallback">{{ $initials }}</div>
-                                @endif
-                            </div>
-
-                            <div class="company-title-info">
-                                <h3 class="company-name">{{ $comp['nama'] ?? '' }}</h3>
-                                <div class="company-bidang">{{ $comp['bidang'] ?? '' }}</div>
-                            </div>
-                        </div>
-
-                        <div class="company-badges">
-                            <span class="comp-badge-service">{{ $comp['layanan'] ?? 'Pengujian K3' }}</span>
-                            <span class="comp-badge-status">{{ $comp['status'] ?? 'Selesai Terverifikasi' }}</span>
-                        </div>
-
-                        <div class="company-details-table">
-                            <div class="comp-detail-row">
-                                <span class="label">Lokasi:</span>
-                                <span class="val">{{ $comp['lokasi'] ?? 'Sumatera Utara' }}</span>
-                            </div>
-                            <div class="comp-detail-row">
-                                <span class="label">Periode:</span>
-                                <span class="val">{{ $comp['periode'] ?? $periodeLabel }}</span>
-                            </div>
-                        </div>
-                    </article>
-                @endforeach
-            </div>
-        </section>
+            @endif
+        </div>
 
     </div>
 </div>
 
 <!-- ==========================================================================
-     DATA BUNDLE DARI CMS & SCRIPT FILTER INTERAKTIF
+     SCRIPT SINKRONISASI DATA DINAMIS & RESPONSIF DARI CMS
      ========================================================================== -->
 <script>
 window.CAPAIAN_BUNDLE = <?= json_encode($bundle, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>;
@@ -1167,10 +1208,70 @@ document.addEventListener('DOMContentLoaded', function() {
     const monthSelectorGroup = document.getElementById('monthSelectorGroup');
     const yearPillsWrap = document.getElementById('yearPillsWrap');
     const monthPillsWrap = document.getElementById('monthPillsWrap');
+    const reportContentWrap = document.getElementById('reportContentWrap');
 
     let doughnutChartInstance = null;
 
-    // Inisialisasi Chart.js
+    const bundle = window.CAPAIAN_BUNDLE || {};
+    const options = bundle.options || {};
+    const bulananMap = bundle.bulanan || {};
+    const tahunanMap = bundle.tahunan || {};
+
+    // Render pills tahun sesuai tipe aktif
+    function updateYearPills() {
+        if (!yearPillsWrap) return;
+        const years = (currentTipe === 'tahunan') ? (options.yearly_years || []) : (options.monthly_years || []);
+        
+        if (years.length === 0) {
+            yearPillsWrap.innerHTML = '<span style="font-size: 12.5px; color: #94a3b8; font-style: italic;">Belum ada data tahun</span>';
+            return;
+        }
+
+        let html = '';
+        years.forEach(thn => {
+            const activeCls = (currentTahun === parseInt(thn, 10)) ? 'active' : '';
+            html += `<button type="button" class="period-pill ${activeCls}" data-year="${thn}">${thn}</button>`;
+        });
+        yearPillsWrap.innerHTML = html;
+    }
+
+    // Render pills bulan sesuai tahun yang dipilih
+    function updateMonthPills() {
+        if (!monthPillsWrap) return;
+        if (currentTipe === 'tahunan') {
+            if (monthSelectorGroup) monthSelectorGroup.style.display = 'none';
+            return;
+        }
+
+        if (monthSelectorGroup) monthSelectorGroup.style.display = 'flex';
+        const monthsForYear = (options.monthly_map && options.monthly_map[currentTahun]) ? options.monthly_map[currentTahun] : {};
+        const monthKeys = Object.keys(monthsForYear);
+
+        if (monthKeys.length === 0) {
+            monthPillsWrap.innerHTML = '<span style="font-size: 12.5px; color: #94a3b8; font-style: italic;">Belum ada data bulan</span>';
+            return;
+        }
+
+        let html = '';
+        monthKeys.forEach(bId => {
+            const bData = monthsForYear[bId];
+            const activeCls = (currentBulan === String(bId)) ? 'active' : '';
+            html += `<button type="button" class="period-pill ${activeCls}" data-month="${bId}">${bData.nama || bId}</button>`;
+        });
+        monthPillsWrap.innerHTML = html;
+    }
+
+    // Mengambil dataset aktif
+    function getActiveDataset(tipe, tahun, bulan) {
+        if (tipe === 'tahunan') {
+            return tahunanMap[String(tahun)] || null;
+        } else {
+            const key = tahun + '-' + String(bulan).padStart(2, '0');
+            return bulananMap[key] || null;
+        }
+    }
+
+    // Update Chart.js
     function initOrUpdateChart(sebaranData, totalPeserta) {
         if (typeof Chart === 'undefined') return;
 
@@ -1236,54 +1337,31 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Mengambil dataset aktif dari bundle
-    function getActiveDataset(tipe, tahun, bulan) {
-        if (!window.CAPAIAN_BUNDLE) return null;
-
-        if (tipe === 'tahunan') {
-            const tahunanMap = window.CAPAIAN_BUNDLE.tahunan || {};
-            if (tahunanMap[String(tahun)]) {
-                return tahunanMap[String(tahun)];
-            }
-            const firstKey = Object.keys(tahunanMap)[0];
-            return firstKey ? tahunanMap[firstKey] : null;
-        } else {
-            const bulananMap = window.CAPAIAN_BUNDLE.bulanan || {};
-            const key = tahun + '-' + String(bulan).padStart(2, '0');
-            if (bulananMap[key]) {
-                return bulananMap[key];
-            }
-            const firstKey = Object.keys(bulananMap)[0];
-            return firstKey ? bulananMap[firstKey] : null;
-        }
-    }
-
-    // Render ulang seluruh konten halaman sesuai periode yang dipilih
+    // Render ulang tampilan utama saat opsi diubah
     function renderReportView(tipe, tahun, bulan) {
-        const dataset = getActiveDataset(tipe, tahun, bulan);
-        if (!dataset) return;
+        updateYearPills();
+        updateMonthPills();
 
-        // 1. Update Periode & Title Labels
+        const dataset = getActiveDataset(tipe, tahun, bulan);
+
         const activePeriodLabel = document.getElementById('activePeriodLabel');
         const activeBadgeLabel = document.getElementById('activeBadgeLabel');
         const capaianDescText = document.getElementById('capaianDescText');
-        const sasaranBoxTag = document.getElementById('sasaranBoxTag');
 
-        if (activePeriodLabel) activePeriodLabel.textContent = dataset.periode_label || '';
-        if (activeBadgeLabel) activeBadgeLabel.textContent = dataset.badge_periode || (tipe === 'tahunan' ? 'Rekap Tahunan' : 'Laporan Bulanan');
-        if (capaianDescText && dataset.ringkasan_eksekutif) {
-            capaianDescText.textContent = dataset.ringkasan_eksekutif.deskripsi || '';
-        }
-        if (sasaranBoxTag) {
-            sasaranBoxTag.textContent = 'Perjanjian Kinerja Resmi ' + tahun;
-        }
+        if (dataset) {
+            if (activePeriodLabel) activePeriodLabel.textContent = dataset.periode_label || '';
+            if (activeBadgeLabel) activeBadgeLabel.textContent = dataset.badge_periode || (tipe === 'tahunan' ? 'Laporan Tahunan' : 'Laporan Bulanan');
+            if (capaianDescText && dataset.ringkasan_eksekutif) {
+                capaianDescText.textContent = dataset.ringkasan_eksekutif.deskripsi || '';
+            }
 
-        // 2. Update KPI Grid
-        const kpiGrid = document.getElementById('kpiGridContainer');
-        if (kpiGrid && dataset.kpi_utama) {
-            let kpiHtml = '';
-            dataset.kpi_utama.forEach(item => {
-                kpiHtml += `
+            // Bangun tampilan data lengkap
+            let html = `
+                <!-- KPI GRID -->
+                <section class="kpi-grid" id="kpiGridContainer" aria-label="Ringkasan Indikator Kinerja Utama">
+            `;
+            (dataset.kpi_utama || []).forEach(item => {
+                html += `
                     <div class="kpi-card" data-kpi-id="${item.id || ''}">
                         <div class="kpi-label">${item.label || ''}</div>
                         <div class="kpi-value">${item.format || (item.nilai || 0).toLocaleString('id-ID')}</div>
@@ -1291,21 +1369,18 @@ document.addEventListener('DOMContentLoaded', function() {
                     </div>
                 `;
             });
-            kpiGrid.innerHTML = kpiHtml;
+            html += `</section>`;
 
-            // Efek transisi halus Motion
-            if (typeof Motion !== 'undefined') {
-                try {
-                    Motion.animate(kpiGrid.querySelectorAll('.kpi-card'), { opacity: [0.6, 1], y: [8, 0] }, { duration: 0.25, ease: 'ease-out' });
-                } catch(e) {}
-            }
-        }
-
-        // 3. Update Sasaran Strategis List
-        const targetsList = document.getElementById('targetsListContainer');
-        if (targetsList && dataset.sasaran_strategis) {
-            let targetHtml = '';
-            dataset.sasaran_strategis.forEach(sas => {
+            // SASARAN STRATEGIS
+            html += `
+                <section class="content-box">
+                    <div class="box-title-wrap">
+                        <h2 class="box-title">Sasaran Strategis &amp; Target vs Realisasi</h2>
+                        <span class="box-tag">Perjanjian Kinerja Resmi ${tahun}</span>
+                    </div>
+                    <div class="targets-list">
+            `;
+            (dataset.sasaran_strategis || []).forEach(sas => {
                 const targetVal = sas.target || 0;
                 const realVal = sas.realisasi || 0;
                 const persen = sas.persen || 0;
@@ -1313,56 +1388,52 @@ document.addEventListener('DOMContentLoaded', function() {
                 const badgeClass = (persen >= 100) ? 'badge-success' : ((persen > 0) ? 'badge-running' : 'badge-scheduled');
                 const badgeText = (persen >= 100) ? persen.toFixed(1) + '% (Tercapai)' : ((persen > 0) ? persen.toFixed(2) + '% (Berjalan)' : 'Terjadwal TW-II');
 
-                targetHtml += `
+                html += `
                     <article class="target-item">
                         <div class="target-header">
                             <div>
                                 <div class="target-title">${sas.sasaran || ''}</div>
-                                <div class="target-indicator">
-                                    <strong>Indikator:</strong> ${sas.indikator || ''}
-                                </div>
+                                <div class="target-indicator"><strong>Indikator:</strong> ${sas.indikator || ''}</div>
                             </div>
                             <span class="target-badge ${badgeClass}">${badgeText}</span>
                         </div>
-
                         <div class="progress-wrap">
                             <div class="progress-meta">
-                                <span class="progress-target-text">
-                                    Target: <strong>${targetVal.toLocaleString('id-ID')} ${sas.satuan || ''}</strong>
-                                </span>
-                                <span class="progress-realisasi-text">
-                                    Realisasi: <strong>${realVal.toLocaleString('id-ID')} ${sas.satuan || ''}</strong>
-                                </span>
+                                <span class="progress-target-text">Target: <strong>${targetVal.toLocaleString('id-ID')} ${sas.satuan || ''}</strong></span>
+                                <span class="progress-realisasi-text">Realisasi: <strong>${realVal.toLocaleString('id-ID')} ${sas.satuan || ''}</strong></span>
                             </div>
                             <div class="progress-bar-bg">
                                 <div class="progress-bar-fill" style="width: ${barWidth}%;"></div>
                             </div>
                         </div>
-
-                        <div class="target-keterangan">
-                            ${sas.keterangan || ''}
-                        </div>
+                        <div class="target-keterangan">${sas.keterangan || ''}</div>
                     </article>
                 `;
             });
-            targetsList.innerHTML = targetHtml;
-        }
+            html += `</div></section>`;
 
-        // 4. Update Sebaran Peserta Webinar & Chart
-        const sebaranTitle = document.getElementById('sebaranTitle');
-        const sebaranTotalTag = document.getElementById('sebaranTotalTag');
-        const catBreakdown = document.getElementById('categoryBreakdownContainer');
-
-        if (dataset.sebaran_peserta_webinar) {
-            const seb = dataset.sebaran_peserta_webinar;
-            if (sebaranTitle) sebaranTitle.textContent = seb.judul || 'Rincian Peserta Edukasi K3';
-            if (sebaranTotalTag) sebaranTotalTag.textContent = 'Total: ' + (seb.total || 0).toLocaleString('id-ID') + ' Peserta';
-
-            let catHtml = '';
+            // SEBARAN PESERTA WEBINAR
+            const seb = dataset.sebaran_peserta_webinar || {};
+            html += `
+                <section class="content-box">
+                    <div class="box-title-wrap">
+                        <h2 class="box-title">${seb.judul || 'Rincian Peserta Edukasi K3'}</h2>
+                        <span class="box-tag">Total: ${(seb.total || 0).toLocaleString('id-ID')} Peserta</span>
+                    </div>
+                    <div class="analytics-panel">
+                        <div class="chart-doughnut-wrap">
+                            <canvas id="chartSebaranPeserta"></canvas>
+                            <div class="chart-center-metric">
+                                <div class="center-num" id="chartCenterNum">${(seb.total || 0).toLocaleString('id-ID')}</div>
+                                <div class="center-lbl">Peserta</div>
+                            </div>
+                        </div>
+                        <div class="category-breakdown-list">
+            `;
             (seb.kategori || []).forEach(kat => {
                 const barW = Math.min(100, Math.max(0, kat.persen || 0));
                 const col = kat.warna || '#09377D';
-                catHtml += `
+                html += `
                     <div class="category-row">
                         <div class="cat-row-top">
                             <div class="cat-label-wrap">
@@ -1370,8 +1441,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                 <span>${kat.label || ''}</span>
                             </div>
                             <div class="cat-stat-nums">
-                                <strong>${(kat.jumlah || 0).toLocaleString('id-ID')}</strong> Orang 
-                                (${(kat.persen || 0).toFixed(1)}%)
+                                <strong>${(kat.jumlah || 0).toLocaleString('id-ID')}</strong> Orang (${(kat.persen || 0).toFixed(1)}%)
                             </div>
                         </div>
                         <div class="cat-progress-bg">
@@ -1380,28 +1450,23 @@ document.addEventListener('DOMContentLoaded', function() {
                     </div>
                 `;
             });
-            if (catBreakdown) catBreakdown.innerHTML = catHtml;
+            html += `</div></div></section>`;
 
-            initOrUpdateChart(seb, seb.total || 0);
-        }
-
-        // 5. Update Perusahaan Mitra Terlayani
-        const companiesGrid = document.getElementById('companiesGridContainer');
-        const companiesTotalTag = document.getElementById('companiesTotalTag');
-        const compList = dataset.perusahaan_mitra || [];
-
-        if (companiesTotalTag) {
-            companiesTotalTag.textContent = 'Total: ' + compList.length + ' Perusahaan';
-        }
-
-        if (companiesGrid) {
-            let compHtml = '';
+            // PERUSAHAAN MITRA
+            const compList = dataset.perusahaan_mitra || [];
+            html += `
+                <section class="content-box">
+                    <div class="box-title-wrap">
+                        <h2 class="box-title">Perusahaan yang Telah Memperoleh Layanan Pengujian K3</h2>
+                        <span class="box-tag">Total: ${compList.length} Perusahaan</span>
+                    </div>
+                    <div class="companies-grid">
+            `;
             compList.forEach(comp => {
                 const logo = comp.resolved_logo || '';
                 const domain = comp.domain || '';
                 const initials = comp.initials || 'K3';
-
-                compHtml += `
+                html += `
                     <article class="company-card">
                         <div class="company-header">
                             <div class="company-logo-frame" title="${comp.nama || ''}">
@@ -1416,18 +1481,15 @@ document.addEventListener('DOMContentLoaded', function() {
                                     <div class="company-avatar-fallback">${initials}</div>
                                 `}
                             </div>
-
                             <div class="company-title-info">
                                 <h3 class="company-name">${comp.nama || ''}</h3>
                                 <div class="company-bidang">${comp.bidang || ''}</div>
                             </div>
                         </div>
-
                         <div class="company-badges">
                             <span class="comp-badge-service">${comp.layanan || 'Pengujian K3'}</span>
                             <span class="comp-badge-status">${comp.status || 'Selesai Terverifikasi'}</span>
                         </div>
-
                         <div class="company-details-table">
                             <div class="comp-detail-row">
                                 <span class="label">Lokasi:</span>
@@ -1441,10 +1503,31 @@ document.addEventListener('DOMContentLoaded', function() {
                     </article>
                 `;
             });
-            companiesGrid.innerHTML = compHtml;
+            html += `</div></section>`;
+
+            if (reportContentWrap) reportContentWrap.innerHTML = html;
+            doughnutChartInstance = null;
+            initOrUpdateChart(seb, seb.total || 0);
+
+        } else {
+            // Render Clean Empty State
+            if (activePeriodLabel) activePeriodLabel.textContent = (tipe === 'tahunan' ? 'Tahun ' + tahun : 'Periode Terpilih');
+            if (activeBadgeLabel) activeBadgeLabel.textContent = (tipe === 'tahunan' ? 'Laporan Tahunan' : 'Laporan Bulanan');
+            
+            if (reportContentWrap) {
+                reportContentWrap.innerHTML = `
+                    <div class="empty-report-card" id="emptyReportState">
+                        <h3>Data Laporan Belum Dipublikasikan</h3>
+                        <p>
+                            Belum ada data capaian kinerja yang dipush dari CMS untuk ${tipe === 'tahunan' ? 'Tahun ' + tahun : 'Bulan ' + bulan + '/' + tahun}.
+                            Data akan otomatis terhubung dan tampil di sini begitu dipublikasikan melalui CMS.
+                        </p>
+                    </div>
+                `;
+            }
         }
 
-        // 6. Update URL Search Params secara transparan (History State)
+        // Update URL secara transparan
         const url = new URL(window.location);
         url.searchParams.set('tipe', tipe);
         url.searchParams.set('tahun', tahun);
@@ -1456,14 +1539,19 @@ document.addEventListener('DOMContentLoaded', function() {
         window.history.replaceState({}, '', url);
     }
 
-    // Toggle Tipe Laporan: Bulanan vs Tahunan
+    // Toggle Tipe Laporan
     if (btnTypeBulanan && btnTypeTahunan) {
         btnTypeBulanan.addEventListener('click', function() {
             if (currentTipe === 'bulanan') return;
             currentTipe = 'bulanan';
             btnTypeBulanan.classList.add('active');
             btnTypeTahunan.classList.remove('active');
-            if (monthSelectorGroup) monthSelectorGroup.style.display = 'flex';
+            
+            const firstMYear = (options.monthly_years && options.monthly_years[0]) ? options.monthly_years[0] : currentTahun;
+            currentTahun = firstMYear;
+            const monthsForYear = (options.monthly_map && options.monthly_map[currentTahun]) ? Object.keys(options.monthly_map[currentTahun]) : [];
+            currentBulan = monthsForYear[0] || '01';
+
             renderReportView(currentTipe, currentTahun, currentBulan);
         });
 
@@ -1472,7 +1560,10 @@ document.addEventListener('DOMContentLoaded', function() {
             currentTipe = 'tahunan';
             btnTypeTahunan.classList.add('active');
             btnTypeBulanan.classList.remove('active');
-            if (monthSelectorGroup) monthSelectorGroup.style.display = 'none';
+            
+            const firstYYear = (options.yearly_years && options.yearly_years[0]) ? options.yearly_years[0] : currentTahun;
+            currentTahun = firstYYear;
+
             renderReportView(currentTipe, currentTahun, currentBulan);
         });
     }
@@ -1481,10 +1572,16 @@ document.addEventListener('DOMContentLoaded', function() {
     if (yearPillsWrap) {
         yearPillsWrap.addEventListener('click', function(e) {
             const btn = e.target.closest('.period-pill');
-            if (!btn || btn.classList.contains('disabled')) return;
-            yearPillsWrap.querySelectorAll('.period-pill').forEach(p => p.classList.remove('active'));
-            btn.classList.add('active');
+            if (!btn) return;
             currentTahun = parseInt(btn.getAttribute('data-year') || '2026', 10);
+            
+            if (currentTipe === 'bulanan') {
+                const monthsForYear = (options.monthly_map && options.monthly_map[currentTahun]) ? Object.keys(options.monthly_map[currentTahun]) : [];
+                if (!monthsForYear.includes(currentBulan)) {
+                    currentBulan = monthsForYear[0] || '01';
+                }
+            }
+
             renderReportView(currentTipe, currentTahun, currentBulan);
         });
     }
@@ -1493,15 +1590,13 @@ document.addEventListener('DOMContentLoaded', function() {
     if (monthPillsWrap) {
         monthPillsWrap.addEventListener('click', function(e) {
             const btn = e.target.closest('.period-pill');
-            if (!btn || btn.classList.contains('disabled')) return;
-            monthPillsWrap.querySelectorAll('.period-pill').forEach(p => p.classList.remove('active'));
-            btn.classList.add('active');
+            if (!btn) return;
             currentBulan = btn.getAttribute('data-month') || '01';
             renderReportView(currentTipe, currentTahun, currentBulan);
         });
     }
 
-    // Render Awal Chart.js
+    // Initial Chart render
     const initialDataset = getActiveDataset(currentTipe, currentTahun, currentBulan);
     if (initialDataset && initialDataset.sebaran_peserta_webinar) {
         initOrUpdateChart(initialDataset.sebaran_peserta_webinar, initialDataset.sebaran_peserta_webinar.total || 0);

@@ -9,14 +9,15 @@ class CapaianKinerjaController extends Controller
 {
     public function index(Request $request)
     {
-        $periodeMenu = CapaianKinerjaModel::getPeriodeMenu();
-        $defaultTipe = $periodeMenu['tipe_default'] ?? 'bulanan';
-        $defaultTahun = $periodeMenu['tahun_default'] ?? 2026;
-        $defaultBulan = $periodeMenu['bulan_default'] ?? '01';
+        $options = CapaianKinerjaModel::getDynamicOptions();
+
+        $defaultTipe = $options['default_tipe'] ?? 'bulanan';
+        $defaultTahun = $options['default_tahun'] ?? 2026;
+        $defaultBulan = $options['default_bulan'] ?? '01';
 
         $tipe = $request->query('tipe', $defaultTipe);
         if (!in_array($tipe, ['bulanan', 'tahunan'])) {
-            $tipe = 'bulanan';
+            $tipe = $defaultTipe;
         }
 
         $tahun = (int)$request->query('tahun', $defaultTahun);
@@ -32,16 +33,9 @@ class CapaianKinerjaController extends Controller
             'activeTipe' => $tipe,
             'activeTahun' => $tahun,
             'activeBulan' => $bulan,
-            'periodeMenu' => $periodeMenu,
+            'options' => $options,
             'report' => $activeReport,
-            'bundle' => $bundle,
-            // Fallback backward-compatible variables:
-            'kinerja' => $activeReport,
-            'summary' => $activeReport['ringkasan_eksekutif'] ?? [],
-            'kpi' => $activeReport['kpi_utama'] ?? [],
-            'sasaran' => $activeReport['sasaran_strategis'] ?? [],
-            'sebaran' => $activeReport['sebaran_peserta_webinar'] ?? [],
-            'companies' => $activeReport['perusahaan_mitra'] ?? []
+            'bundle' => $bundle
         ]);
     }
 }

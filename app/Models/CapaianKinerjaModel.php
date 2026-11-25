@@ -4,18 +4,34 @@ namespace App\Models;
 
 /**
  * CapaianKinerjaModel
- * Model & Service untuk data Sasaran Strategis & Capaian Kinerja Balai K3 Medan
- * Mendukung input dinamis CMS untuk Laporan Bulanan (Monthly Report) & Laporan Tahunan (Yearly Report).
+ * Model & Data Access Layer untuk Sasaran Strategis & Capaian Kinerja Balai K3 Medan.
+ * Murni membaca data riil dari CMS/JSON tanpa data dummy.
+ * Otomatis mendeteksi, menghubungkan, dan merender opsi baru ketika data dipush dari CMS.
  */
 class CapaianKinerjaModel
 {
+    private static $namaBulan = [
+        '01' => 'Januari',
+        '02' => 'Februari',
+        '03' => 'Maret',
+        '04' => 'April',
+        '05' => 'Mei',
+        '06' => 'Juni',
+        '07' => 'Juli',
+        '08' => 'Agustus',
+        '09' => 'September',
+        '10' => 'Oktober',
+        '11' => 'November',
+        '12' => 'Desember'
+    ];
+
     private static function getDataFile()
     {
         return base_path('data/capaian_kinerja.json');
     }
 
     /**
-     * Mengambil seluruh data capaian kinerja dari penyimpanan CMS / JSON
+     * Membaca file data riil
      */
     public static function getData()
     {
@@ -29,54 +45,127 @@ class CapaianKinerjaModel
     }
 
     /**
-     * Mengambil konfigurasi daftar menu periode (bulan & tahun)
+     * Menganalisis data yang tersedia untuk menghasilkan opsi menu secara dinamis
      */
-    public static function getPeriodeMenu()
+    public static function getDynamicOptions()
     {
         $data = self::getData();
-        return $data['periode_menu'] ?? [
-            'tipe_default' => 'bulanan',
-            'tahun_default' => 2026,
-            'bulan_default' => '01',
-            'daftar_tahun' => [2026, 2025],
-            'daftar_bulan' => []
+        $bulanan = $data['laporan_bulanan'] ?? [];
+        $tahunan = $data['laporan_tahunan'] ?? [];
+
+        // Deteksi tahun & bulan dari laporan bulanan yang benar-benar ada
+        $monthlyYears = [];
+        $monthlyMap = []; // [2026 => ['01' => 'Januari', ...]]
+
+        foreach ($bulanan as $key => $rep) {
+            $thn = (int)($rep['tahun'] ?? substr($key, 0, 4));
+            $bln = sprintf('%02d', (int)($rep['bulan'] ?? substr($key, 5, 2)));
+
+            if (!in_array($thn, $monthlyYears)) {
+                $monthlyYears[] = $thn;
+            }
+
+            if (!isset($monthlyMap[$thn])) {
+                $monthlyMap[$thn] = [];
+            }
+
+            $namaBln = self::$namaBulan[$bln] ?? 'Bulan ' . $bln;
+            $monthlyMap[$thn][$bln] = [
+                'id' => $bln,
+                'nama' => $namaBln,
+                'singkat' => mb_substr($namaBln, 0, 3),
+                'periode_label' => $rep['periode_label'] ?? ($namaBln . ' ' . $thn)
+            ];
+        }
+
+        // Urutkan tahun dan bulan
+        rsort($monthlyYears);
+        foreach ($monthlyMap as $y => &$mList) {
+            ksort($mList);
+        }
+
+        // Deteksi tahun dari laporan tahunan yang benar-benar ada
+        $yearlyYears = [];
+        $yearlyMap = [];
+
+        foreach ($tahunan as $key => $rep) {
+            $thn = (int)($rep['tahun'] ?? $key);
+            if (!in_array($thn, $yearlyYears)) {
+                $yearlyYears[] = $thn;
+            }
+            $yearlyMap[$thn] = [
+                'tahun' => $thn,
+                'periode_label' => $rep['periode_label'] ?? ('Tahun ' . $thn)
+            ];
+        }
+        rsort($yearlyYears);
+
+        return [
+            'has_monthly' => !empty($bulanan),
+            'has_yearly' => !empty($tahunan),
+            'monthly_count' => count($bulanan),
+            'yearly_count' => count($tahunan),
+            'monthly_years' => $monthlyYears,
+            'monthly_map' => $monthlyMap,
+            'yearly_years' => $yearlyYears,
+            'yearly_map' => $yearlyMap,
+            'default_tipe' => !empty($bulanan) ? 'bulanan' : (!empty($tahunan) ? 'tahunan' : 'bulanan'),
+            'default_tahun' => $monthlyYears[0] ?? ($yearlyYears[0] ?? (int)date('Y')),
+            'default_bulan' => !empty($monthlyYears) && isset($monthlyMap[$monthlyYears[0]]) ? array_key_first($monthlyMap[$monthlyYears[0]]) : '01'
         ];
     }
 
     /**
-     * Mengambil data laporan spesifik berdasarkan tipe (bulanan/tahunan), tahun, dan bulan
+     * Mengambil satu laporan spesifik berdasarkan parameter
+     * Mengembalikan null jika belum ada data yang dipush untuk periode tersebut
      */
-    public static function getReportData($tipe = 'bulanan', $tahun = 2026, $bulan = '01')
+    public static function getReportData($tipe = 'bulanan', $tahun = null, $bulan = null)
     {
         $data = self::getData();
+        $options = self::getDynamicOptions();
 
         if ($tipe === 'tahunan') {
-            $yearKey = (string)$tahun;
-            if (isset($data['laporan_tahunan'][$yearKey])) {
-                $report = $data['laporan_tahunan'][$yearKey];
-                return self::hydrateReport($report);
+            $tahunan = $data['laporan_tahunan'] ?? [];
+            if (empty($tahunan)) {
+                return null;
             }
-            // Fallback ke tahun pertama yang tersedia jika key tidak ditemukan
-            $firstYear = array_key_first($data['laporan_tahunan'] ?? []);
-            if ($firstYear && isset($data['laporan_tahunan'][$firstYear])) {
-                return self::hydrateReport($data['laporan_tahunan'][$firstYear]);
+
+            $thnKey = (string)($tahun ?: ($options['yearly_years'][0] ?? ''));
+            if (isset($tahunan[$thnKey])) {
+                return self::hydrateReport($tahunan[$thnKey]);
             }
-        } else {
-            // Laporan Bulanan
-            $monthKey = sprintf('%s-%02d', $tahun, (int)$bulan);
-            if (isset($data['laporan_bulanan'][$monthKey])) {
-                $report = $data['laporan_bulanan'][$monthKey];
-                return self::hydrateReport($report);
-            }
-            // Fallback ke bulan pertama yang ada
-            $firstMonth = array_key_first($data['laporan_bulanan'] ?? []);
-            if ($firstMonth && isset($data['laporan_bulanan'][$firstMonth])) {
-                return self::hydrateReport($data['laporan_bulanan'][$firstMonth]);
+
+            // Ambil tahun pertama yang ada jika tahun yang diminta belum tersedia
+            $firstYear = array_key_first($tahunan);
+            return $firstYear ? self::hydrateReport($tahunan[$firstYear]) : null;
+        }
+
+        // Laporan Bulanan
+        $bulanan = $data['laporan_bulanan'] ?? [];
+        if (empty($bulanan)) {
+            return null;
+        }
+
+        $thn = $tahun ?: ($options['monthly_years'][0] ?? (int)date('Y'));
+        $bln = $bulan ? sprintf('%02d', (int)$bulan) : ($options['default_bulan'] ?? '01');
+        $key = sprintf('%s-%s', $thn, $bln);
+
+        if (isset($bulanan[$key])) {
+            return self::hydrateReport($bulanan[$key]);
+        }
+
+        // Jika bulan tersebut belum dipush, cari bulan lain pada tahun yang sama
+        if (isset($options['monthly_map'][$thn]) && !empty($options['monthly_map'][$thn])) {
+            $altMonth = array_key_first($options['monthly_map'][$thn]);
+            $altKey = sprintf('%s-%s', $thn, $altMonth);
+            if (isset($bulanan[$altKey])) {
+                return self::hydrateReport($bulanan[$altKey]);
             }
         }
 
-        // Default fallback ke struktur root
-        return self::hydrateReport($data);
+        // Ambil laporan pertama yang ada
+        $firstKey = array_key_first($bulanan);
+        return $firstKey ? self::hydrateReport($bulanan[$firstKey]) : null;
     }
 
     /**
@@ -94,11 +183,13 @@ class CapaianKinerjaModel
     }
 
     /**
-     * Seluruh dataset laporan bulanan & tahunan (untuk CMS & Client-side Instant Filter)
+     * Paket data untuk binding JavaScript client-side (bebas data dummy)
      */
     public static function getAllReportsBundle()
     {
         $data = self::getData();
+        $options = self::getDynamicOptions();
+
         $bulanan = $data['laporan_bulanan'] ?? [];
         $tahunan = $data['laporan_tahunan'] ?? [];
 
@@ -111,47 +202,10 @@ class CapaianKinerjaModel
 
         return [
             'meta' => $data['meta'] ?? [],
-            'periode_menu' => self::getPeriodeMenu(),
+            'options' => $options,
             'bulanan' => $bulanan,
             'tahunan' => $tahunan
         ];
-    }
-
-    public static function getSummary()
-    {
-        $data = self::getData();
-        return $data['ringkasan_eksekutif'] ?? [];
-    }
-
-    public static function getKpiUtama()
-    {
-        $data = self::getData();
-        return $data['kpi_utama'] ?? [];
-    }
-
-    public static function getSasaranStrategis()
-    {
-        $data = self::getData();
-        return $data['sasaran_strategis'] ?? [];
-    }
-
-    public static function getSebaranPeserta()
-    {
-        $data = self::getData();
-        return $data['sebaran_peserta_webinar'] ?? [];
-    }
-
-    public static function getPerusahaanMitra()
-    {
-        $data = self::getData();
-        $companies = $data['perusahaan_mitra'] ?? [];
-
-        foreach ($companies as &$company) {
-            $company['resolved_logo'] = self::resolveLogoUrl($company);
-            $company['initials'] = self::getInitials($company['nama'] ?? 'K3');
-        }
-
-        return $companies;
     }
 
     public static function resolveLogoUrl($company)
@@ -180,6 +234,22 @@ class CapaianKinerjaModel
             if (strlen($initials) >= 3) break;
         }
         return $initials ?: 'K3';
+    }
+
+    /**
+     * Method untuk menerima data yang dipush dari CMS
+     */
+    public static function pushReport($tipe, $key, array $reportData)
+    {
+        $data = self::getData();
+        if ($tipe === 'tahunan') {
+            if (!isset($data['laporan_tahunan'])) $data['laporan_tahunan'] = [];
+            $data['laporan_tahunan'][(string)$key] = $reportData;
+        } else {
+            if (!isset($data['laporan_bulanan'])) $data['laporan_bulanan'] = [];
+            $data['laporan_bulanan'][(string)$key] = $reportData;
+        }
+        return self::saveData($data);
     }
 
     public static function saveData(array $data)
