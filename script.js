@@ -736,4 +736,103 @@ document.addEventListener("DOMContentLoaded", function () {
 
     initVisiMisiTabs();
 
+    /* ==========================================================================
+       10. GSAP + SCROLLTRIGGER: WORD-BY-WORD TITLE REVEAL (ALL HEADINGS)
+       ========================================================================== */
+    const initGsapWordReveal = () => {
+        if (typeof gsap === "undefined" || typeof ScrollTrigger === "undefined") {
+            return;
+        }
+
+        gsap.registerPlugin(ScrollTrigger);
+
+        const headingSelectors = [
+            ".hero h1",
+            ".hero h2",
+            ".hero-enter-2",
+            "main h1",
+            "main h2",
+            "main h3",
+            ".section-title",
+            ".section-subtitle",
+            ".activity-title",
+            ".about-text h2",
+            ".wilayah-title",
+            ".wilayah-panel h2",
+            ".contact-content h2",
+            ".gallery-title",
+            ".capaian-title",
+            ".maklumat-title",
+            ".standar-title",
+            ".box-title",
+            ".table-title"
+        ];
+
+        const headings = document.querySelectorAll(headingSelectors.join(", "));
+        const processedHeadings = new Set();
+        const prefersReducedMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+        headings.forEach(heading => {
+            if (processedHeadings.has(heading) || heading.dataset.gsapSplit) return;
+            processedHeadings.add(heading);
+            heading.dataset.gsapSplit = "true";
+
+            if (prefersReducedMotion) return;
+
+            const walker = document.createTreeWalker(heading, NodeFilter.SHOW_TEXT, null, false);
+            const textNodes = [];
+            let n;
+            while (n = walker.nextNode()) {
+                if (n.nodeValue && n.nodeValue.trim().length > 0) {
+                    textNodes.push(n);
+                }
+            }
+
+            const wordSpans = [];
+
+            textNodes.forEach(textNode => {
+                const tokens = textNode.nodeValue.split(/(\s+)/);
+                const fragment = document.createDocumentFragment();
+
+                tokens.forEach(token => {
+                    if (/^\s+$/.test(token)) {
+                        fragment.appendChild(document.createTextNode(token));
+                    } else if (token.length > 0) {
+                        const span = document.createElement("span");
+                        span.className = "gsap-word";
+                        span.textContent = token;
+                        span.style.display = "inline-block";
+                        span.style.opacity = "0";
+                        span.style.transform = "translateY(16px)";
+                        span.style.willChange = "opacity, transform";
+                        fragment.appendChild(span);
+                        wordSpans.push(span);
+                    }
+                });
+
+                if (textNode.parentNode) {
+                    textNode.parentNode.replaceChild(fragment, textNode);
+                }
+            });
+
+            if (wordSpans.length === 0) return;
+
+            gsap.to(wordSpans, {
+                opacity: 1,
+                y: 0,
+                duration: 0.55,
+                stagger: 0.045,
+                ease: "power2.out",
+                scrollTrigger: {
+                    trigger: heading,
+                    start: "top 88%",
+                    toggleActions: "play none none none",
+                    once: true
+                }
+            });
+        });
+    };
+
+    initGsapWordReveal();
+
 });

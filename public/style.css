@@ -3238,5 +3238,14 @@ a {
     }
 }
 
+/* ==========================================================================
+   GSAP SCROLLTRIGGER: WORD-BY-WORD TITLE REVEAL
+   ========================================================================== */
+.gsap-word {
+    display: inline-block;
+    will-change: transform, opacity;
+}
+
+
 
 
