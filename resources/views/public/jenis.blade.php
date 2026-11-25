@@ -14,6 +14,14 @@ $services = $services ?? [];
 $categories = $categories ?? [];
 $allServices = $allServices ?? $services;
 $activeCategory = $activeCategory ?? 'all';
+
+// Konfigurasi WhatsApp Resmi & Tanggal Formal Indonesia
+$waNumber = preg_replace('/[^0-9]/', '', $meta['whatsapp_nomor'] ?? '6285262229195');
+$bulanIndo = [
+    1 => 'Januari', 2 => 'Februari', 3 => 'Maret', 4 => 'April', 5 => 'Mei', 6 => 'Juni',
+    7 => 'Juli', 8 => 'Agustus', 9 => 'September', 10 => 'Oktober', 11 => 'November', 12 => 'Desember'
+];
+$tglFormal = date('j') . ' ' . ($bulanIndo[(int)date('n')] ?? date('F')) . ' ' . date('Y');
 ?>
 
 <style>
@@ -497,7 +505,6 @@ $activeCategory = $activeCategory ?? 'all';
 
         <!-- HEADER SECTION -->
         <header class="services-header">
-            <span class="services-badge">Layanan Teknis Resmi</span>
             <h1 class="services-title">{{ $meta['title'] ?? 'Jenis Layanan Pengujian & Pembinaan K3' }}</h1>
             <p class="services-subtitle">
                 {{ $meta['deskripsi'] ?? 'Layanan teknis pengujian lingkungan kerja, pemeriksaan kesehatan tenaga kerja, bimbingan teknis, dan pendampingan SMK3 oleh Balai K3 Medan.' }}
@@ -561,6 +568,28 @@ $activeCategory = $activeCategory ?? 'all';
                     $sObjek = $srv['objek_layanan'] ?? '';
                     $sParams = $srv['lingkup_parameter'] ?? [];
                     $sKeywords = mb_strtolower($sJudul . ' ' . $sDesc . ' ' . $sCatName . ' ' . implode(' ', $sParams));
+
+                    // Template Surat Permohonan Pengujian K3 Formal untuk WhatsApp
+                    $waMsg = "Yth. Petugas Layanan Pengujian K3\n"
+                        . "Balai Keselamatan dan Kesehatan Kerja (K3) Medan\n"
+                        . "Kementerian Ketenagakerjaan RI\n\n"
+                        . "Hal: Permohonan Layanan Pengujian K3 – " . $sJudul . "\n"
+                        . "Tanggal: " . $tglFormal . "\n\n"
+                        . "Dengan hormat,\n"
+                        . "Sehubungan dengan pemenuhan standar Keselamatan dan Kesehatan Kerja (K3) di tempat kerja kami, perkenankan kami mengajukan permohonan layanan pengujian teknis dengan rincian sebagai berikut:\n\n"
+                        . "• Jenis Layanan: " . $sJudul . "\n"
+                        . "• Kategori: " . $sCatName . "\n"
+                        . "• Nama Perusahaan / Instansi: [Isi Nama Perusahaan]\n"
+                        . "• Penanggung Jawab (PIC): [Isi Nama Lengkap PIC]\n"
+                        . "• Jabatan PIC: [Isi Jabatan PIC]\n"
+                        . "• No. Telepon / WhatsApp: [Isi Nomor HP PIC]\n"
+                        . "• Alamat / Lokasi Pengujian: [Isi Alamat Lengkap Pabrik / Tempat Kerja]\n"
+                        . "• Rencana Tanggal Pengujian: [Isi Rencana Tanggal Pelaksanaan]\n"
+                        . "• Estimasi Jumlah Titik / Sampel: [Isi Jumlah Titik Uji / Sampel / Peserta]\n"
+                        . "• Kebutuhan / Catatan Khusus: [Isi jika ada permintaan parameter khusus]\n\n"
+                        . "Mohon informasi mengenai prosedur administrasi, ketersediaan jadwal tim teknis penguji, serta estimasi rincian tarif PNBP resmi.\n\n"
+                        . "Demikian permohonan ini kami sampaikan. Atas perhatian dan kerja sama Bapak/Ibu, kami ucapkan terima kasih.";
+                    $waCardLink = "https://wa.me/" . $waNumber . "?text=" . rawurlencode($waMsg);
                 @endphp
                 <article class="service-card-item" 
                          data-id="{{ $sId }}" 
@@ -602,8 +631,8 @@ $activeCategory = $activeCategory ?? 'all';
                     </div>
 
                     <div class="service-card-actions">
-                        <a href="{{ url('/#contact') }}" class="service-btn-contact">
-                            Konsultasi &amp; Permohonan Pengujian
+                        <a href="{{ $waCardLink }}" target="_blank" rel="noopener noreferrer" class="service-btn-contact" title="Buka format permohonan via WhatsApp">
+                            Ajukan Permohonan via WhatsApp
                         </a>
                     </div>
 
@@ -627,6 +656,21 @@ $activeCategory = $activeCategory ?? 'all';
         <!-- ==================================================================
              CTA BANNER RESMI
              ================================================================== -->
+        @php
+            $waGeneralMsg = "Yth. Petugas Layanan Pengujian K3\n"
+                . "Balai Keselamatan dan Kesehatan Kerja (K3) Medan\n"
+                . "Kementerian Ketenagakerjaan RI\n\n"
+                . "Hal: Konsultasi & Permohonan Layanan K3\n"
+                . "Tanggal: " . $tglFormal . "\n\n"
+                . "Dengan hormat,\n"
+                . "Kami dari [Isi Nama Perusahaan] bermaksud berkonsultasi mengenai pengujian lingkungan kerja / pemeriksaan kesehatan / bimbingan teknis K3.\n\n"
+                . "• Nama Perusahaan: [Isi Nama Perusahaan]\n"
+                . "• Penanggung Jawab (PIC): [Isi Nama PIC]\n"
+                . "• No. Telepon / HP: [Isi Nomor HP]\n"
+                . "• Kebutuhan Layanan: [Sebutkan kebutuhan pengujian atau pelatihan]\n\n"
+                . "Mohon informasi mengenai alur pengajuan dan persyaratannya. Terima kasih.";
+            $waGeneralLink = "https://wa.me/" . $waNumber . "?text=" . rawurlencode($waGeneralMsg);
+        @endphp
         <section class="services-cta-box" aria-label="Permohonan Layanan K3">
             <div class="services-cta-text">
                 <h3>Membutuhkan Pengujian Teknis atau Bimbingan K3?</h3>
@@ -635,8 +679,8 @@ $activeCategory = $activeCategory ?? 'all';
                     pemeriksaan kesehatan tenaga kerja, atau konsultasi pemenuhan standar regulasi K3 nasional.
                 </p>
             </div>
-            <a href="{{ url('/#contact') }}" class="services-cta-btn">
-                Hubungi Petugas Layanan
+            <a href="{{ $waGeneralLink }}" target="_blank" rel="noopener noreferrer" class="services-cta-btn">
+                Hubungi Petugas Layanan via WhatsApp
             </a>
         </section>
 
