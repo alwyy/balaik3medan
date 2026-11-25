@@ -110,7 +110,7 @@
                 ];
                 foreach ($feedActivities as $idx => $act): 
                 ?>
-                <div class="activity-card" data-index="<?= $idx ?>">
+                <div class="activity-card" data-activity-id="<?= $idx ?>">
                     <div class="activity-card-media img-skeleton-wrap">
                         <img src="<?= asset($act['image']) ?>" alt="<?= htmlspecialchars($act['title']) ?>" loading="lazy" decoding="async">
                         <span class="activity-card-tag"><?= htmlspecialchars($act['tag'] ?? '#KegiatanK3') ?></span>

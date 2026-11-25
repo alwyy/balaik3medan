@@ -523,7 +523,7 @@ $profile = $igProfile ?? [
         <div class="gallery-posts-grid">
             <?php if (!empty($activities)): ?>
                 <?php foreach ($activities as $idx => $act): ?>
-                <div class="gallery-ig-card" data-index="<?= $idx ?>">
+                <div class="gallery-ig-card" data-activity-id="<?= $idx ?>">
                     <div class="gallery-ig-media img-skeleton-wrap">
                         <img src="<?= asset($act['image']) ?>" alt="<?= htmlspecialchars($act['title']) ?>" loading="lazy" decoding="async">
                         <span class="gallery-ig-tag"><?= htmlspecialchars($act['tag'] ?? '#KegiatanK3') ?></span>
