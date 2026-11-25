@@ -405,6 +405,7 @@ a {
     pointer-events: auto;
     max-width: 1220px;
     width: 100%;
+    min-height: 58px;
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
@@ -431,6 +432,7 @@ a {
 }
 
 .navbar.scrolled .container {
+    min-height: 54px;
     background: rgba(255, 255, 255, 0.72) !important;
     backdrop-filter: blur(24px) saturate(190%) !important;
     -webkit-backdrop-filter: blur(24px) saturate(190%) !important;
@@ -446,7 +448,7 @@ a {
 .logo-area {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 11px;
     color: #09377D;
     text-decoration: none;
     transition: transform 0.2s var(--ease-out);
@@ -458,8 +460,8 @@ a {
 }
 
 .logo-area img {
-    width: 31px;
-    height: 31px;
+    width: 30px;
+    height: 30px;
     object-fit: contain;
     flex-shrink: 0;
     filter: brightness(0) saturate(100%) invert(16%) sepia(74%) saturate(2644%) hue-rotate(206deg) brightness(90%) contrast(101%);
@@ -470,7 +472,7 @@ a {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding-left: 10px;
+    padding-left: 11px;
     border-left: 1.5px solid rgba(9, 55, 125, 0.22);
 }
 
@@ -479,7 +481,7 @@ a {
 .logo-text .logo-line-2 {
     display: block;
     color: #09377D;
-    font-size: 12.2px;
+    font-size: 12.5px;
     font-weight: 700;
     line-height: 1.25;
     letter-spacing: -0.01em;
@@ -2380,6 +2382,7 @@ a {
     .navbar .container {
         padding: 8px 16px;
         border-radius: 9999px;
+        min-height: 48px;
     }
 
     .navbar.scrolled {
@@ -2388,15 +2391,16 @@ a {
 
     .navbar.scrolled .container {
         padding: 6px 14px;
+        min-height: 46px;
     }
 
     .logo-area {
-        gap: 7px;
+        gap: 8px;
     }
 
     .logo-area img {
-        width: 27px;
-        height: 27px;
+        width: 25px;
+        height: 25px;
     }
 
     .logo-text {
