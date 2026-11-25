@@ -1,19 +1,7 @@
-DirectoryIndex index.php index.html
-
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
-    # 1. Redirect permintaan langsung yang berakhiran .php ke URL tertutup (Clean URL)
-    # Contoh: /balaik3medan/maklumat.php -> /balaik3medan/maklumat
-    RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s([^.]+)\.php[\s?] [NC]
-    RewriteCond %{REQUEST_URI} !index\.php$ [NC]
-    RewriteRule ^ %1 [R=301,L]
-
-    # 2. Jika file atau folder fisik benar-benar ada (gambar, style.css, script.js), langsung akses
-    RewriteCond %{REQUEST_FILENAME} -f [OR]
-    RewriteCond %{REQUEST_FILENAME} -d
-    RewriteRule ^ - [L]
-
-    # 3. Alihkan rute URL tertutup ke router MVC index.php
-    RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
+    # Arahkan semua permintaan ke folder public Laravel
+    RewriteRule ^$ public/ [L]
+    RewriteRule (.*) public/$1 [L]
 </IfModule>

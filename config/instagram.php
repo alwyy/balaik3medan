@@ -35,8 +35,8 @@ return [
     'cache_ttl'    => 3600,
 
     // Lokasi File Cache & Fallback
-    'cache_file'   => APP_ROOT . '/data/instagram_cache.json',
-    'fallback_file'=> APP_ROOT . '/data/activities.json',
+    'cache_file'   => function_exists('base_path') ? base_path('data/instagram_cache.json') : (defined('APP_ROOT') ? APP_ROOT . '/data/instagram_cache.json' : __DIR__ . '/../data/instagram_cache.json'),
+    'fallback_file'=> function_exists('base_path') ? base_path('data/activities.json') : (defined('APP_ROOT') ? APP_ROOT . '/data/activities.json' : __DIR__ . '/../data/activities.json'),
 
     // Jumlah postingan terbaru yang diambil dan ditampilkan
     'post_limit'   => 12,
