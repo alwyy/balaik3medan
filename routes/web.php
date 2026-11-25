@@ -16,6 +16,7 @@ use App\Http\Controllers\TugasFungsiController;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/galeri', [GaleriController::class, 'index'])->name('galeri');
 Route::get('/capaian-kinerja', [CapaianKinerjaController::class, 'index'])->name('capaian-kinerja');
+Route::get('/capaian', [CapaianKinerjaController::class, 'index']);
 Route::get('/jadwal', [JadwalController::class, 'index'])->name('jadwal');
 Route::get('/jenis', [JenisController::class, 'index'])->name('jenis');
 Route::get('/layanan', [LayananController::class, 'index'])->name('layanan');

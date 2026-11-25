@@ -1,8 +1,622 @@
 {
     "meta": {
-        "title": "Sasaran Strategis dan Indikator Kinerja Balai K3 Medan",
-        "tahun": 2026,
-        "periode_laporan": "Januari 2026"
+        "title": "Sasaran Strategis & Capaian Kinerja Balai K3 Medan",
+        "tahun_aktif": 2026,
+        "periode_aktif": "Januari 2026",
+        "regulasi": "Permenaker No. 1/2022",
+        "status": "Data Terverifikasi CMS"
+    },
+    "periode_menu": {
+        "tipe_default": "bulanan",
+        "tahun_default": 2026,
+        "bulan_default": "01",
+        "daftar_tahun": [2026, 2025],
+        "daftar_bulan": [
+            { "id": "01", "nama": "Januari", "singkat": "Jan", "status": "tersedia" },
+            { "id": "02", "nama": "Februari", "singkat": "Feb", "status": "tersedia" },
+            { "id": "03", "nama": "Maret", "singkat": "Mar", "status": "berjalan" },
+            { "id": "04", "nama": "April", "singkat": "Apr", "status": "belum_dibuka" },
+            { "id": "05", "nama": "Mei", "singkat": "Mei", "status": "belum_dibuka" },
+            { "id": "06", "nama": "Juni", "singkat": "Jun", "status": "belum_dibuka" },
+            { "id": "07", "nama": "Juli", "singkat": "Jul", "status": "belum_dibuka" },
+            { "id": "08", "nama": "Agustus", "singkat": "Agu", "status": "belum_dibuka" },
+            { "id": "09", "nama": "September", "singkat": "Sep", "status": "belum_dibuka" },
+            { "id": "10", "nama": "Oktober", "singkat": "Okt", "status": "belum_dibuka" },
+            { "id": "11", "nama": "November", "singkat": "Nov", "status": "belum_dibuka" },
+            { "id": "12", "nama": "Desember", "singkat": "Des", "status": "belum_dibuka" }
+        ]
+    },
+    "laporan_bulanan": {
+        "2026-01": {
+            "id": "2026-01",
+            "tipe": "bulanan",
+            "tahun": 2026,
+            "bulan": "01",
+            "periode_label": "Januari 2026",
+            "badge_periode": "Laporan Bulanan",
+            "ringkasan_eksekutif": {
+                "judul": "Capaian Kinerja Periode Januari 2026",
+                "deskripsi": "Pelaksanaan program keselamatan dan kesehatan kerja, realisasi pelayanan pengujian teknis lingkungan kerja, pembinaan ketenagakerjaan, serta capaian PNBP Balai K3 Medan bulan Januari 2026."
+            },
+            "kpi_utama": [
+                {
+                    "id": "pnbp",
+                    "label": "Realisasi PNBP",
+                    "nilai": 35870000,
+                    "format": "Rp 35.870.000",
+                    "keterangan": "Penerimaan jasa pengujian teknis K3"
+                },
+                {
+                    "id": "perusahaan",
+                    "label": "Perusahaan Terlayani",
+                    "nilai": 4,
+                    "format": "4 Perusahaan",
+                    "keterangan": "Badan usaha terlayani uji lingkungan kerja"
+                },
+                {
+                    "id": "peserta",
+                    "label": "Peserta Edukasi K3",
+                    "nilai": 590,
+                    "format": "590 Orang",
+                    "keterangan": "Peserta sosialisasi & webinar K3"
+                },
+                {
+                    "id": "sosialisasi",
+                    "label": "Kegiatan Sosialisasi",
+                    "nilai": 16,
+                    "format": "16 Sesi",
+                    "keterangan": "Sesi pembinaan tatap muka offline"
+                }
+            ],
+            "sasaran_strategis": [
+                {
+                    "no": 1,
+                    "sasaran": "Terlaksananya Pelayanan Pengujian K3",
+                    "indikator": "Jumlah obyek K3 yang mendapatkan layanan pengujian K3",
+                    "target": 350,
+                    "satuan": "Badan Usaha",
+                    "realisasi": 4,
+                    "persen": 1.14,
+                    "keterangan": "Realisasi bulan Januari mencapai 4 badan usaha dari target tahunan 350 badan usaha."
+                },
+                {
+                    "no": 2,
+                    "sasaran": "Terlaksananya Pelayanan Pengujian K3",
+                    "indikator": "Jumlah tenaga kerja yang ditingkatkan kapasitasnya atau memperoleh pembinaan K3",
+                    "target": 300,
+                    "satuan": "Orang",
+                    "realisasi": 590,
+                    "persen": 196.67,
+                    "keterangan": "Realisasi mencapai 590 orang melalui penyelenggaraan Webinar Nasional Toolbox Meeting K3."
+                },
+                {
+                    "no": 3,
+                    "sasaran": "Terlaksananya Pelayanan Pengujian K3",
+                    "indikator": "Jumlah obyek K3 yang mendapatkan pendampingan SMK3",
+                    "target": 20,
+                    "satuan": "Obyek",
+                    "realisasi": 0,
+                    "persen": 0.0,
+                    "keterangan": "Tahapan pendampingan SMK3 dijadwalkan mulai Triwulan II 2026."
+                },
+                {
+                    "no": 4,
+                    "sasaran": "Terlaksananya Dukungan Manajemen Ditjen Binwasnaker dan K3",
+                    "indikator": "Layanan Dukungan Manajemen Internal",
+                    "target": 1,
+                    "satuan": "Layanan",
+                    "realisasi": 1,
+                    "persen": 100.0,
+                    "keterangan": "Dukungan operasional dan tata kelola internal terlaksana 100% optimal."
+                }
+            ],
+            "sebaran_peserta_webinar": {
+                "judul": "Rincian Peserta Webinar Nasional (Toolbox Meeting)",
+                "total": 590,
+                "kategori": [
+                    { "label": "Instansi Pemerintah", "jumlah": 361, "persen": 61.2, "warna": "#09377D" },
+                    { "label": "Masyarakat Umum", "jumlah": 117, "persen": 19.8, "warna": "#1E40AF" },
+                    { "label": "Perusahaan", "jumlah": 81, "persen": 13.7, "warna": "#2563EB" },
+                    { "label": "Akademisi", "jumlah": 20, "persen": 3.4, "warna": "#4F46E5" },
+                    { "label": "Mahasiswa", "jumlah": 11, "persen": 1.9, "warna": "#93C5FD" }
+                ]
+            },
+            "perusahaan_mitra": [
+                {
+                    "id": "pacmedan",
+                    "nama": "PT Pacific Medan Industri",
+                    "singkatan": "Pacific Medan Industri",
+                    "domain": "pacmedan.com",
+                    "logo_custom": "assets/logo_pamin.png",
+                    "bidang": "Pengolahan Minyak Nabati & Kelapa Sawit",
+                    "layanan": "Pengujian Lingkungan Kerja",
+                    "lokasi": "KIM II Mabar, Deli Serdang",
+                    "periode": "Januari 2026",
+                    "status": "Selesai Terverifikasi"
+                },
+                {
+                    "id": "prodia",
+                    "nama": "PT Prodia Widyahusada Tbk",
+                    "singkatan": "Prodia",
+                    "domain": "prodia.co.id",
+                    "logo_custom": "",
+                    "bidang": "Layanan Laboratorium Kesehatan",
+                    "layanan": "Pemeriksaan Ergonomi & Faktor Kimia",
+                    "lokasi": "Medan, Sumatera Utara",
+                    "periode": "Januari 2026",
+                    "status": "Selesai Terverifikasi"
+                },
+                {
+                    "id": "soeloenglaoet",
+                    "nama": "PT Soeloeng Laoet",
+                    "singkatan": "Soeloeng Laoet",
+                    "domain": "soeloenglaoet.com",
+                    "logo_custom": "",
+                    "bidang": "Perkebunan & Pengolahan Kelapa Sawit",
+                    "layanan": "Pengujian Faktor Fisika Lingkungan",
+                    "lokasi": "Serdang Bedagai, Sumatera Utara",
+                    "periode": "Januari 2026",
+                    "status": "Selesai Terverifikasi"
+                },
+                {
+                    "id": "hakaaston",
+                    "nama": "PT Hakaaston",
+                    "singkatan": "Hakaaston",
+                    "domain": "hakaaston.co.id",
+                    "logo_custom": "",
+                    "bidang": "Manufaktur Aspal Beton & Konstruksi Tol",
+                    "layanan": "Pengujian Lingkungan Kerja Lapangan",
+                    "lokasi": "Deli Serdang, Sumatera Utara",
+                    "periode": "Januari 2026",
+                    "status": "Selesai Terverifikasi"
+                }
+            ]
+        },
+        "2026-02": {
+            "id": "2026-02",
+            "tipe": "bulanan",
+            "tahun": 2026,
+            "bulan": "02",
+            "periode_label": "Februari 2026",
+            "badge_periode": "Laporan Bulanan",
+            "ringkasan_eksekutif": {
+                "judul": "Capaian Kinerja Periode Februari 2026",
+                "deskripsi": "Pelaksanaan program keselamatan dan kesehatan kerja, peningkatan pengujian teknis faktor kebisingan & iklim kerja di sektor manufaktur dan industri perkebunan."
+            },
+            "kpi_utama": [
+                {
+                    "id": "pnbp",
+                    "label": "Realisasi PNBP",
+                    "nilai": 42150000,
+                    "format": "Rp 42.150.000",
+                    "keterangan": "Penerimaan jasa pengujian teknis K3"
+                },
+                {
+                    "id": "perusahaan",
+                    "label": "Perusahaan Terlayani",
+                    "nilai": 5,
+                    "format": "5 Perusahaan",
+                    "keterangan": "Badan usaha terlayani uji lingkungan kerja"
+                },
+                {
+                    "id": "peserta",
+                    "label": "Peserta Edukasi K3",
+                    "nilai": 320,
+                    "format": "320 Orang",
+                    "keterangan": "Peserta workshop faktor kimia & fisika K3"
+                },
+                {
+                    "id": "sosialisasi",
+                    "label": "Kegiatan Sosialisasi",
+                    "nilai": 12,
+                    "format": "12 Sesi",
+                    "keterangan": "Sesi pembinaan teknis K3"
+                }
+            ],
+            "sasaran_strategis": [
+                {
+                    "no": 1,
+                    "sasaran": "Terlaksananya Pelayanan Pengujian K3",
+                    "indikator": "Jumlah obyek K3 yang mendapatkan layanan pengujian K3",
+                    "target": 350,
+                    "satuan": "Badan Usaha",
+                    "realisasi": 5,
+                    "persen": 1.43,
+                    "keterangan": "Realisasi bulan Februari bertambah 5 badan usaha sektor agroindustri dan energi."
+                },
+                {
+                    "no": 2,
+                    "sasaran": "Terlaksananya Pelayanan Pengujian K3",
+                    "indikator": "Jumlah tenaga kerja yang ditingkatkan kapasitasnya atau memperoleh pembinaan K3",
+                    "target": 300,
+                    "satuan": "Orang",
+                    "realisasi": 320,
+                    "persen": 106.67,
+                    "keterangan": "Pelatihan dan workshop pengukuran teknis K3 bagi praktisi industri."
+                },
+                {
+                    "no": 3,
+                    "sasaran": "Terlaksananya Pelayanan Pengujian K3",
+                    "indikator": "Jumlah obyek K3 yang mendapatkan pendampingan SMK3",
+                    "target": 20,
+                    "satuan": "Obyek",
+                    "realisasi": 0,
+                    "persen": 0.0,
+                    "keterangan": "Proses verifikasi dokumen awal menuju audit Triwulan II."
+                },
+                {
+                    "no": 4,
+                    "sasaran": "Terlaksananya Dukungan Manajemen Ditjen Binwasnaker dan K3",
+                    "indikator": "Layanan Dukungan Manajemen Internal",
+                    "target": 1,
+                    "satuan": "Layanan",
+                    "realisasi": 1,
+                    "persen": 100.0,
+                    "keterangan": "Dukungan operasional dan tata kelola internal terlaksana 100% optimal."
+                }
+            ],
+            "sebaran_peserta_webinar": {
+                "judul": "Rincian Peserta Pelatihan Teknis K3 (Februari)",
+                "total": 320,
+                "kategori": [
+                    { "label": "Perusahaan Swasta", "jumlah": 180, "persen": 56.2, "warna": "#09377D" },
+                    { "label": "Instansi Pemerintah", "jumlah": 90, "persen": 28.1, "warna": "#1E40AF" },
+                    { "label": "Akademisi & Peneliti", "jumlah": 35, "persen": 10.9, "warna": "#2563EB" },
+                    { "label": "Mahasiswa", "jumlah": 15, "persen": 4.8, "warna": "#93C5FD" }
+                ]
+            },
+            "perusahaan_mitra": [
+                {
+                    "id": "musimmas",
+                    "nama": "PT Musim Mas",
+                    "singkatan": "Musim Mas",
+                    "domain": "musimmas.com",
+                    "logo_custom": "",
+                    "bidang": "Industri Pengolahan Minyak Sawit & Oleokimia",
+                    "layanan": "Pengujian Kebisingan & Faktor Kimia",
+                    "lokasi": "KIM II, Medan",
+                    "periode": "Februari 2026",
+                    "status": "Selesai Terverifikasi"
+                },
+                {
+                    "id": "inalum",
+                    "nama": "PT Indonesia Asahan Aluminium (Inalum)",
+                    "singkatan": "Inalum",
+                    "domain": "inalum.id",
+                    "logo_custom": "",
+                    "bidang": "Peleburan Aluminium & Pembangkitan Energi",
+                    "layanan": "Pengujian Iklim Kerja & Ergonomi",
+                    "lokasi": "Kuala Tanjung, Batu Bara",
+                    "periode": "Februari 2026",
+                    "status": "Selesai Terverifikasi"
+                },
+                {
+                    "id": "socfin",
+                    "nama": "PT Socfin Indonesia (Socfindo)",
+                    "singkatan": "Socfindo",
+                    "domain": "socfindo.co.id",
+                    "logo_custom": "",
+                    "bidang": "Perkebunan Kelapa Sawit & Karet",
+                    "layanan": "Pengujian Faktor Fisika Lingkungan Kerja",
+                    "lokasi": "Medan, Sumatera Utara",
+                    "periode": "Februari 2026",
+                    "status": "Selesai Terverifikasi"
+                },
+                {
+                    "id": "wilmar",
+                    "nama": "PT Wilmar Nabati Indonesia",
+                    "singkatan": "Wilmar",
+                    "domain": "wilmar-international.com",
+                    "logo_custom": "",
+                    "bidang": "Agroindustri Pangan & Kelapa Sawit",
+                    "layanan": "Pengujian Kualitas Udara Kerja",
+                    "lokasi": "Pelintung, Dumai / Hub Medan",
+                    "periode": "Februari 2026",
+                    "status": "Selesai Terverifikasi"
+                },
+                {
+                    "id": "tobapulp",
+                    "nama": "PT Toba Pulp Lestari Tbk",
+                    "singkatan": "Toba Pulp",
+                    "domain": "tobapulp.com",
+                    "logo_custom": "",
+                    "bidang": "Industri Pulp & Kertas Kayu Ekaliptus",
+                    "layanan": "Pengujian Getaran & Kebisingan",
+                    "lokasi": "Porsea, Toba Samosir",
+                    "periode": "Februari 2026",
+                    "status": "Selesai Terverifikasi"
+                }
+            ]
+        }
+    },
+    "laporan_tahunan": {
+        "2026": {
+            "id": "2026",
+            "tipe": "tahunan",
+            "tahun": 2026,
+            "periode_label": "Tahun 2026 (Akumulasi Berjalan)",
+            "badge_periode": "Rekap Tahunan",
+            "ringkasan_eksekutif": {
+                "judul": "Capaian Kinerja Akumulatif Tahun Anggaran 2026",
+                "deskripsi": "Konsolidasi capaian kinerja Balai K3 Medan tahun 2026 meliputi target PNBP tahunan, perluasan jangkauan pengujian industri di wilayah Sumatera, serta peningkatan budaya K3."
+            },
+            "kpi_utama": [
+                {
+                    "id": "pnbp",
+                    "label": "Total PNBP Terhimpun",
+                    "nilai": 78020000,
+                    "format": "Rp 78.020.000",
+                    "keterangan": "9,18% dari target tahunan Rp 850.000.000"
+                },
+                {
+                    "id": "perusahaan",
+                    "label": "Total Perusahaan Terlayani",
+                    "nilai": 9,
+                    "format": "9 Perusahaan",
+                    "keterangan": "Akumulasi badan usaha terlayani hingga Februari"
+                },
+                {
+                    "id": "peserta",
+                    "label": "Total Peserta Pembinaan K3",
+                    "nilai": 910,
+                    "format": "910 Orang",
+                    "keterangan": "Melampaui target tahunan (303,33%)"
+                },
+                {
+                    "id": "sosialisasi",
+                    "label": "Total Sesi Sosialisasi",
+                    "nilai": 28,
+                    "format": "28 Sesi",
+                    "keterangan": "Sosialisasi offline & webinar teknis"
+                }
+            ],
+            "sasaran_strategis": [
+                {
+                    "no": 1,
+                    "sasaran": "Terlaksananya Pelayanan Pengujian K3",
+                    "indikator": "Jumlah obyek K3 yang mendapatkan layanan pengujian K3",
+                    "target": 350,
+                    "satuan": "Badan Usaha",
+                    "realisasi": 9,
+                    "persen": 2.57,
+                    "keterangan": "Akumulasi realisasi 2 bulan berjalan mencapai 9 obyek industri."
+                },
+                {
+                    "no": 2,
+                    "sasaran": "Terlaksananya Pelayanan Pengujian K3",
+                    "indikator": "Jumlah tenaga kerja yang ditingkatkan kapasitasnya atau memperoleh pembinaan K3",
+                    "target": 300,
+                    "satuan": "Orang",
+                    "realisasi": 910,
+                    "persen": 303.33,
+                    "keterangan": "Realisasi kumulatif melampaui target awal (Webinar Nasional & Pelatihan Teknis)."
+                },
+                {
+                    "no": 3,
+                    "sasaran": "Terlaksananya Pelayanan Pengujian K3",
+                    "indikator": "Jumlah obyek K3 yang mendapatkan pendampingan SMK3",
+                    "target": 20,
+                    "satuan": "Obyek",
+                    "realisasi": 0,
+                    "persen": 0.0,
+                    "keterangan": "Penetapan jadwal pendampingan SMK3 terkoordinasi untuk TW-II s.d TW-IV 2026."
+                },
+                {
+                    "no": 4,
+                    "sasaran": "Terlaksananya Dukungan Manajemen Ditjen Binwasnaker dan K3",
+                    "indikator": "Layanan Dukungan Manajemen Internal",
+                    "target": 1,
+                    "satuan": "Layanan",
+                    "realisasi": 1,
+                    "persen": 100.0,
+                    "keterangan": "Dukungan operasional dan tata kelola internal terlaksana 100% optimal."
+                }
+            ],
+            "sebaran_peserta_webinar": {
+                "judul": "Akumulasi Peserta Edukasi & Webinar K3 Tahun 2026",
+                "total": 910,
+                "kategori": [
+                    { "label": "Instansi Pemerintah", "jumlah": 451, "persen": 49.6, "warna": "#09377D" },
+                    { "label": "Perusahaan Swasta & BUMN", "jumlah": 261, "persen": 28.7, "warna": "#1E40AF" },
+                    { "label": "Masyarakat Umum", "jumlah": 117, "persen": 12.8, "warna": "#2563EB" },
+                    { "label": "Akademisi & Peneliti", "jumlah": 55, "persen": 6.0, "warna": "#4F46E5" },
+                    { "label": "Mahasiswa", "jumlah": 26, "persen": 2.9, "warna": "#93C5FD" }
+                ]
+            },
+            "perusahaan_mitra": [
+                {
+                    "id": "pacmedan",
+                    "nama": "PT Pacific Medan Industri",
+                    "singkatan": "Pacific Medan Industri",
+                    "domain": "pacmedan.com",
+                    "logo_custom": "assets/logo_pamin.png",
+                    "bidang": "Pengolahan Minyak Nabati & Kelapa Sawit",
+                    "layanan": "Pengujian Lingkungan Kerja",
+                    "lokasi": "KIM II Mabar, Deli Serdang",
+                    "periode": "Januari 2026",
+                    "status": "Selesai Terverifikasi"
+                },
+                {
+                    "id": "inalum",
+                    "nama": "PT Indonesia Asahan Aluminium (Inalum)",
+                    "singkatan": "Inalum",
+                    "domain": "inalum.id",
+                    "logo_custom": "",
+                    "bidang": "Peleburan Aluminium & Pembangkit Listrik",
+                    "layanan": "Pengujian Iklim Kerja & Ergonomi",
+                    "lokasi": "Kuala Tanjung, Batu Bara",
+                    "periode": "Februari 2026",
+                    "status": "Selesai Terverifikasi"
+                },
+                {
+                    "id": "musimmas",
+                    "nama": "PT Musim Mas",
+                    "singkatan": "Musim Mas",
+                    "domain": "musimmas.com",
+                    "logo_custom": "",
+                    "bidang": "Industri Pengolahan Minyak Sawit",
+                    "layanan": "Pengujian Kebisingan & Faktor Kimia",
+                    "lokasi": "KIM II, Medan",
+                    "periode": "Februari 2026",
+                    "status": "Selesai Terverifikasi"
+                },
+                {
+                    "id": "prodia",
+                    "nama": "PT Prodia Widyahusada Tbk",
+                    "singkatan": "Prodia",
+                    "domain": "prodia.co.id",
+                    "logo_custom": "",
+                    "bidang": "Layanan Laboratorium Kesehatan",
+                    "layanan": "Pemeriksaan Ergonomi & Faktor Kimia",
+                    "lokasi": "Medan, Sumatera Utara",
+                    "periode": "Januari 2026",
+                    "status": "Selesai Terverifikasi"
+                }
+            ]
+        },
+        "2025": {
+            "id": "2025",
+            "tipe": "tahunan",
+            "tahun": 2025,
+            "periode_label": "Tahun Anggaran 2025 (Penuh)",
+            "badge_periode": "Rekap Tahunan",
+            "ringkasan_eksekutif": {
+                "judul": "Laporan Tahunan Capaian Kinerja Tahun 2025",
+                "deskripsi": "Realisasi penuh program pembinaan, pengujian keselamatan dan kesehatan kerja, serta optimalisasi penerimaan negara bukan pajak (PNBP) Balai K3 Medan selama Tahun Anggaran 2025."
+            },
+            "kpi_utama": [
+                {
+                    "id": "pnbp",
+                    "label": "Total Realisasi PNBP",
+                    "nilai": 892450000,
+                    "format": "Rp 892.450.000",
+                    "keterangan": "111,56% dari target Rp 800.000.000"
+                },
+                {
+                    "id": "perusahaan",
+                    "label": "Perusahaan Terlayani",
+                    "nilai": 368,
+                    "format": "368 Perusahaan",
+                    "keterangan": "105,14% dari target 350 perusahaan"
+                },
+                {
+                    "id": "peserta",
+                    "label": "Peserta Edukasi K3",
+                    "nilai": 3420,
+                    "format": "3.420 Orang",
+                    "keterangan": "122,14% dari target 2.800 peserta"
+                },
+                {
+                    "id": "sosialisasi",
+                    "label": "Kegiatan Sosialisasi",
+                    "nilai": 184,
+                    "format": "184 Sesi",
+                    "keterangan": "Sesi edukasi, bimtek, & pengawasan"
+                }
+            ],
+            "sasaran_strategis": [
+                {
+                    "no": 1,
+                    "sasaran": "Terlaksananya Pelayanan Pengujian K3",
+                    "indikator": "Jumlah obyek K3 yang mendapatkan layanan pengujian K3",
+                    "target": 350,
+                    "satuan": "Badan Usaha",
+                    "realisasi": 368,
+                    "persen": 105.14,
+                    "keterangan": "Target tahun 2025 tercapai dan melampaui sasaran sebesar 105,14%."
+                },
+                {
+                    "no": 2,
+                    "sasaran": "Terlaksananya Pelayanan Pengujian K3",
+                    "indikator": "Jumlah tenaga kerja yang ditingkatkan kapasitasnya atau memperoleh pembinaan K3",
+                    "target": 2800,
+                    "satuan": "Orang",
+                    "realisasi": 3420,
+                    "persen": 122.14,
+                    "keterangan": "Penyelenggaraan pelatihan personil K3 industri dan seminar K3 lintas provinsi."
+                },
+                {
+                    "no": 3,
+                    "sasaran": "Terlaksananya Pelayanan Pengujian K3",
+                    "indikator": "Jumlah obyek K3 yang mendapatkan pendampingan SMK3",
+                    "target": 20,
+                    "satuan": "Obyek",
+                    "realisasi": 22,
+                    "persen": 110.0,
+                    "keterangan": "Pendampingan sistem manajemen K3 pada 22 perusahaan kategori risiko tinggi."
+                },
+                {
+                    "no": 4,
+                    "sasaran": "Terlaksananya Dukungan Manajemen Ditjen Binwasnaker dan K3",
+                    "indikator": "Layanan Dukungan Manajemen Internal",
+                    "target": 1,
+                    "satuan": "Layanan",
+                    "realisasi": 1,
+                    "persen": 100.0,
+                    "keterangan": "Realisasi tata kelola anggaran dan layanan operasional UPT 100% akuntabel."
+                }
+            ],
+            "sebaran_peserta_webinar": {
+                "judul": "Sebaran Peserta Pembinaan K3 Tahun 2025",
+                "total": 3420,
+                "kategori": [
+                    { "label": "Perusahaan Industri", "jumlah": 1840, "persen": 53.8, "warna": "#09377D" },
+                    { "label": "Instansi Pemerintah", "jumlah": 890, "persen": 26.0, "warna": "#1E40AF" },
+                    { "label": "Akademisi & Peneliti", "jumlah": 420, "persen": 12.3, "warna": "#2563EB" },
+                    { "label": "Mahasiswa & Umum", "jumlah": 270, "persen": 7.9, "warna": "#93C5FD" }
+                ]
+            },
+            "perusahaan_mitra": [
+                {
+                    "id": "pertamina",
+                    "nama": "PT Pertamina Patra Niaga Regional Sumbagut",
+                    "singkatan": "Pertamina Sumbagut",
+                    "domain": "pertaminapatraniaga.com",
+                    "logo_custom": "",
+                    "bidang": "Distribusi Energi & BBM / LPG",
+                    "layanan": "Pengujian Lingkungan Kerja & Keselamatan Instalasi",
+                    "lokasi": "Medan, Sumatera Utara",
+                    "periode": "Tahun 2025",
+                    "status": "Selesai Terverifikasi"
+                },
+                {
+                    "id": "pln",
+                    "nama": "PT PLN (Persero) Unit Induk Distribusi Sumut",
+                    "singkatan": "PLN UID Sumut",
+                    "domain": "pln.co.id",
+                    "logo_custom": "",
+                    "bidang": "Kelistrikan & Transmisi Daya",
+                    "layanan": "Pengujian Medan Magnet, Medan Listrik & Ergonomi",
+                    "lokasi": "Sumatera Utara",
+                    "periode": "Tahun 2025",
+                    "status": "Selesai Terverifikasi"
+                },
+                {
+                    "id": "pacmedan",
+                    "nama": "PT Pacific Medan Industri",
+                    "singkatan": "Pacific Medan Industri",
+                    "domain": "pacmedan.com",
+                    "logo_custom": "assets/logo_pamin.png",
+                    "bidang": "Pengolahan Minyak Nabati & Kelapa Sawit",
+                    "layanan": "Pengujian Faktor Fisika & Kimia",
+                    "lokasi": "KIM II Mabar, Deli Serdang",
+                    "periode": "Tahun 2025",
+                    "status": "Selesai Terverifikasi"
+                },
+                {
+                    "id": "inalum",
+                    "nama": "PT Indonesia Asahan Aluminium (Inalum)",
+                    "singkatan": "Inalum",
+                    "domain": "inalum.id",
+                    "logo_custom": "",
+                    "bidang": "Peleburan Aluminium Industri",
+                    "layanan": "Pemeriksaan Ergonomi & Iklim Kerja",
+                    "lokasi": "Kuala Tanjung, Batu Bara",
+                    "periode": "Tahun 2025",
+                    "status": "Selesai Terverifikasi"
+                }
+            ]
+        }
     },
     "ringkasan_eksekutif": {
         "judul": "Capaian Kinerja Periode Januari 2026",
