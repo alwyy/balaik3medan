@@ -950,4 +950,50 @@ document.addEventListener("DOMContentLoaded", function () {
 
     initGsapBoxReveal();
 
+    /* ==========================================================================
+       12. MOTION (FRAMER MOTION): SPRING HOVER & TACTILE CARD INTERACTIONS
+       ========================================================================== */
+    const initMotionCardInteractions = () => {
+        if (typeof Motion === "undefined") return;
+
+        const prefersReducedMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        if (prefersReducedMotion) return;
+
+        const interactiveCardSelectors = [
+            ".service-card",
+            ".activity-card",
+            ".gallery-ig-card",
+            ".vm-item",
+            ".kpi-card",
+            ".sasaran-box",
+            ".mitra-card",
+            ".contact-card",
+            ".jadwal-card",
+            ".jenis-card",
+            ".highlight-card"
+        ];
+
+        const cards = document.querySelectorAll(interactiveCardSelectors.join(", "));
+
+        cards.forEach(card => {
+            card.addEventListener("mouseenter", () => {
+                Motion.animate(
+                    card,
+                    { y: -5, scale: 1.015 },
+                    { duration: 0.25, easing: Motion.spring({ stiffness: 380, damping: 24 }) }
+                );
+            });
+
+            card.addEventListener("mouseleave", () => {
+                Motion.animate(
+                    card,
+                    { y: 0, scale: 1 },
+                    { duration: 0.22, easing: "ease-out" }
+                );
+            });
+        });
+    };
+
+    initMotionCardInteractions();
+
 });

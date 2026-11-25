@@ -971,7 +971,7 @@
     </div>
 </div>
 
-<!-- SCRIPT FILTER & LIVE SEARCH -->
+<!-- SCRIPT FILTER & LIVE SEARCH WITH MOTION (FRAMER MOTION) -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const searchInput = document.getElementById('standarSearchInput');
@@ -980,26 +980,51 @@ document.addEventListener('DOMContentLoaded', function() {
     const emptyState = document.getElementById('pasalEmptyState');
     const btnDirectK3 = document.getElementById('btnFilterK3Direct');
     const tabFilterK3 = document.getElementById('tabFilterK3');
+    const highlightCards = document.querySelectorAll('.highlight-card');
 
     let currentFilter = 'all';
 
+    // 1. Motion InView & Hover untuk 4 Highlight Cards di Atas
+    if (highlightCards.length > 0 && typeof Motion !== 'undefined') {
+        Motion.inView(highlightCards[0], () => {
+            Motion.animate(
+                highlightCards,
+                { opacity: [0, 1], y: [24, 0], scale: [0.96, 1] },
+                {
+                    duration: 0.55,
+                    delay: Motion.stagger(0.08),
+                    easing: Motion.spring({ stiffness: 360, damping: 25 })
+                }
+            );
+        });
+
+        highlightCards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                Motion.animate(card, { y: -4, scale: 1.02 }, { duration: 0.25, easing: Motion.spring({ stiffness: 400, damping: 25 }) });
+            });
+            card.addEventListener('mouseleave', () => {
+                Motion.animate(card, { y: 0, scale: 1 }, { duration: 0.22, easing: 'ease-out' });
+            });
+        });
+    }
+
+    // 2. Fungsi Filter & Live Search dengan Animasi Masuk Motion
     function applyFilterAndSearch() {
         const query = searchInput.value.toLowerCase().trim();
         let visibleCount = 0;
+        const visibleCards = [];
 
         cards.forEach(card => {
             const category = card.getAttribute('data-category');
             const keywords = (card.getAttribute('data-keywords') || '').toLowerCase();
             const textContent = card.innerText.toLowerCase();
 
-            // Cek kecocokan kategori tab
             const matchesCategory = (currentFilter === 'all') || (category === currentFilter);
-
-            // Cek kecocokan teks pencarian
             const matchesSearch = !query || textContent.includes(query) || keywords.includes(query);
 
             if (matchesCategory && matchesSearch) {
                 card.style.display = 'flex';
+                visibleCards.push(card);
                 visibleCount++;
             } else {
                 card.style.display = 'none';
@@ -1009,15 +1034,60 @@ document.addEventListener('DOMContentLoaded', function() {
         if (emptyState) {
             emptyState.style.display = (visibleCount === 0) ? 'block' : 'none';
         }
+
+        // Animasi Masuk Card via Motion (Staggered Spring)
+        if (visibleCards.length > 0 && typeof Motion !== 'undefined') {
+            Motion.animate(
+                visibleCards,
+                { opacity: [0, 1], y: [16, 0], scale: [0.97, 1] },
+                {
+                    duration: 0.45,
+                    delay: Motion.stagger(0.032, { start: 0 }),
+                    easing: Motion.spring({ stiffness: 380, damping: 26 })
+                }
+            );
+        }
     }
 
-    // Event Tab Click
+    // 3. Motion Hover & Click Feedback pada Filter Tabs
     tabs.forEach(tab => {
+        // Hover spring physics
+        tab.addEventListener('mouseenter', () => {
+            if (typeof Motion !== 'undefined') {
+                Motion.animate(tab, { scale: 1.04, y: -2 }, { duration: 0.2, easing: Motion.spring({ stiffness: 420, damping: 22 }) });
+            }
+        });
+        tab.addEventListener('mouseleave', () => {
+            if (typeof Motion !== 'undefined') {
+                Motion.animate(tab, { scale: 1, y: 0 }, { duration: 0.2, easing: 'ease-out' });
+            }
+        });
+
+        // Click event dengan pop animation & filter
         tab.addEventListener('click', function() {
             tabs.forEach(t => t.classList.remove('active'));
             this.classList.add('active');
+
+            if (typeof Motion !== 'undefined') {
+                Motion.animate(this, { scale: [0.93, 1.06, 1] }, { duration: 0.35, easing: Motion.spring({ stiffness: 500, damping: 20 }) });
+            }
+
             currentFilter = this.getAttribute('data-filter');
             applyFilterAndSearch();
+        });
+    });
+
+    // 4. Motion Hover Physics pada Setiap Pasal Card
+    cards.forEach(card => {
+        card.addEventListener('mouseenter', () => {
+            if (typeof Motion !== 'undefined') {
+                Motion.animate(card, { y: -4, scale: 1.012 }, { duration: 0.25, easing: Motion.spring({ stiffness: 350, damping: 24 }) });
+            }
+        });
+        card.addEventListener('mouseleave', () => {
+            if (typeof Motion !== 'undefined') {
+                Motion.animate(card, { y: 0, scale: 1 }, { duration: 0.22, easing: 'ease-out' });
+            }
         });
     });
 
@@ -1031,6 +1101,24 @@ document.addEventListener('DOMContentLoaded', function() {
         btnDirectK3.addEventListener('click', function() {
             tabFilterK3.click();
             tabFilterK3.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        });
+    }
+
+    // Inisialisasi awal animasi kartu pasal yang pertama tampil
+    if (typeof Motion !== 'undefined' && cards.length > 0) {
+        Motion.inView('.pasal-grid', () => {
+            const initialCards = Array.from(cards).filter(c => c.style.display !== 'none');
+            if (initialCards.length > 0) {
+                Motion.animate(
+                    initialCards.slice(0, 16),
+                    { opacity: [0, 1], y: [20, 0], scale: [0.97, 1] },
+                    {
+                        duration: 0.45,
+                        delay: Motion.stagger(0.035),
+                        easing: Motion.spring({ stiffness: 360, damping: 25 })
+                    }
+                );
+            }
         });
     }
 });
