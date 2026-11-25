@@ -872,7 +872,6 @@ $companies = $activeReport['perusahaan_mitra'] ?? [];
 
         <!-- HEADER SECTION -->
         <header class="capaian-header">
-            <span class="capaian-badge">Akuntabilitas &amp; Kinerja Resmi</span>
             <h1 class="capaian-title" id="capaianTitleText">{{ $meta['title'] ?? 'Sasaran Strategis & Capaian Kinerja Balai K3 Medan' }}</h1>
             <p class="capaian-subtitle" id="capaianDescText">
                 {{ $summary['deskripsi'] ?? 'Pelaksanaan kegiatan keselamatan dan kesehatan kerja serta realisasi pengujian lingkungan kerja Balai K3 Medan.' }}

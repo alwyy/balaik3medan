@@ -1,300 +1,765 @@
 @extends('layouts.app')
 
 @section('content')
-﻿<style>
-.services-detail-section {
-    max-width: 1200px;
-    margin: 40px auto 80px;
-    padding: 0 20px;
-}
+<?php
+/**
+ * Jenis Layanan K3 - Balai K3 Medan
+ * Desain Resmi Pemerintahan (Clean, Authoritative & Monochromatic Navy)
+ * Bebas Data Dummy - Seluruh kategori dan jenis layanan terhubung dinamis ke CMS (data/jenis_layanan.json).
+ * Menghilangkan icon berlebih agar tampilan fokus pada informasi parameter uji dan dasar hukum resmi.
+ */
 
-.services-header {
-    text-align: center;
-    margin-bottom: 50px;
-}
+$meta = $meta ?? [];
+$services = $services ?? [];
+$categories = $categories ?? [];
+$allServices = $allServices ?? $services;
+$activeCategory = $activeCategory ?? 'all';
+?>
 
-.services-header h1 {
-    font-size: 34px;
-    color: var(--color-primary, #09377D);
-    font-weight: 700;
-    margin-bottom: 12px;
-    letter-spacing: -0.01em;
-}
-
-.services-header p {
-    font-size: 16px;
-    color: var(--color-text-muted, #64748b);
-    max-width: 750px;
-    margin: auto;
-    line-height: 1.6;
-}
-
-.service-grid-detail {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-    gap: 28px;
-}
-
-.service-item-card {
-    background: #ffffff;
-    border-radius: var(--radius-xl, 18px);
-    padding: 34px 28px;
-    border: 1px solid var(--color-border, #e2e8f0);
-    box-shadow: var(--shadow-md, 0 4px 14px rgba(15, 23, 42, 0.06));
-    border-top: 4px solid var(--color-primary, #09377D);
-    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-                box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-                border-color 0.25s ease;
-}
-
-.service-item-card:hover {
-    transform: translateY(-3px);
-    box-shadow: var(--shadow-hover, 0 16px 36px rgba(0, 51, 102, 0.12));
-    border-color: rgba(0, 51, 102, 0.25);
-}
-
-.service-icon-box {
-    width: 58px;
-    height: 58px;
-    border-radius: var(--radius-lg, 14px);
-    background: var(--color-surface-hover, #eef5fc);
-    color: var(--color-primary, #09377D);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 26px;
-    margin-bottom: 20px;
-    border: 1px solid var(--color-border, #e2e8f0);
-    transition: transform 0.25s ease, background-color 0.25s ease;
-}
-
-.service-item-card:hover .service-icon-box {
-    transform: scale(1.06);
-    background: var(--color-primary, #09377D);
-    color: #ffffff;
-}
-
-.service-item-card h3 {
-    font-size: 20px;
-    color: var(--color-primary, #09377D);
-    margin-bottom: 14px;
-    font-weight: 700;
-}
-
-.service-item-card p {
-    font-size: 14.5px;
+<style>
+/* ==========================================================================
+   HALAMAN JENIS LAYANAN K3 (CLEAN GOVERNMENT EDITORIAL DESIGN)
+   ========================================================================== */
+.services-page-wrap {
+    background: var(--color-bg, #f8fafc);
     color: var(--color-text-body, #334155);
-    line-height: 1.7;
-    margin-bottom: 14px;
-}
-
-.service-item-card ul {
-    padding-left: 20px;
-    font-size: 14px;
-    color: var(--color-text-body, #334155);
-}
-
-.service-item-card li {
-    margin-bottom: 8px;
-    line-height: 1.5;
-}
-
-.cta-box {
-    margin-top: 60px;
-    background: var(--color-primary, #09377D);
-    border-radius: var(--radius-xl, 18px);
-    padding: 44px 36px;
-    text-align: center;
-    color: #ffffff;
-    box-shadow: var(--shadow-lg, 0 10px 28px rgba(15, 23, 42, 0.08));
+    min-height: calc(100vh - 180px);
+    padding: 24px 0 70px;
     position: relative;
     overflow: hidden;
 }
 
-.cta-box h2 {
-    font-size: 26px;
+/* Dekorasi Garis Halus K3 */
+.services-decor {
+    position: absolute;
+    pointer-events: none;
+    z-index: 1;
+    user-select: none;
+    opacity: 0.08;
+}
+
+.services-decor.decor-top-left {
+    top: -50px;
+    left: -80px;
+    width: 440px;
+    max-width: 36vw;
+    height: auto;
+    transform: rotate(-14deg);
+}
+
+.services-decor.decor-bottom-right {
+    bottom: -70px;
+    right: -90px;
+    width: 500px;
+    max-width: 40vw;
+    height: auto;
+    transform: rotate(166deg) scaleX(-1);
+}
+
+.services-decor-img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.services-container {
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 0 24px;
+    position: relative;
+    z-index: 2;
+}
+
+/* ==========================================================================
+   HEADER SECTION
+   ========================================================================== */
+.services-header {
+    text-align: center;
+    max-width: 820px;
+    margin: 0 auto 30px;
+}
+
+.services-badge {
+    display: inline-block;
+    background: rgba(9, 55, 125, 0.06);
+    border: 1px solid rgba(9, 55, 125, 0.16);
+    color: var(--color-primary, #09377D);
+    padding: 5px 14px;
+    border-radius: 9999px;
+    font-size: 12px;
     font-weight: 700;
+    margin-bottom: 12px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-family: var(--font-title, 'Montserrat', sans-serif);
+}
+
+.services-title {
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--color-primary, #09377D);
+    letter-spacing: -0.015em;
+    margin-bottom: 10px;
+    line-height: 1.25;
+    font-family: var(--font-title, 'Montserrat', sans-serif);
+}
+
+.services-subtitle {
+    font-size: 15px;
+    color: var(--color-text-muted, #475569);
+    line-height: 1.6;
+    margin: 0 auto;
+    max-width: 740px;
+}
+
+/* ==========================================================================
+   CONTROL PANEL: SEARCH & CATEGORY FILTER TABS (CMS INTEGRATED)
+   ========================================================================== */
+.services-controls-panel {
+    background: #ffffff;
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: var(--radius-xl, 14px);
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
+    padding: 18px 22px;
+    margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.services-search-row {
+    position: relative;
+}
+
+.services-search-input {
+    width: 100%;
+    padding: 11px 16px 11px 16px;
+    border: 1.5px solid var(--color-border, #e2e8f0);
+    border-radius: 9px;
+    font-size: 14px;
+    background: #f8fafc;
+    color: var(--color-text-body, #0f172a);
+    font-family: inherit;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+}
+
+.services-search-input:focus {
+    outline: none;
+    background: #ffffff;
+    border-color: var(--color-primary, #09377D);
+    box-shadow: 0 0 0 3px rgba(9, 55, 125, 0.12);
+}
+
+.services-tabs-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.service-tab-btn {
+    background: #f1f5f9;
+    border: 1px solid transparent;
+    color: #475569;
+    padding: 7px 15px;
+    border-radius: 9999px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.2s ease;
+    user-select: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.service-tab-btn:hover {
+    background: #e2e8f0;
+    color: var(--color-primary, #09377D);
+}
+
+.service-tab-btn.active {
+    background: var(--color-primary, #09377D);
+    color: #ffffff;
+    box-shadow: 0 2px 8px rgba(9, 55, 125, 0.22);
+}
+
+.services-status-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    background: #f8fafc;
+    border: 1px solid #edf2f7;
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-size: 12.5px;
+    color: #64748b;
+}
+
+.services-status-bar strong {
+    color: var(--color-primary, #09377D);
+}
+
+/* ==========================================================================
+   GRID DAFTAR JENIS LAYANAN (CLEAN, NO ICON OVERUSE)
+   ========================================================================== */
+.services-grid-wrap {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 22px;
+    margin-bottom: 35px;
+}
+
+.service-card-item {
+    background: #ffffff;
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: var(--radius-xl, 14px);
+    padding: 26px 24px;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
+    border-top: 3.5px solid var(--color-primary, #09377D);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.service-card-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 24px rgba(9, 55, 125, 0.08);
+    border-color: #cbd5e1;
+}
+
+.service-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
     margin-bottom: 12px;
 }
 
-.cta-box p {
-    font-size: 16px;
-    opacity: 0.95;
-    max-width: 650px;
-    margin: 0 auto 26px;
-    line-height: 1.6;
+.service-num-badge {
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--color-primary, #09377D);
+    background: rgba(9, 55, 125, 0.06);
+    border: 1px solid rgba(9, 55, 125, 0.16);
+    padding: 3px 10px;
+    border-radius: 6px;
+    font-family: var(--font-title, 'Montserrat', sans-serif);
 }
 
-.cta-btn {
+.service-category-tag {
+    font-size: 12px;
+    font-weight: 600;
+    color: #475569;
+    background: #f1f5f9;
+    padding: 3px 10px;
+    border-radius: 9999px;
+}
+
+.service-card-title {
+    font-size: 18.5px;
+    font-weight: 700;
+    color: var(--color-primary, #09377D);
+    margin: 0 0 10px;
+    line-height: 1.35;
+    font-family: var(--font-title, 'Montserrat', sans-serif);
+}
+
+.service-card-desc {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--color-text-body, #334155);
+    margin-bottom: 16px;
+}
+
+/* Lingkup Parameter Uji */
+.service-scope-wrap {
+    background: #f8fafc;
+    border: 1px solid #edf2f7;
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin-bottom: 16px;
+}
+
+.service-scope-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--color-primary, #09377D);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    margin-bottom: 8px;
+}
+
+.service-scope-list {
+    margin: 0;
+    padding-left: 18px;
+    font-size: 13px;
+    color: #475569;
+    line-height: 1.55;
+}
+
+.service-scope-list li {
+    margin-bottom: 5px;
+}
+
+.service-scope-list li:last-child {
+    margin-bottom: 0;
+}
+
+/* Metadata Footer Card */
+.service-card-meta {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-top: 14px;
+    border-top: 1px dashed var(--color-border, #e2e8f0);
+    font-size: 12.5px;
+}
+
+.meta-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.meta-label {
+    color: #64748b;
+    font-weight: 500;
+}
+
+.meta-value {
+    color: #334155;
+    font-weight: 600;
+    text-align: right;
+}
+
+.service-card-actions {
+    margin-top: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.service-btn-contact {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
-    background: #ffffff;
-    color: var(--color-primary, #09377D);
-    padding: 12px 28px;
-    border-radius: var(--radius-md, 10px);
-    font-weight: 700;
-    font-size: 15px;
+    background: var(--color-primary, #09377D);
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 8px;
     text-decoration: none;
-    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
-                box-shadow 0.2s ease,
-                background-color 0.2s ease;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+    transition: all 0.2s ease;
+    width: 100%;
 }
 
-.cta-btn:hover {
-    background: var(--color-surface-hover, #eef5fc);
+.service-btn-contact:hover {
+    background: #124b9e;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(9, 55, 125, 0.2);
+}
+
+/* State Pencarian / Filter Kosong */
+.services-empty-state {
+    display: none;
+    text-align: center;
+    padding: 48px 20px;
+    background: #ffffff;
+    border-radius: 14px;
+    border: 1px dashed var(--color-border, #cbd5e1);
+    grid-column: 1 / -1;
+}
+
+.services-empty-state h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--color-primary, #09377D);
+    margin: 0 0 6px;
+    font-family: var(--font-title, 'Montserrat', sans-serif);
+}
+
+.services-empty-state p {
+    font-size: 14px;
+    color: #64748b;
+    margin: 0 0 16px;
+}
+
+.btn-reset-filter {
+    background: #f1f5f9;
+    border: 1px solid #cbd5e1;
+    color: var(--color-primary, #09377D);
+    font-size: 13px;
+    font-weight: 600;
+    padding: 7px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+/* ==========================================================================
+   CTA BANNER RESMI
+   ========================================================================== */
+.services-cta-box {
+    background: #ffffff;
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: var(--radius-xl, 14px);
+    padding: 32px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
+    border-left: 4px solid var(--color-primary, #09377D);
+}
+
+.services-cta-text h3 {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--color-primary, #09377D);
+    margin: 0 0 6px;
+    font-family: var(--font-title, 'Montserrat', sans-serif);
+}
+
+.services-cta-text p {
+    font-size: 14px;
+    color: var(--color-text-muted, #64748b);
+    margin: 0;
+    line-height: 1.55;
+}
+
+.services-cta-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-primary, #09377D);
+    color: #ffffff;
+    padding: 11px 24px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 14px;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+}
+
+.services-cta-btn:hover {
+    background: #124b9e;
+    color: #ffffff;
     transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 14px rgba(9, 55, 125, 0.25);
 }
 
-.cta-btn:active {
-    transform: translateY(0) scale(0.98);
+/* ==========================================================================
+   RESPONSIVE BREAKPOINTS
+   ========================================================================== */
+@media (max-width: 900px) {
+    .services-grid-wrap {
+        grid-template-columns: 1fr;
+    }
+    .services-cta-box {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 640px) {
+    .services-title {
+        font-size: 24px;
+    }
+    .services-controls-panel {
+        padding: 16px 14px;
+    }
+    .service-card-item {
+        padding: 20px 18px;
+    }
 }
 </style>
 
-<div class="services-detail-section">
+<div class="services-page-wrap">
 
-    <div class="services-header">
-        <h1>Jenis Layanan K3</h1>
-        <p>
-            Balai Keselamatan dan Kesehatan Kerja (K3) Medan menyediakan berbagai layanan teknis
-            pengujian, pemeriksaan kesehatan kerja, pelatihan, dan pembinaan keselamatan dan kesehatan kerja.
-        </p>
+    <!-- Dekorasi Garis Halus K3 -->
+    <div class="services-decor decor-top-left" aria-hidden="true">
+        <img src="{{ asset('assets/decor_loop_navy.png') }}" alt="" class="services-decor-img">
+    </div>
+    <div class="services-decor decor-bottom-right" aria-hidden="true">
+        <img src="{{ asset('assets/decor_loop_navy.png') }}" alt="" class="services-decor-img">
     </div>
 
-    <div class="service-grid-detail">
+    <div class="services-container">
 
-        <!-- CARD 1 -->
-        <div class="service-item-card">
-            <div class="service-icon-box">
-                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M6 18h8"/>
-                    <path d="M3 22h18"/>
-                    <path d="M14 22a7 7 0 1 0 0-14h-1"/>
-                    <path d="M9 14h2"/>
-                    <path d="M9 12a2 2 0 0 1-2-2V6h6v4a2 2 0 0 1-2 2Z"/>
-                    <path d="M12 6V3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3"/>
-                </svg>
+        <!-- HEADER SECTION -->
+        <header class="services-header">
+            <span class="services-badge">Layanan Teknis Resmi</span>
+            <h1 class="services-title">{{ $meta['title'] ?? 'Jenis Layanan Pengujian & Pembinaan K3' }}</h1>
+            <p class="services-subtitle">
+                {{ $meta['deskripsi'] ?? 'Layanan teknis pengujian lingkungan kerja, pemeriksaan kesehatan tenaga kerja, bimbingan teknis, dan pendampingan SMK3 oleh Balai K3 Medan.' }}
+            </p>
+        </header>
+
+        <!-- ==================================================================
+             CONTROL PANEL: PENCARIAN & FILTER KATEGORI (CMS READY)
+             ================================================================== -->
+        <section class="services-controls-panel" aria-label="Menu Filter Layanan K3">
+            
+            <!-- Pencarian Cepat Layanan -->
+            <div class="services-search-row">
+                <input type="text" 
+                       id="serviceSearchInput" 
+                       class="services-search-input" 
+                       placeholder="Cari jenis layanan atau parameter uji (contoh: kebisingan, kimia, audiometri, ergonomi, SMK3)..."
+                       value="{{ $searchKeyword }}"
+                       autocomplete="off">
             </div>
-            <h3>1. Pengujian Faktor Fisik</h3>
-            <p>Pengukuran parameter lingkungan kerja fisik guna memastikan tempat kerja memenuhi Nilai Ambang Batas (NAB):</p>
-            <ul>
-                <li>Pengukuran kebisingan dan pemetaan kebisingan (Noise Mapping)</li>
-                <li>Pengukuran pencahayaan (Intensitas Penerangan)</li>
-                <li>Pengukuran iklim kerja (ISBB / Panas)</li>
-                <li>Pengukuran getaran (Vibrasi lengan-tangan &amp; seluruh tubuh)</li>
-                <li>Pengukuran radiasi gelombang elektromagnetik</li>
-            </ul>
+
+            <!-- Tab Kategori Layanan (Dihasilkan Otomatis dari Data CMS) -->
+            <div class="services-tabs-row" id="serviceTabsRow" role="tablist">
+                @foreach ($categories as $cat)
+                    <button type="button" 
+                            class="service-tab-btn {{ $activeCategory === $cat['id'] ? 'active' : '' }}" 
+                            data-category="{{ $cat['id'] }}"
+                            role="tab"
+                            aria-selected="{{ $activeCategory === $cat['id'] ? 'true' : 'false' }}">
+                        {{ $cat['nama'] }}
+                    </button>
+                @endforeach
+            </div>
+
+            <!-- Status Bar Informasi & CMS Status -->
+            <div class="services-status-bar">
+                <div>
+                    Menampilkan <strong id="serviceCountDisplay">{{ count($services) }}</strong> jenis layanan terdaftar
+                </div>
+                <div>
+                    Status: <strong>{{ $meta['status'] ?? 'Aktif Terverifikasi CMS' }}</strong>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ==================================================================
+             GRID DAFTAR JENIS LAYANAN
+             ================================================================== -->
+        <div class="services-grid-wrap" id="servicesGrid">
+            
+            @forelse ($allServices as $srv)
+                @php
+                    $sId = $srv['id'] ?? '';
+                    $sNum = $srv['nomor'] ?? '';
+                    $sCatId = $srv['kategori_id'] ?? '';
+                    $sCatName = $srv['kategori_nama'] ?? '';
+                    $sJudul = $srv['judul'] ?? '';
+                    $sDesc = $srv['ringkasan'] ?? '';
+                    $sHukum = $srv['dasar_hukum'] ?? '';
+                    $sObjek = $srv['objek_layanan'] ?? '';
+                    $sParams = $srv['lingkup_parameter'] ?? [];
+                    $sKeywords = mb_strtolower($sJudul . ' ' . $sDesc . ' ' . $sCatName . ' ' . implode(' ', $sParams));
+                @endphp
+                <article class="service-card-item" 
+                         data-id="{{ $sId }}" 
+                         data-category="{{ $sCatId }}"
+                         data-keywords="{{ $sKeywords }}">
+                    
+                    <div class="service-card-header">
+                        <span class="service-num-badge">{{ $sNum ?: 'LAY' }}</span>
+                        <span class="service-category-tag">{{ $sCatName }}</span>
+                    </div>
+
+                    <h2 class="service-card-title">{{ $sJudul }}</h2>
+                    <p class="service-card-desc">{{ $sDesc }}</p>
+
+                    @if (!empty($sParams))
+                        <div class="service-scope-wrap">
+                            <div class="service-scope-title">Lingkup Pengujian &amp; Parameter:</div>
+                            <ul class="service-scope-list">
+                                @foreach ($sParams as $param)
+                                    <li>{{ $param }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
+                    <div class="service-card-meta">
+                        @if (!empty($sHukum))
+                            <div class="meta-row">
+                                <span class="meta-label">Dasar Hukum:</span>
+                                <span class="meta-value">{{ $sHukum }}</span>
+                            </div>
+                        @endif
+                        @if (!empty($sObjek))
+                            <div class="meta-row">
+                                <span class="meta-label">Sasaran Objek:</span>
+                                <span class="meta-value">{{ $sObjek }}</span>
+                            </div>
+                        @endif
+                    </div>
+
+                    <div class="service-card-actions">
+                        <a href="{{ url('/#contact') }}" class="service-btn-contact">
+                            Konsultasi &amp; Permohonan Pengujian
+                        </a>
+                    </div>
+
+                </article>
+            @empty
+                <div class="services-empty-state" style="display: block;">
+                    <h3>Belum Ada Data Layanan</h3>
+                    <p>Data jenis layanan belum dipush dari sistem CMS Balai K3 Medan.</p>
+                </div>
+            @endforelse
+
+            <!-- State Pencarian Kosong (Client-side) -->
+            <div class="services-empty-state" id="serviceEmptySearch">
+                <h3>Layanan Tidak Ditemukan</h3>
+                <p>Tidak ada jenis layanan atau parameter uji yang cocok dengan kata kunci pencarian Anda.</p>
+                <button type="button" class="btn-reset-filter" id="btnResetSearch">Reset Pencarian &amp; Filter</button>
+            </div>
+
         </div>
 
-        <!-- CARD 2 -->
-        <div class="service-item-card">
-            <div class="service-icon-box">
-                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M10 2v7.31L4.15 19.34A2 2 0 0 0 5.86 22h12.28a2 2 0 0 0 1.71-2.66L14 9.31V2"/>
-                    <path d="M8.5 2h7"/>
-                    <path d="M7 16h10"/>
-                </svg>
+        <!-- ==================================================================
+             CTA BANNER RESMI
+             ================================================================== -->
+        <section class="services-cta-box" aria-label="Permohonan Layanan K3">
+            <div class="services-cta-text">
+                <h3>Membutuhkan Pengujian Teknis atau Bimbingan K3?</h3>
+                <p>
+                    Hubungi tim pelayanan Balai K3 Medan untuk permohonan pengujian lingkungan kerja,
+                    pemeriksaan kesehatan tenaga kerja, atau konsultasi pemenuhan standar regulasi K3 nasional.
+                </p>
             </div>
-            <h3>2. Pengujian Faktor Kimia &amp; Udara</h3>
-            <p>Analisis kandungan bahan berbahaya dan kualitas udara di lingkungan kerja:</p>
-            <ul>
-                <li>Pengujian debu total dan debu respirabel (Personal Dust Sampler)</li>
-                <li>Pengujian gas-gas berbahaya (CO, CO2, SO2, NO2, H2S, NH3, dll.)</li>
-                <li>Analisis uap senyawa organik mudah menguap (VOCs)</li>
-                <li>Pengukuran kandungan logam berat di udara kerja</li>
-            </ul>
-        </div>
-
-        <!-- CARD 3 -->
-        <div class="service-item-card">
-            <div class="service-icon-box">
-                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M19 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3s-3 1.34-3 3v6c0 1.66 1.34 3 3 3z"/>
-                    <path d="M5 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S2 3.34 2 5v6c0 1.66 1.34 3 3 3z"/>
-                    <path d="M2 9h6"/>
-                    <path d="M16 9h6"/>
-                    <path d="M5 14v2a7 7 0 0 0 14 0v-2"/>
-                    <path d="M12 21v1"/>
-                </svg>
-            </div>
-            <h3>3. Pemeriksaan Kesehatan Kerja</h3>
-            <p>Layanan medical check-up dan surveilans kesehatan tenaga kerja oleh dokter pemeriksa kesehatan kerja:</p>
-            <ul>
-                <li>Pemeriksaan kesehatan awal, berkala, dan khusus</li>
-                <li>Audiometri (Pemeriksaan ketajaman pendengaran)</li>
-                <li>Spirometri (Pemeriksaan fungsi paru)</li>
-                <li>Pemeriksaan laboratorium biologi dan darah</li>
-            </ul>
-        </div>
-
-        <!-- CARD 4 -->
-        <div class="service-item-card">
-            <div class="service-icon-box">
-                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="7" r="4"/>
-                    <path d="M6 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/>
-                    <path d="M16 11l2 2 4-4"/>
-                </svg>
-            </div>
-            <h3>4. Pengujian Ergonomi &amp; Psikologi</h3>
-            <p>Evaluasi kesesuaian stasiun kerja, postur kerja, dan beban kerja psikologis:</p>
-            <ul>
-                <li>Analisis postur kerja (metode REBA, RULA, OWAS)</li>
-                <li>Pengukuran beban kerja fisik dan fisiologis</li>
-                <li>Pemeriksaan kelelahan kerja (Reaction Timer)</li>
-                <li>Evaluasi faktor psikososial tempat kerja</li>
-            </ul>
-        </div>
-
-        <!-- CARD 5 -->
-        <div class="service-item-card">
-            <div class="service-icon-box">
-                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
-                    <path d="M6 12v5c3 3 9 3 12 0v-5"/>
-                </svg>
-            </div>
-            <h3>5. Pelatihan &amp; Peningkatan Kapasitas</h3>
-            <p>Program bimbingan teknis, sosialisasi, dan pelatihan kompetensi personil K3:</p>
-            <ul>
-                <li>Bimbingan Teknis Audit Internal SMK3 (PP 50/2012)</li>
-                <li>Pelatihan Higiene Industri dan Pengukuran K3</li>
-                <li>Webinar nasional &amp; Sosialisasi K3 bagi industri</li>
-                <li>Edukasi keselamatan kerja untuk mahasiswa dan masyarakat</li>
-            </ul>
-        </div>
-
-        <!-- CARD 6 -->
-        <div class="service-item-card">
-            <div class="service-icon-box">
-                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <rect width="8" height="4" x="8" y="2" rx="1" ry="1"/>
-                    <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
-                    <path d="m9 14 2 2 4-4"/>
-                </svg>
-            </div>
-            <h3>6. Konsultansi &amp; Pendampingan SMK3</h3>
-            <p>Layanan konsultasi teknis pemenuhan regulasi dan norma keselamatan kerja:</p>
-            <ul>
-                <li>Pendampingan penerapan Sistem Manajemen K3</li>
-                <li>Konsultasi pengendalian risiko bahaya di tempat kerja</li>
-                <li>Penyusunan rekomendasi perbaikan lingkungan kerja</li>
-            </ul>
-        </div>
+            <a href="{{ url('/#contact') }}" class="services-cta-btn">
+                Hubungi Petugas Layanan
+            </a>
+        </section>
 
     </div>
-
-    <!-- CTA -->
-    <div class="cta-box">
-        <h2>Butuh Layanan Pengujian atau Konsultasi K3?</h2>
-        <p>Hubungi petugas layanan kami atau ajukan permohonan resmi pengujian dan pemeriksaan K3 sekarang.</p>
-        <a href="<?= url('/#contact') ?>" class="cta-btn">Hubungi Kami</a>
-    </div>
-
 </div>
 
+<!-- ==========================================================================
+     SCRIPT FILTER & LIVE SEARCH CEPAT (MOTION INTERACTIVE)
+     ========================================================================== -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('serviceSearchInput');
+    const tabButtons = document.querySelectorAll('.service-tab-btn');
+    const serviceCards = document.querySelectorAll('.service-card-item');
+    const emptyState = document.getElementById('serviceEmptySearch');
+    const countDisplay = document.getElementById('serviceCountDisplay');
+    const btnResetSearch = document.getElementById('btnResetSearch');
+
+    let currentCategory = '<?= $activeCategory ?>';
+
+    function applyFilterAndSearch() {
+        const query = searchInput ? searchInput.value.toLowerCase().trim() : '';
+        let visibleCount = 0;
+        const visibleCards = [];
+
+        serviceCards.forEach(card => {
+            const cardCat = card.getAttribute('data-category') || '';
+            const cardKeywords = (card.getAttribute('data-keywords') || '').toLowerCase();
+            const textContent = card.innerText.toLowerCase();
+
+            const matchesCategory = (currentCategory === 'all') || (cardCat === currentCategory);
+            const matchesSearch = !query || textContent.includes(query) || cardKeywords.includes(query);
+
+            if (matchesCategory && matchesSearch) {
+                card.style.display = 'flex';
+                card.style.opacity = '1';
+                card.style.transform = 'none';
+                visibleCards.push(card);
+                visibleCount++;
+            } else {
+                card.style.display = 'none';
+            }
+        });
+
+        if (countDisplay) {
+            countDisplay.textContent = visibleCount;
+        }
+
+        if (emptyState) {
+            emptyState.style.display = (visibleCount === 0) ? 'block' : 'none';
+        }
+
+        // Efek Motion jika tersedia
+        if (visibleCards.length > 0 && typeof Motion !== 'undefined') {
+            try {
+                Motion.animate(
+                    visibleCards,
+                    { opacity: [0, 1], y: [16, 0] },
+                    {
+                        type: 'spring',
+                        stiffness: 380,
+                        damping: 26,
+                        duration: 0.35,
+                        delay: typeof Motion.stagger === 'function' ? Motion.stagger(0.04) : 0
+                    }
+                );
+            } catch (err) {}
+        }
+
+        // Update URL query params secara transparan
+        const url = new URL(window.location);
+        if (currentCategory !== 'all') {
+            url.searchParams.set('kategori', currentCategory);
+        } else {
+            url.searchParams.delete('kategori');
+        }
+        if (query) {
+            url.searchParams.set('q', query);
+        } else {
+            url.searchParams.delete('q');
+        }
+        window.history.replaceState({}, '', url);
+    }
+
+    // Event Tab Kategori
+    tabButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+            tabButtons.forEach(b => {
+                b.classList.remove('active');
+                b.setAttribute('aria-selected', 'false');
+            });
+            this.classList.add('active');
+            this.setAttribute('aria-selected', 'true');
+
+            currentCategory = this.getAttribute('data-category') || 'all';
+            applyFilterAndSearch();
+        });
+    });
+
+    // Event Input Live Search
+    if (searchInput) {
+        searchInput.addEventListener('input', applyFilterAndSearch);
+    }
+
+    // Reset Filter Button
+    if (btnResetSearch) {
+        btnResetSearch.addEventListener('click', function() {
+            if (searchInput) searchInput.value = '';
+            currentCategory = 'all';
+            tabButtons.forEach(b => {
+                const isAll = (b.getAttribute('data-category') === 'all');
+                b.classList.toggle('active', isAll);
+                b.setAttribute('aria-selected', isAll ? 'true' : 'false');
+            });
+            applyFilterAndSearch();
+        });
+    }
+
+    // Initial filter jika query parameter terisi
+    if (currentCategory !== 'all' || (searchInput && searchInput.value.trim() !== '')) {
+        applyFilterAndSearch();
+    }
+});
+</script>
 
 @endsection

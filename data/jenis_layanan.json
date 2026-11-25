@@ -1,0 +1,120 @@
+{
+    "meta": {
+        "title": "Jenis Layanan Balai Keselamatan dan Kesehatan Kerja Medan",
+        "deskripsi": "Layanan teknis pengujian lingkungan kerja, pemeriksaan kesehatan tenaga kerja, bimbingan teknis, dan pendampingan SMK3 oleh Balai K3 Medan.",
+        "regulasi_induk": "Permenaker No. 1 Tahun 2022 & Permenaker No. 5 Tahun 2018",
+        "status": "Aktif Terverifikasi CMS"
+    },
+    "kategori_list": [
+        { "id": "all", "nama": "Semua Layanan" },
+        { "id": "lingkungan-kerja", "nama": "Pengujian Lingkungan Kerja" },
+        { "id": "kesehatan-kerja", "nama": "Pemeriksaan Kesehatan Kerja" },
+        { "id": "ergonomi-psikologi", "nama": "Ergonomi & Psikologi" },
+        { "id": "pelatihan-smk3", "nama": "Pelatihan & Konsultansi SMK3" }
+    ],
+    "layanan": [
+        {
+            "id": "faktor-fisik",
+            "nomor": "01",
+            "kategori_id": "lingkungan-kerja",
+            "kategori_nama": "Pengujian Lingkungan Kerja",
+            "judul": "Pengujian Faktor Fisika Lingkungan Kerja",
+            "ringkasan": "Pengukuran parameter lingkungan kerja fisik guna memastikan tempat kerja memenuhi Nilai Ambang Batas (NAB) keselamatan kerja.",
+            "dasar_hukum": "Permenaker No. 5/2018",
+            "lingkup_parameter": [
+                "Pengukuran kebisingan dan pemetaan kebisingan (Noise Mapping)",
+                "Pengukuran intensitas pencahayaan tempat kerja",
+                "Pengukuran iklim kerja panas (Indeks Suhu Basah dan Bola / ISBB)",
+                "Pengukuran getaran lengan-tangan (hand-arm) & seluruh tubuh (whole-body)",
+                "Pengukuran radiasi gelombang elektromagnetik dan medan magnet"
+            ],
+            "objek_layanan": "Pabrik, manufaktur, perkebunan, pertambangan, dan fasilitas umum",
+            "status": "Tersedia"
+        },
+        {
+            "id": "faktor-kimia-udara",
+            "nomor": "02",
+            "kategori_id": "lingkungan-kerja",
+            "kategori_nama": "Pengujian Lingkungan Kerja",
+            "judul": "Pengujian Faktor Kimia & Kualitas Udara",
+            "ringkasan": "Analisis kandungan bahan berbahaya dan kualitas udara di lingkungan kerja melalui laboratorium terakreditasi.",
+            "dasar_hukum": "Permenaker No. 5/2018 & SNI",
+            "lingkup_parameter": [
+                "Pengujian debu total dan debu respirabel (Personal Dust Sampler)",
+                "Pengujian gas-gas berbahaya (CO, CO2, SO2, NO2, H2S, NH3)",
+                "Analisis uap senyawa organik mudah menguap (VOCs)",
+                "Pengukuran partikulat logam berat di udara area kerja"
+            ],
+            "objek_layanan": "Industri kimia, agroindustri, peleburan, perbengkelan, dan pergudangan",
+            "status": "Tersedia"
+        },
+        {
+            "id": "kesehatan-kerja",
+            "nomor": "03",
+            "kategori_id": "kesehatan-kerja",
+            "kategori_nama": "Pemeriksaan Kesehatan Kerja",
+            "judul": "Pemeriksaan & Surveilans Kesehatan Kerja",
+            "ringkasan": "Layanan surveilans kesehatan dan pemeriksaan berkala tenaga kerja oleh dokter pemeriksa kesehatan kerja tersertifikasi.",
+            "dasar_hukum": "Permenaker No. 2/1980 & Permenaker No. 3/1982",
+            "lingkup_parameter": [
+                "Pemeriksaan kesehatan awal, berkala, dan khusus tenaga kerja",
+                "Audiometri (Pemeriksaan ketajaman pendengaran)",
+                "Spirometri (Pemeriksaan kapasitas dan fungsi paru)",
+                "Pemeriksaan laboratorium biologi dan hematologi rutin"
+            ],
+            "objek_layanan": "Seluruh tenaga kerja pada sektor industri berisiko dan fasilitas kesehatan",
+            "status": "Tersedia"
+        },
+        {
+            "id": "ergonomi-psikologi",
+            "nomor": "04",
+            "kategori_id": "ergonomi-psikologi",
+            "kategori_nama": "Ergonomi & Psikologi",
+            "judul": "Pengujian Ergonomi & Beban Kerja Psikologis",
+            "ringkasan": "Evaluasi kesesuaian stasiun kerja, analisis postur tubuh, serta pengukuran kelelahan dan beban kerja psikososial.",
+            "dasar_hukum": "Permenaker No. 5/2018",
+            "lingkup_parameter": [
+                "Analisis postur kerja menggunakan metode standar (REBA, RULA, OWAS)",
+                "Pengukuran beban kerja fisik dan kapasitas kerja faal",
+                "Pemeriksaan tingkat kelelahan kerja (Reaction Timer)",
+                "Evaluasi survei faktor stres dan psikososial tempat kerja"
+            ],
+            "objek_layanan": "Operator mesin, staf perkantoran, pekerja lini perakitan, dan pengemudi",
+            "status": "Tersedia"
+        },
+        {
+            "id": "pelatihan-kapasitas",
+            "nomor": "05",
+            "kategori_id": "pelatihan-smk3",
+            "kategori_nama": "Pelatihan & Konsultansi SMK3",
+            "judul": "Pelatihan & Peningkatan Kapasitas SDM K3",
+            "ringkasan": "Program bimbingan teknis, sosialisasi regulasi, dan pelatihan kompetensi personil bidang keselamatan dan kesehatan kerja.",
+            "dasar_hukum": "UU No. 1/1970 & Permenaker No. 1/2022",
+            "lingkup_parameter": [
+                "Bimbingan teknis persiapan audit internal SMK3",
+                "Pelatihan metode pengukuran dan higiene industri tingkat dasar",
+                "Webinar nasional dan sosialisasi norma K3 bagi pengawas perusahaan",
+                "Edukasi pembinaan budaya K3 bagi akademisi dan praktisi"
+            ],
+            "objek_layanan": "Personil K3 perusahaan, perwakilan serikat pekerja, mahasiswa, dan umum",
+            "status": "Tersedia"
+        },
+        {
+            "id": "konsultansi-smk3",
+            "nomor": "06",
+            "kategori_id": "pelatihan-smk3",
+            "kategori_nama": "Pelatihan & Konsultansi SMK3",
+            "judul": "Konsultansi & Pendampingan Implementasi SMK3",
+            "ringkasan": "Layanan konsultasi teknis pemenuhan standar regulasi keselamatan kerja dan asistensi penyusunan dokumen pengendalian bahaya.",
+            "dasar_hukum": "PP No. 50/2012 tentang Penerapan SMK3",
+            "lingkup_parameter": [
+                "Pendampingan perancangan dan audit penerapan Sistem Manajemen K3",
+                "Konsultasi teknis mitigasi dan hierarki pengendalian risiko tempat kerja",
+                "Asistensi rekomendasi teknis perbaikan lingkungan kerja",
+                "Verifikasi kesesuaian dokumen regulasi K3 nasional"
+            ],
+            "objek_layanan": "Badan usaha tingkat menengah dan besar serta sektor risiko tinggi",
+            "status": "Tersedia"
+        }
+    ]
+}
