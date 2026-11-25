@@ -977,19 +977,23 @@ document.addEventListener("DOMContentLoaded", function () {
 
         cards.forEach(card => {
             card.addEventListener("mouseenter", () => {
-                Motion.animate(
-                    card,
-                    { y: -5, scale: 1.015 },
-                    { duration: 0.25, easing: Motion.spring({ stiffness: 380, damping: 24 }) }
-                );
+                try {
+                    Motion.animate(
+                        card,
+                        { y: -5, scale: 1.015 },
+                        { type: "spring", stiffness: 380, damping: 24, duration: 0.25 }
+                    );
+                } catch (e) {}
             });
 
             card.addEventListener("mouseleave", () => {
-                Motion.animate(
-                    card,
-                    { y: 0, scale: 1 },
-                    { duration: 0.22, easing: "ease-out" }
-                );
+                try {
+                    Motion.animate(
+                        card,
+                        { y: 0, scale: 1 },
+                        { duration: 0.22, ease: "ease-out" }
+                    );
+                } catch (e) {}
             });
         });
     };

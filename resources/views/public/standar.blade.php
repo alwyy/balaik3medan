@@ -986,36 +986,46 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // 1. Motion InView & Hover untuk 4 Highlight Cards di Atas
     if (highlightCards.length > 0 && typeof Motion !== 'undefined') {
-        Motion.inView(highlightCards[0], () => {
-            Motion.animate(
-                highlightCards,
-                { opacity: [0, 1], y: [24, 0], scale: [0.96, 1] },
-                {
-                    duration: 0.55,
-                    delay: Motion.stagger(0.08),
-                    easing: Motion.spring({ stiffness: 360, damping: 25 })
-                }
-            );
-        });
+        try {
+            Motion.inView(highlightCards[0], () => {
+                Motion.animate(
+                    highlightCards,
+                    { opacity: [0, 1], y: [24, 0], scale: [0.96, 1] },
+                    {
+                        type: 'spring',
+                        stiffness: 360,
+                        damping: 25,
+                        duration: 0.55,
+                        delay: typeof Motion.stagger === 'function' ? Motion.stagger(0.08) : 0
+                    }
+                );
+            });
+        } catch (e) {
+            console.warn('Motion highlight inView:', e);
+        }
 
         highlightCards.forEach(card => {
             card.addEventListener('mouseenter', () => {
-                Motion.animate(card, { y: -4, scale: 1.02 }, { duration: 0.25, easing: Motion.spring({ stiffness: 400, damping: 25 }) });
+                try {
+                    Motion.animate(card, { y: -4, scale: 1.02 }, { type: 'spring', stiffness: 400, damping: 25, duration: 0.25 });
+                } catch (e) {}
             });
             card.addEventListener('mouseleave', () => {
-                Motion.animate(card, { y: 0, scale: 1 }, { duration: 0.22, easing: 'ease-out' });
+                try {
+                    Motion.animate(card, { y: 0, scale: 1 }, { duration: 0.22, ease: 'ease-out' });
+                } catch (e) {}
             });
         });
     }
 
     // 2. Fungsi Filter & Live Search dengan Animasi Masuk Motion
     function applyFilterAndSearch() {
-        const query = searchInput.value.toLowerCase().trim();
+        const query = searchInput ? searchInput.value.toLowerCase().trim() : '';
         let visibleCount = 0;
         const visibleCards = [];
 
         cards.forEach(card => {
-            const category = card.getAttribute('data-category');
+            const category = card.getAttribute('data-category') || '';
             const keywords = (card.getAttribute('data-keywords') || '').toLowerCase();
             const textContent = card.innerText.toLowerCase();
 
@@ -1024,6 +1034,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (matchesCategory && matchesSearch) {
                 card.style.display = 'flex';
+                card.style.opacity = '1';
+                card.style.transform = 'none';
                 visibleCards.push(card);
                 visibleCount++;
             } else {
@@ -1037,15 +1049,25 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Animasi Masuk Card via Motion (Staggered Spring)
         if (visibleCards.length > 0 && typeof Motion !== 'undefined') {
-            Motion.animate(
-                visibleCards,
-                { opacity: [0, 1], y: [16, 0], scale: [0.97, 1] },
-                {
-                    duration: 0.45,
-                    delay: Motion.stagger(0.032, { start: 0 }),
-                    easing: Motion.spring({ stiffness: 380, damping: 26 })
-                }
-            );
+            try {
+                Motion.animate(
+                    visibleCards,
+                    { opacity: [0, 1], y: [16, 0], scale: [0.97, 1] },
+                    {
+                        type: 'spring',
+                        stiffness: 380,
+                        damping: 26,
+                        duration: 0.45,
+                        delay: typeof Motion.stagger === 'function' ? Motion.stagger(0.032) : 0
+                    }
+                );
+            } catch (err) {
+                console.warn('Motion filter animation:', err);
+                visibleCards.forEach(c => {
+                    c.style.opacity = '1';
+                    c.style.transform = 'none';
+                });
+            }
         }
     }
 
@@ -1054,26 +1076,32 @@ document.addEventListener('DOMContentLoaded', function() {
         // Hover spring physics
         tab.addEventListener('mouseenter', () => {
             if (typeof Motion !== 'undefined') {
-                Motion.animate(tab, { scale: 1.04, y: -2 }, { duration: 0.2, easing: Motion.spring({ stiffness: 420, damping: 22 }) });
+                try {
+                    Motion.animate(tab, { scale: 1.04, y: -2 }, { type: 'spring', stiffness: 420, damping: 22, duration: 0.2 });
+                } catch (e) {}
             }
         });
         tab.addEventListener('mouseleave', () => {
             if (typeof Motion !== 'undefined') {
-                Motion.animate(tab, { scale: 1, y: 0 }, { duration: 0.2, easing: 'ease-out' });
+                try {
+                    Motion.animate(tab, { scale: 1, y: 0 }, { duration: 0.2, ease: 'ease-out' });
+                } catch (e) {}
             }
         });
 
-        // Click event dengan pop animation & filter
+        // Click event: Update active class & Filter cards TERLEBIH DAHULU
         tab.addEventListener('click', function() {
             tabs.forEach(t => t.classList.remove('active'));
             this.classList.add('active');
 
-            if (typeof Motion !== 'undefined') {
-                Motion.animate(this, { scale: [0.93, 1.06, 1] }, { duration: 0.35, easing: Motion.spring({ stiffness: 500, damping: 20 }) });
-            }
-
-            currentFilter = this.getAttribute('data-filter');
+            currentFilter = this.getAttribute('data-filter') || 'all';
             applyFilterAndSearch();
+
+            if (typeof Motion !== 'undefined') {
+                try {
+                    Motion.animate(this, { scale: [0.93, 1.06, 1] }, { type: 'spring', stiffness: 500, damping: 20, duration: 0.35 });
+                } catch (e) {}
+            }
         });
     });
 
@@ -1081,12 +1109,16 @@ document.addEventListener('DOMContentLoaded', function() {
     cards.forEach(card => {
         card.addEventListener('mouseenter', () => {
             if (typeof Motion !== 'undefined') {
-                Motion.animate(card, { y: -4, scale: 1.012 }, { duration: 0.25, easing: Motion.spring({ stiffness: 350, damping: 24 }) });
+                try {
+                    Motion.animate(card, { y: -4, scale: 1.012 }, { type: 'spring', stiffness: 350, damping: 24, duration: 0.25 });
+                } catch (e) {}
             }
         });
         card.addEventListener('mouseleave', () => {
             if (typeof Motion !== 'undefined') {
-                Motion.animate(card, { y: 0, scale: 1 }, { duration: 0.22, easing: 'ease-out' });
+                try {
+                    Motion.animate(card, { y: 0, scale: 1 }, { duration: 0.22, ease: 'ease-out' });
+                } catch (e) {}
             }
         });
     });
@@ -1106,20 +1138,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Inisialisasi awal animasi kartu pasal yang pertama tampil
     if (typeof Motion !== 'undefined' && cards.length > 0) {
-        Motion.inView('.pasal-grid', () => {
-            const initialCards = Array.from(cards).filter(c => c.style.display !== 'none');
-            if (initialCards.length > 0) {
-                Motion.animate(
-                    initialCards.slice(0, 16),
-                    { opacity: [0, 1], y: [20, 0], scale: [0.97, 1] },
-                    {
-                        duration: 0.45,
-                        delay: Motion.stagger(0.035),
-                        easing: Motion.spring({ stiffness: 360, damping: 25 })
-                    }
-                );
-            }
-        });
+        try {
+            Motion.inView('.pasal-grid', () => {
+                const initialCards = Array.from(cards).filter(c => c.style.display !== 'none');
+                if (initialCards.length > 0) {
+                    Motion.animate(
+                        initialCards.slice(0, 16),
+                        { opacity: [0, 1], y: [20, 0], scale: [0.97, 1] },
+                        {
+                            type: 'spring',
+                            stiffness: 360,
+                            damping: 25,
+                            duration: 0.45,
+                            delay: typeof Motion.stagger === 'function' ? Motion.stagger(0.035) : 0
+                        }
+                    );
+                }
+            });
+        } catch (e) {}
     }
 });
 </script>
